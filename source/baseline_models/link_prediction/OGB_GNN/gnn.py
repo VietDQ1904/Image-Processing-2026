@@ -1,7 +1,8 @@
 import sys
 from pathlib import Path
 import os
-sys.path.append(str(Path(os.path.abspath(__file__)).parents[3]))
+sys.path.insert(0, str(Path(os.path.abspath(__file__)).parents[3]))
+
 
 # limit CPU load for the server
 os.environ["OMP_NUM_THREADS"] = "2" # export OMP_NUM_THREADS=1

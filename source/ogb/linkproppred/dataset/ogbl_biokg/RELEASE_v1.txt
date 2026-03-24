@@ -1,0 +1,6 @@
+# Release note for ogbl-biokg
+
+### v1
+
+June 10, 2020: Major release.
+

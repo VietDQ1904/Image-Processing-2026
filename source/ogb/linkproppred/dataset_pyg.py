@@ -31,7 +31,7 @@ class PygLinkPropPredDataset(InMemoryDataset):
             self.original_root = root
             self.root = osp.join(root, self.dir_name)
             
-            master = pd.read_csv(os.path.join(os.path.dirname(__file__), 'master.csv'), index_col = 0)
+            master = pd.read_csv(os.path.join(os.path.dirname(__file__), 'master.csv'), index_col = 0, keep_default_na=False)
             if not self.name in master:
                 error_mssg = 'Invalid dataset name {}.\n'.format(self.name)
                 error_mssg += 'Available datasets are as follows:\n'
@@ -127,6 +127,15 @@ class PygLinkPropPredDataset(InMemoryDataset):
             additional_edge_files = []
         else:
             additional_edge_files = self.meta_info['additional edge files'].split(',')
+
+        print("RAW VALUE:", self.meta_info['additional node files'])
+        print("TYPE:", type(self.meta_info['additional node files']))
+
+        val = self.meta_info['additional node files']
+        if not isinstance(val, str) or val.lower() == 'none':
+            additional_node_files = []
+        else:
+            additional_node_files = val.split(',')
 
         if self.is_hetero:
             data = read_heterograph_pyg(self.raw_dir, add_inverse_edge = add_inverse_edge, additional_node_files = additional_node_files, additional_edge_files = additional_edge_files, binary=self.binary)[0]
