@@ -291,6 +291,8 @@ def main():
     # evaluator = Evaluator(name='ogbn-node_vessap_roi3')
     logger = Logger(args.runs, args)
 
+    
+
     # calculate weights for loss function and fetch unique labels
     weights, unique_labels = calculate_weight_vector(data.y, return_unique_labels=True)
     # put weights tensor to defined device
@@ -449,7 +451,7 @@ def main():
 
         best_metric_dict.update({'loss': loss, 'trained_epochs': epoch,
                                  'diff_train_valid_acc': float(train_acc - valid_acc),
-                                 'execution_time': time.clock() - start_time})
+                                 'execution_time': time.time() - start_time})
         hparams_metric_dict = {f'hparam/{key}': value for key, value in best_metric_dict.items()}
         writer.add_hparams(
             vars(args),

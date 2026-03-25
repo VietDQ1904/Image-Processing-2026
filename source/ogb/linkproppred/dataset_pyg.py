@@ -128,9 +128,6 @@ class PygLinkPropPredDataset(InMemoryDataset):
         else:
             additional_edge_files = self.meta_info['additional edge files'].split(',')
 
-        print("RAW VALUE:", self.meta_info['additional node files'])
-        print("TYPE:", type(self.meta_info['additional node files']))
-
         val = self.meta_info['additional node files']
         if not isinstance(val, str) or val.lower() == 'none':
             additional_node_files = []
