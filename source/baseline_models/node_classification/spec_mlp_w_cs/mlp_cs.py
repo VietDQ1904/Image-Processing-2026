@@ -495,7 +495,7 @@ def main():
         logger.add_result(run, result)
         best_metric_dict.update({'loss': loss, 'trained_epochs': epoch,
                                  'diff_train_valid_acc': float(train_acc - val_acc),
-                                 'execution_time': time.clock() - start_time})
+                                 'execution_time': time.time() - start_time})
         hparm_cs_valid_res = {}
         for key in metric_dict.keys():
             hparm_cs_valid_res[f'cs_{key}'] = cs_metric_res_dict['cs_valid'][key]

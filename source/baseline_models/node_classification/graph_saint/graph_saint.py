@@ -458,7 +458,7 @@ def main():
         logger.print_statistics(run)
         best_metric_dict.update({'loss': loss, 'trained_epochs': epoch,
                                  'diff_train_valid_acc': float(train_acc - valid_acc),
-                                 'execution_time': time.clock() - start_time})
+                                 'execution_time': time.time() - start_time})
         hparams_metric_dict = {f'hparam/{key}': value for key, value in best_metric_dict.items()}
         writer.add_hparams(
             vars(args),
