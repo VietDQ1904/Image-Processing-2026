@@ -66,7 +66,7 @@ class PygNodePropPredDataset(InMemoryDataset):
         self.binary = self.meta_info['binary'] == 'True'
 
         super(PygNodePropPredDataset, self).__init__(self.root, transform, pre_transform)
-        self.data, self.slices = torch.load(self.processed_paths[0])
+        self.data, self.slices = torch.load(self.processed_paths[0], weights_only=False)
 
     def get_idx_split(self, split_type = None):
         if split_type is None:
@@ -76,7 +76,7 @@ class PygNodePropPredDataset(InMemoryDataset):
 
         # short-cut if split_dict.pt exists
         if os.path.isfile(os.path.join(path, 'split_dict.pt')):
-            return torch.load(os.path.join(path, 'split_dict.pt'))
+            return torch.load(os.path.join(path, 'split_dict.pt'), weights_only=False)
 
         if self.is_hetero:
             train_idx_dict, valid_idx_dict, test_idx_dict = read_nodesplitidx_split_hetero(path)
@@ -136,12 +136,12 @@ class PygNodePropPredDataset(InMemoryDataset):
     def process(self):
         add_inverse_edge = self.meta_info['add_inverse_edge'] == 'True'
 
-        if self.meta_info['additional node files'] == 'None':
+        if self.meta_info['additional node files'] == 'None' or self.meta_info['additional node files'] != self.meta_info['additional node files']:
             additional_node_files = []
         else:
             additional_node_files = self.meta_info['additional node files'].split(',')
 
-        if self.meta_info['additional edge files'] == 'None':
+        if self.meta_info['additional edge files'] == 'None' or self.meta_info['additional edge files'] != self.meta_info['additional edge files']:
             additional_edge_files = []
         else:
             additional_edge_files = self.meta_info['additional edge files'].split(',')

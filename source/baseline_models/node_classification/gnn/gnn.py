@@ -11,7 +11,7 @@ os.environ["NUMEXPR_NUM_THREADS"] = "2"  # export NUMEXPR_NUM_THREADS=1
 import sys
 
 from pathlib import Path
-sys.path.append(str(Path(os.path.abspath(__file__)).parents[3]))
+sys.path.insert(0, str(Path(os.path.abspath(__file__)).parents[3]))
 
 import argparse
 
@@ -279,11 +279,24 @@ def main():
                     args.dropout).to(device)
 
         # Pre-compute GCN normalization.
-        adj_t = data.adj_t.set_diag()
-        deg = adj_t.sum(dim=1).to(torch.float)
+        adj_t = data.adj_t
+        N = adj_t.size(0)
+        # Convert to COO if CSR
+        if adj_t.layout == torch.sparse_csr:
+            adj_t = adj_t.to_sparse_coo()
+        # Add self-loops (equivalent to set_diag)
+        loop_idx = torch.arange(N, device=adj_t.device)
+        loop_indices = torch.stack([loop_idx, loop_idx])
+        indices = torch.cat([adj_t.indices(), loop_indices], dim=1)
+        values = torch.cat([adj_t.values(), torch.ones(N, device=adj_t.device, dtype=adj_t.values().dtype)])
+        adj_t = torch.sparse_coo_tensor(indices, values, (N, N)).coalesce()
+        # Degree and symmetric normalization
+        deg = torch.sparse.sum(adj_t, dim=1).to_dense().to(torch.float)
         deg_inv_sqrt = deg.pow(-0.5)
         deg_inv_sqrt[deg_inv_sqrt == float('inf')] = 0
-        adj_t = deg_inv_sqrt.view(-1, 1) * adj_t * deg_inv_sqrt.view(1, -1)
+        row, col = adj_t.indices()
+        vals = adj_t.values() * deg_inv_sqrt[row] * deg_inv_sqrt[col]
+        adj_t = torch.sparse_coo_tensor(adj_t.indices(), vals, adj_t.size()).coalesce()
         data.adj_t = adj_t
 
     data = data.to(device)
