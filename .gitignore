@@ -70,5 +70,5 @@ Documentation.zip
 *.png
 *.pdf
 
-*log*
-*results*
+*log*/
+#*results*
