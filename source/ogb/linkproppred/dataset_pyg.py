@@ -62,7 +62,7 @@ class PygLinkPropPredDataset(InMemoryDataset):
         self.binary = self.meta_info['binary'] == 'True'
 
         super(PygLinkPropPredDataset, self).__init__(self.root, transform, pre_transform)
-        self.data, self.slices = torch.load(self.processed_paths[0])
+        self.data, self.slices = torch.load(self.processed_paths[0], weights_only=False)
 
     def get_edge_split(self, split_type = None):
         if split_type is None:
@@ -72,11 +72,11 @@ class PygLinkPropPredDataset(InMemoryDataset):
 
         # short-cut if split_dict.pt exists
         if os.path.isfile(os.path.join(path, 'split_dict.pt')):
-            return torch.load(os.path.join(path, 'split_dict.pt'))
+            return torch.load(os.path.join(path, 'split_dict.pt'), weights_only=False)
 
-        train = replace_numpy_with_torchtensor(torch.load(osp.join(path, 'train.pt')))
-        valid = replace_numpy_with_torchtensor(torch.load(osp.join(path, 'valid.pt')))
-        test = replace_numpy_with_torchtensor(torch.load(osp.join(path, 'test.pt')))
+        train = replace_numpy_with_torchtensor(torch.load(osp.join(path, 'train.pt'), weights_only=False))
+        valid = replace_numpy_with_torchtensor(torch.load(osp.join(path, 'valid.pt'), weights_only=False))
+        test = replace_numpy_with_torchtensor(torch.load(osp.join(path, 'test.pt'), weights_only=False))
 
         return {'train': train, 'valid': valid, 'test': test}
 
@@ -118,21 +118,15 @@ class PygLinkPropPredDataset(InMemoryDataset):
     def process(self):
         add_inverse_edge = self.meta_info['add_inverse_edge'] == 'True'
 
-        if self.meta_info['additional node files'] == 'None':
+        if self.meta_info['additional node files'] == 'None' or self.meta_info['additional node files'] != self.meta_info['additional node files']:
             additional_node_files = []
         else:
             additional_node_files = self.meta_info['additional node files'].split(',')
 
-        if self.meta_info['additional edge files'] == 'None':
+        if self.meta_info['additional edge files'] == 'None' or self.meta_info['additional edge files'] != self.meta_info['additional edge files']:
             additional_edge_files = []
         else:
             additional_edge_files = self.meta_info['additional edge files'].split(',')
-
-        val = self.meta_info['additional node files']
-        if not isinstance(val, str) or val.lower() == 'none':
-            additional_node_files = []
-        else:
-            additional_node_files = val.split(',')
 
         if self.is_hetero:
             data = read_heterograph_pyg(self.raw_dir, add_inverse_edge = add_inverse_edge, additional_node_files = additional_node_files, additional_edge_files = additional_edge_files, binary=self.binary)[0]

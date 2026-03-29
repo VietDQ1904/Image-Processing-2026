@@ -4,12 +4,18 @@ import os
 import os.path as osp
 from six.moves import urllib
 import errno
+import ssl
 from tqdm import tqdm
+
+# Create an SSL context that does not verify certificates (for downloading datasets)
+_ssl_context = ssl.create_default_context()
+_ssl_context.check_hostname = False
+_ssl_context.verify_mode = ssl.CERT_NONE
 
 GBFACTOR = float(1 << 30)
 
 def decide_download(url):
-    d = ur.urlopen(url)
+    d = ur.urlopen(url, context=_ssl_context)
     size = int(d.info()["Content-Length"])/GBFACTOR
 
     ### confirm if larger than 1GB
@@ -46,7 +52,7 @@ def download_url(url, folder, log=True):
         print('Downloading', url)
 
     makedirs(folder)
-    data = ur.urlopen(url)
+    data = ur.urlopen(url, context=_ssl_context)
 
     size = int(data.info()["Content-Length"])
 

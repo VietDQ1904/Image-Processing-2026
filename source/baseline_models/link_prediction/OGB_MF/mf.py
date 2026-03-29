@@ -2,7 +2,7 @@ import sys
 import os
 
 from pathlib import Path
-sys.path.append(str(Path(os.path.abspath(__file__)).parents[3]))
+sys.path.insert(0, str(Path(os.path.abspath(__file__)).parents[3]))
 
 os.environ["OMP_NUM_THREADS"] = "2" # export OMP_NUM_THREADS=1
 os.environ["OPENBLAS_NUM_THREADS"] = "2" # export OPENBLAS_NUM_THREADS=1
@@ -307,13 +307,13 @@ def main():
             emb_name = append + 'emb_checkpoint.pth'
 
             predictor.load_state_dict(
-                torch.load(os.path.join(os.getcwd(),predictor_name), map_location=torch.device('cpu'))#,strict=False)
+                torch.load(os.path.join(os.getcwd(),predictor_name), map_location=torch.device('cpu'), weights_only=False)#,strict=False)
             )
             optimizer.load_state_dict(
-                torch.load(os.path.join(os.getcwd(),optimizer_name), map_location=torch.device('cpu'))#,strict=False)
+                torch.load(os.path.join(os.getcwd(),optimizer_name), map_location=torch.device('cpu'), weights_only=False)#,strict=False)
             )
             emb.load_state_dict(
-                torch.load(os.path.join(os.getcwd(),emb_name), map_location=torch.device('cpu'))#,strict=False)
+                torch.load(os.path.join(os.getcwd(),emb_name), map_location=torch.device('cpu'), weights_only=False)#,strict=False)
             )
 
         if args.test_only:
