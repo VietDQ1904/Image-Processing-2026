@@ -1,0 +1,13 @@
+
+python mf.py --dataset ogbl-vessel
+Run: 01, Epoch: 01, Loss: 1.3890, Train: 50.17%, Valid: 49.95%, Test: 50.05%
+Run: 01, Epoch: 02, Loss: 1.3877, Train: 50.35%, Valid: 49.94%, Test: 50.05%
+Run: 01, Epoch: 03, Loss: 1.3872, Train: 50.52%, Valid: 49.92%, Test: 50.05%
+Run: 01, Epoch: 04, Loss: 1.3869, Train: 50.68%, Valid: 49.90%, Test: 50.04%
+Run: 01, Epoch: 05, Loss: 1.3867, Train: 50.84%, Valid: 49.89%, Test: 50.03%
+Run: 01, Epoch: 06, Loss: 1.3866, Train: 51.00%, Valid: 49.88%, Test: 50.03%
+Run: 01, Epoch: 07, Loss: 1.3864, Train: 51.15%, Valid: 49.87%, Test: 50.03%
+Run: 01, Epoch: 08, Loss: 1.3863, Train: 51.29%, Valid: 49.87%, Test: 50.03%
+Run: 01, Epoch: 09, Loss: 1.3862, Train: 51.44%, Valid: 49.87%, Test: 50.03%
+Run: 01, Epoch: 10, Loss: 1.3862, Train: 51.59%, Valid: 49.87%, Test: 50.04%
+Run: 01, Epoch: 11, Loss: 1.3861, Train: 51.74%, Valid: 49.86%, Test: 50.03%

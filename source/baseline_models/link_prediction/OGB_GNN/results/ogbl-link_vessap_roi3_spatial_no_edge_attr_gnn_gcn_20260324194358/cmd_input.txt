@@ -1,0 +1,1 @@
+python gnn.py --dataset ogbl-link_vessap_roi3_spatial_no_edge_attr
