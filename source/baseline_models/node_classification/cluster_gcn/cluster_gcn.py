@@ -2,6 +2,9 @@ alg_name = 'cluster_gcn'
 
 import os
 
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning)
+
 os.environ["OMP_NUM_THREADS"] = "2"  # export OMP_NUM_THREADS=1
 os.environ["OPENBLAS_NUM_THREADS"] = "2"  # export OPENBLAS_NUM_THREADS=1
 os.environ["MKL_NUM_THREADS"] = "2"  # export MKL_NUM_THREADS=1
@@ -286,7 +289,8 @@ def main():
                  args.num_layers, args.dropout).to(device)
 
     evaluator = Evaluator(name=args.dataset)
-    logger = Logger(args.runs, args)
+    log_file = f"{args.dataset}_lr{args.lr}_runs{args.runs}.log"
+    logger = Logger(args.runs, args, log_path=log_file)
 
     ####################################################################################################################
     #                               Directory Generateion Part1

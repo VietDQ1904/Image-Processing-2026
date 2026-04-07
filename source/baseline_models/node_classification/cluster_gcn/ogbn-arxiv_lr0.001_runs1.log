@@ -1,0 +1,10 @@
+Run 01:
+Highest Train: 9.58
+Highest Valid: 9.02
+  Final Train: 9.58
+   Final Test: 7.48
+All runs:
+Highest Train: 9.58 ± nan
+Highest Valid: 9.02 ± nan
+  Final Train: 9.58 ± nan
+   Final Test: 7.48 ± nan
