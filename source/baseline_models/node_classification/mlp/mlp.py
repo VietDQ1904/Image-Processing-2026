@@ -239,7 +239,6 @@ def main():
                 args.dropout).to(device)
 
     evaluator = Evaluator(name=args.dataset)
-    logger = Logger(args.runs, args)
 
     # calculate weights for loss function and fetch unique labels
     weights, unique_labels = calculate_weight_vector(data.y, return_unique_labels=True)
@@ -276,6 +275,9 @@ def main():
 
     # stitch resulting directory for tensorboard logging data
     base_log_dir = os.path.join(log_dir, f'{ex_prefix}{curr_dir_idx:0>2}')
+
+    log_file = f"{args.dataset}_lr{args.lr}_runs{args.runs}.log"
+    logger = Logger(args.runs, args, log_path=log_file)
 
     # define logging sub_directory name suffix for summary writer (index of current parameter_combination
     if args.n_par_combs > 1:

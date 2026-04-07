@@ -71,8 +71,6 @@ Documentation.zip
 *.pdf
 
 *log*/
-<<<<<<< HEAD
-# *results*
-=======
 #*results*
->>>>>>> merge
+
+kernel-metadata.json

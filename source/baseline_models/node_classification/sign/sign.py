@@ -245,7 +245,8 @@ def main():
     model = MLP(data.x.size(-1), args.hidden_channels, dataset.num_classes, args.num_layers,
                 args.dropout).to(device)
 
-    logger = Logger(args.runs, args)
+    log_file = f"{args.dataset}_lr{args.lr}_runs{args.runs}.log"
+    logger = Logger(args.runs, args, log_path=log_file)
 
     # calculate weights for loss function and fetch unique labels
     weights, unique_labels = calculate_weight_vector(data.y, return_unique_labels=True)

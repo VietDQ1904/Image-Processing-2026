@@ -1,0 +1,2 @@
+
+python gnn.py --dataset ogbl-BALBc_no1_spatial_edge_attr

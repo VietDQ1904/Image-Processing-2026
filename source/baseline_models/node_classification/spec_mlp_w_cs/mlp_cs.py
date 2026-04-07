@@ -296,7 +296,8 @@ def main():
     test_idx = split_idx['test'].to(device)
     x_train, y_train = x[train_idx], y[train_idx]
 
-    logger = Logger(args.runs, args)
+    log_file = f"{args.dataset}_lr{args.lr}_runs{args.runs}.log"
+    logger = Logger(args.runs, args, log_path=log_file)
 
     ####################################################################################################################
     #                               Directory Generateion Part1
@@ -508,7 +509,7 @@ def main():
         writer.flush()
         writer.close()
 
-    # logger.print_statistics()
+    logger.print_statistics()
 
 
 if __name__ == '__main__':

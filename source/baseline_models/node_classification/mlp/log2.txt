@@ -1,0 +1,316 @@
+Namespace(device=0, log_steps=1, use_node_embedding=False, num_layers=3, hidden_channels=256, dropout=0.0, lr=0.01, epochs=30, eval_steps=10, runs=5, log_dir='../tensorboard_logs', dataset='ogbn-arxiv', n_par_combs=0, curr_param_idx=0, n_stop_train=160, ex=-1, model_states=None, test_only=False)
+Run: 01, Epoch: 01, Loss: 3.6889
+Run: 01, Epoch: 02, Loss: 3.6399
+Run: 01, Epoch: 03, Loss: 3.6112
+Run: 01, Epoch: 04, Loss: 3.5401
+Run: 01, Epoch: 05, Loss: 3.4282
+Run: 01, Epoch: 06, Loss: 3.3208
+Run: 01, Epoch: 07, Loss: 3.2281
+Run: 01, Epoch: 08, Loss: 3.1449
+Run: 01, Epoch: 09, Loss: 3.0388
+Run: 01, Epoch: 10, Loss: 2.9834
+update best valid balanced_accuracy to:  0.2022706667808543
+update best valid f1_micro to:  0.10020470485586765
+update best valid f1_weighted to:  0.09749475375747335
+update best valid accuracy to:  0.10020470485586765
+update best valid roc_auc_ovr to:  0.5897397400728568
+update best valid roc_auc_ovo to:  0.5897397400728568
+update best valid roc_auc_ovr_weighted to:  0.5441762672971866
+update best valid roc_auc_ovo_weighted to:  0.5441762672971866
+Run: 01, Epoch: 10, Loss: 2.9834, Train: 19.38%, Valid: 20.23%, Test: 19.78%
+Run: 01, Epoch: 11, Loss: 2.9025
+Run: 01, Epoch: 12, Loss: 2.8091
+Run: 01, Epoch: 13, Loss: 2.7622
+Run: 01, Epoch: 14, Loss: 2.6858
+Run: 01, Epoch: 15, Loss: 2.6246
+Run: 01, Epoch: 16, Loss: 2.5647
+Run: 01, Epoch: 17, Loss: 2.5263
+Run: 01, Epoch: 18, Loss: 2.4884
+Run: 01, Epoch: 19, Loss: 2.4486
+Run: 01, Epoch: 20, Loss: 2.4216
+update best valid balanced_accuracy to:  0.2987992788022717
+update best valid f1_micro to:  0.23749119097956306
+update best valid f1_weighted to:  0.2644082724255576
+update best valid accuracy to:  0.23749119097956306
+update best valid roc_auc_ovr to:  0.6395979111744544
+update best valid roc_auc_ovo to:  0.6395979111744544
+update best valid roc_auc_ovr_weighted to:  0.607930870932741
+update best valid roc_auc_ovo_weighted to:  0.607930870932741
+Run: 01, Epoch: 20, Loss: 2.4216, Train: 30.87%, Valid: 29.88%, Test: 30.21%
+Run: 01, Epoch: 21, Loss: 2.3950
+Run: 01, Epoch: 22, Loss: 2.3650
+Run: 01, Epoch: 23, Loss: 2.3390
+Run: 01, Epoch: 24, Loss: 2.3146
+Run: 01, Epoch: 25, Loss: 2.2878
+Run: 01, Epoch: 26, Loss: 2.2645
+Run: 01, Epoch: 27, Loss: 2.2487
+Run: 01, Epoch: 28, Loss: 2.2286
+Run: 01, Epoch: 29, Loss: 2.2059
+Run: 01, Epoch: 30, Loss: 2.1914
+update best valid balanced_accuracy to:  0.3502158664366789
+update best valid f1_micro to:  0.3039028155307225
+update best valid f1_weighted to:  0.33455327189648165
+update best valid accuracy to:  0.3039028155307225
+update best valid roc_auc_ovr to:  0.6661284596773744
+update best valid roc_auc_ovo to:  0.6661284596773744
+update best valid roc_auc_ovr_weighted to:  0.6408210583613974
+update best valid roc_auc_ovo_weighted to:  0.6408210583613974
+Run: 01, Epoch: 30, Loss: 2.1914, Train: 37.56%, Valid: 35.02%, Test: 35.58%
+Run 01:
+Highest Train: 37.56
+Highest Valid: 35.02
+  Final Train: 37.56
+   Final Test: 35.58
+Run: 02, Epoch: 01, Loss: 3.6905
+Run: 02, Epoch: 02, Loss: 3.6377
+Run: 02, Epoch: 03, Loss: 3.5979
+Run: 02, Epoch: 04, Loss: 3.5179
+Run: 02, Epoch: 05, Loss: 3.3944
+Run: 02, Epoch: 06, Loss: 3.2538
+Run: 02, Epoch: 07, Loss: 3.2337
+Run: 02, Epoch: 08, Loss: 3.1518
+Run: 02, Epoch: 09, Loss: 2.9889
+Run: 02, Epoch: 10, Loss: 3.0090
+update best valid balanced_accuracy to:  0.20184811619854273
+update best valid f1_micro to:  0.09819121447028424
+update best valid f1_weighted to:  0.08890789652849321
+update best valid accuracy to:  0.09819121447028424
+update best valid roc_auc_ovr to:  0.5895062571972443
+update best valid roc_auc_ovo to:  0.5895062571972443
+update best valid roc_auc_ovr_weighted to:  0.5432879639189161
+update best valid roc_auc_ovo_weighted to:  0.5432879639189161
+Run: 02, Epoch: 10, Loss: 3.0090, Train: 19.22%, Valid: 20.18%, Test: 19.40%
+Run: 02, Epoch: 11, Loss: 2.8787
+Run: 02, Epoch: 12, Loss: 2.8395
+Run: 02, Epoch: 13, Loss: 2.7371
+Run: 02, Epoch: 14, Loss: 2.7141
+Run: 02, Epoch: 15, Loss: 2.6289
+Run: 02, Epoch: 16, Loss: 2.5806
+Run: 02, Epoch: 17, Loss: 2.5499
+Run: 02, Epoch: 18, Loss: 2.5072
+Run: 02, Epoch: 19, Loss: 2.4865
+Run: 02, Epoch: 20, Loss: 2.4392
+update best valid balanced_accuracy to:  0.2963470787212493
+update best valid f1_micro to:  0.2596731433940736
+update best valid f1_weighted to:  0.2880331151429067
+update best valid accuracy to:  0.2596731433940736
+update best valid roc_auc_ovr to:  0.6386270569186849
+update best valid roc_auc_ovo to:  0.6386270569186849
+update best valid roc_auc_ovr_weighted to:  0.6181407023224131
+update best valid roc_auc_ovo_weighted to:  0.6181407023224131
+Run: 02, Epoch: 20, Loss: 2.4392, Train: 30.31%, Valid: 29.63%, Test: 29.88%
+Run: 02, Epoch: 21, Loss: 2.4315
+Run: 02, Epoch: 22, Loss: 2.3848
+Run: 02, Epoch: 23, Loss: 2.3604
+Run: 02, Epoch: 24, Loss: 2.3298
+Run: 02, Epoch: 25, Loss: 2.2985
+Run: 02, Epoch: 26, Loss: 2.2820
+Run: 02, Epoch: 27, Loss: 2.2501
+Run: 02, Epoch: 28, Loss: 2.2326
+Run: 02, Epoch: 29, Loss: 2.2149
+Run: 02, Epoch: 30, Loss: 2.1919
+update best valid balanced_accuracy to:  0.3632402894650679
+update best valid f1_micro to:  0.30960770495654216
+update best valid f1_weighted to:  0.3385627210211934
+update best valid accuracy to:  0.30960770495654216
+update best valid roc_auc_ovr to:  0.6727164449104424
+update best valid roc_auc_ovo to:  0.6727164449104424
+update best valid roc_auc_ovr_weighted to:  0.643852007116333
+update best valid roc_auc_ovo_weighted to:  0.643852007116333
+Run: 02, Epoch: 30, Loss: 2.1919, Train: 37.88%, Valid: 36.32%, Test: 35.81%
+Run 02:
+Highest Train: 37.88
+Highest Valid: 36.32
+  Final Train: 37.88
+   Final Test: 35.81
+Run: 03, Epoch: 01, Loss: 3.6889
+Run: 03, Epoch: 02, Loss: 3.6401
+Run: 03, Epoch: 03, Loss: 3.6021
+Run: 03, Epoch: 04, Loss: 3.5302
+Run: 03, Epoch: 05, Loss: 3.4036
+Run: 03, Epoch: 06, Loss: 3.2739
+Run: 03, Epoch: 07, Loss: 3.2068
+Run: 03, Epoch: 08, Loss: 3.0336
+Run: 03, Epoch: 09, Loss: 3.0248
+Run: 03, Epoch: 10, Loss: 3.0433
+update best valid balanced_accuracy to:  0.20371244042950712
+update best valid f1_micro to:  0.11889660726870029
+update best valid f1_weighted to:  0.10522355306287014
+update best valid accuracy to:  0.11889660726870029
+update best valid roc_auc_ovr to:  0.5906568505008206
+update best valid roc_auc_ovo to:  0.5906568505008206
+update best valid roc_auc_ovr_weighted to:  0.5520252114426802
+update best valid roc_auc_ovo_weighted to:  0.5520252114426802
+Run: 03, Epoch: 10, Loss: 3.0433, Train: 20.13%, Valid: 20.37%, Test: 19.44%
+Run: 03, Epoch: 11, Loss: 2.8645
+Run: 03, Epoch: 12, Loss: 2.8114
+Run: 03, Epoch: 13, Loss: 2.7656
+Run: 03, Epoch: 14, Loss: 2.6601
+Run: 03, Epoch: 15, Loss: 2.6454
+Run: 03, Epoch: 16, Loss: 2.5749
+Run: 03, Epoch: 17, Loss: 2.5409
+Run: 03, Epoch: 18, Loss: 2.4992
+Run: 03, Epoch: 19, Loss: 2.4498
+Run: 03, Epoch: 20, Loss: 2.4348
+update best valid balanced_accuracy to:  0.2947964284688901
+update best valid f1_micro to:  0.216181751065472
+update best valid f1_weighted to:  0.24098283371440207
+update best valid accuracy to:  0.216181751065472
+update best valid roc_auc_ovr to:  0.6373855249694077
+update best valid roc_auc_ovo to:  0.6373855249694077
+update best valid roc_auc_ovr_weighted to:  0.5994924293985046
+update best valid roc_auc_ovo_weighted to:  0.5994924293985046
+Run: 03, Epoch: 20, Loss: 2.4348, Train: 31.51%, Valid: 29.48%, Test: 30.11%
+Run: 03, Epoch: 21, Loss: 2.3826
+Run: 03, Epoch: 22, Loss: 2.3659
+Run: 03, Epoch: 23, Loss: 2.3427
+Run: 03, Epoch: 24, Loss: 2.3030
+Run: 03, Epoch: 25, Loss: 2.2865
+Run: 03, Epoch: 26, Loss: 2.2648
+Run: 03, Epoch: 27, Loss: 2.2427
+Run: 03, Epoch: 28, Loss: 2.2267
+Run: 03, Epoch: 29, Loss: 2.2068
+Run: 03, Epoch: 30, Loss: 2.1881
+update best valid balanced_accuracy to:  0.3498619878132526
+update best valid f1_micro to:  0.2817879794623981
+update best valid f1_weighted to:  0.31637629051513927
+update best valid accuracy to:  0.2817879794623981
+update best valid roc_auc_ovr to:  0.6657262439148738
+update best valid roc_auc_ovo to:  0.6657262439148738
+update best valid roc_auc_ovr_weighted to:  0.6318100003299023
+update best valid roc_auc_ovo_weighted to:  0.6318100003299023
+Run: 03, Epoch: 30, Loss: 2.1881, Train: 37.61%, Valid: 34.99%, Test: 35.00%
+Run 03:
+Highest Train: 37.61
+Highest Valid: 34.99
+  Final Train: 37.61
+   Final Test: 35.00
+Run: 04, Epoch: 01, Loss: 3.6888
+Run: 04, Epoch: 02, Loss: 3.6389
+Run: 04, Epoch: 03, Loss: 3.5870
+Run: 04, Epoch: 04, Loss: 3.5127
+Run: 04, Epoch: 05, Loss: 3.3765
+Run: 04, Epoch: 06, Loss: 3.2200
+Run: 04, Epoch: 07, Loss: 3.1160
+Run: 04, Epoch: 08, Loss: 3.1592
+Run: 04, Epoch: 09, Loss: 3.0325
+Run: 04, Epoch: 10, Loss: 3.0114
+update best valid balanced_accuracy to:  0.2001665033247575
+update best valid f1_micro to:  0.1656767005604215
+update best valid f1_weighted to:  0.19429657572431244
+update best valid accuracy to:  0.1656767005604215
+update best valid roc_auc_ovr to:  0.5894088070239644
+update best valid roc_auc_ovo to:  0.5894088070239644
+update best valid roc_auc_ovr_weighted to:  0.573022214463424
+update best valid roc_auc_ovo_weighted to:  0.573022214463424
+Run: 04, Epoch: 10, Loss: 3.0114, Train: 19.58%, Valid: 20.02%, Test: 19.57%
+Run: 04, Epoch: 11, Loss: 2.8762
+Run: 04, Epoch: 12, Loss: 2.8501
+Run: 04, Epoch: 13, Loss: 2.7421
+Run: 04, Epoch: 14, Loss: 2.7083
+Run: 04, Epoch: 15, Loss: 2.6604
+Run: 04, Epoch: 16, Loss: 2.5755
+Run: 04, Epoch: 17, Loss: 2.5458
+Run: 04, Epoch: 18, Loss: 2.5304
+Run: 04, Epoch: 19, Loss: 2.4668
+Run: 04, Epoch: 20, Loss: 2.4244
+update best valid balanced_accuracy to:  0.28857530331348913
+update best valid f1_micro to:  0.2164837746233095
+update best valid f1_weighted to:  0.24040355334057195
+update best valid accuracy to:  0.2164837746233095
+update best valid roc_auc_ovr to:  0.6342744413290802
+update best valid roc_auc_ovo to:  0.6342744413290802
+update best valid roc_auc_ovr_weighted to:  0.5994715868934213
+update best valid roc_auc_ovo_weighted to:  0.5994715868934213
+Run: 04, Epoch: 20, Loss: 2.4244, Train: 30.26%, Valid: 28.86%, Test: 29.32%
+Run: 04, Epoch: 21, Loss: 2.4142
+Run: 04, Epoch: 22, Loss: 2.3716
+Run: 04, Epoch: 23, Loss: 2.3459
+Run: 04, Epoch: 24, Loss: 2.3283
+Run: 04, Epoch: 25, Loss: 2.2944
+Run: 04, Epoch: 26, Loss: 2.2745
+Run: 04, Epoch: 27, Loss: 2.2609
+Run: 04, Epoch: 28, Loss: 2.2347
+Run: 04, Epoch: 29, Loss: 2.2163
+Run: 04, Epoch: 30, Loss: 2.2026
+update best valid balanced_accuracy to:  0.35448761291398556
+update best valid f1_micro to:  0.3080304708211685
+update best valid f1_weighted to:  0.33953787223717175
+update best valid accuracy to:  0.3080304708211685
+update best valid roc_auc_ovr to:  0.6683328394724933
+update best valid roc_auc_ovo to:  0.6683328394724933
+update best valid roc_auc_ovr_weighted to:  0.6435613206200202
+update best valid roc_auc_ovo_weighted to:  0.6435613206200202
+Run: 04, Epoch: 30, Loss: 2.2026, Train: 37.13%, Valid: 35.45%, Test: 35.45%
+Run 04:
+Highest Train: 37.13
+Highest Valid: 35.45
+  Final Train: 37.13
+   Final Test: 35.45
+Run: 05, Epoch: 01, Loss: 3.6878
+Run: 05, Epoch: 02, Loss: 3.6371
+Run: 05, Epoch: 03, Loss: 3.5952
+Run: 05, Epoch: 04, Loss: 3.5260
+Run: 05, Epoch: 05, Loss: 3.4122
+Run: 05, Epoch: 06, Loss: 3.2635
+Run: 05, Epoch: 07, Loss: 3.1515
+Run: 05, Epoch: 08, Loss: 3.1269
+Run: 05, Epoch: 09, Loss: 3.1061
+Run: 05, Epoch: 10, Loss: 2.9196
+update best valid balanced_accuracy to:  0.210867871054031
+update best valid f1_micro to:  0.1965166616329407
+update best valid f1_weighted to:  0.21065726204253368
+update best valid accuracy to:  0.1965166616329407
+update best valid roc_auc_ovr to:  0.5950929381903791
+update best valid roc_auc_ovo to:  0.5950929381903791
+update best valid roc_auc_ovr_weighted to:  0.586360106534545
+update best valid roc_auc_ovo_weighted to:  0.586360106534545
+Run: 05, Epoch: 10, Loss: 2.9196, Train: 17.94%, Valid: 21.09%, Test: 18.25%
+Run: 05, Epoch: 11, Loss: 2.9215
+Run: 05, Epoch: 12, Loss: 2.7872
+Run: 05, Epoch: 13, Loss: 2.7404
+Run: 05, Epoch: 14, Loss: 2.6735
+Run: 05, Epoch: 15, Loss: 2.5750
+Run: 05, Epoch: 16, Loss: 2.5644
+Run: 05, Epoch: 17, Loss: 2.5039
+Run: 05, Epoch: 18, Loss: 2.4491
+Run: 05, Epoch: 19, Loss: 2.4416
+Run: 05, Epoch: 20, Loss: 2.4053
+update best valid balanced_accuracy to:  0.29736795462848775
+update best valid f1_micro to:  0.2679284539749656
+update best valid f1_weighted to:  0.29321503263886
+update best valid accuracy to:  0.2679284539749656
+update best valid roc_auc_ovr to:  0.6392662047648056
+update best valid roc_auc_ovo to:  0.6392662047648056
+update best valid roc_auc_ovr_weighted to:  0.6232890980224675
+update best valid roc_auc_ovo_weighted to:  0.6232890980224675
+Run: 05, Epoch: 20, Loss: 2.4053, Train: 31.93%, Valid: 29.74%, Test: 30.95%
+Run: 05, Epoch: 21, Loss: 2.3778
+Run: 05, Epoch: 22, Loss: 2.3633
+Run: 05, Epoch: 23, Loss: 2.3293
+Run: 05, Epoch: 24, Loss: 2.3104
+Run: 05, Epoch: 25, Loss: 2.2885
+Run: 05, Epoch: 26, Loss: 2.2588
+Run: 05, Epoch: 27, Loss: 2.2421
+Run: 05, Epoch: 28, Loss: 2.2199
+Run: 05, Epoch: 29, Loss: 2.1988
+Run: 05, Epoch: 30, Loss: 2.1851
+update best valid balanced_accuracy to:  0.3488525439202704
+update best valid f1_micro to:  0.30363435014597806
+update best valid f1_weighted to:  0.33393452754340325
+update best valid accuracy to:  0.30363435014597806
+update best valid roc_auc_ovr to:  0.6654662312436368
+update best valid roc_auc_ovo to:  0.6654662312436368
+update best valid roc_auc_ovr_weighted to:  0.6415983713400647
+update best valid roc_auc_ovo_weighted to:  0.6415983713400647
+Run: 05, Epoch: 30, Loss: 2.1851, Train: 37.83%, Valid: 34.89%, Test: 35.66%
+Run 05:
+Highest Train: 37.83
+Highest Valid: 34.89
+  Final Train: 37.83
+   Final Test: 35.66
+All runs:
+Highest Train: 37.60 ± 0.30
+Highest Valid: 35.33 ± 0.59
+  Final Train: 37.60 ± 0.30
+   Final Test: 35.50 ± 0.31

@@ -1,8 +1,32 @@
 import sys
 from pathlib import Path
 import os
-sys.path.insert(0, str(Path(os.path.abspath(__file__)).parents[3]))
+import subprocess
 
+if 'KAGGLE_KERNEL_RUN_TYPE' in os.environ:
+    print("Installing GNN dependencies...")
+    packages = [
+        "torch-scatter", 
+        "torch-sparse", 
+        "torch-cluster", 
+        "torch-spline-conv", 
+        "torch-geometric", 
+        "ogb",
+        "logger" # Only if 'logger.py' isn't in your uploaded folder
+    ]
+    for package in packages:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", package, "--quiet"])
+    print("Installation complete.")
+
+from pathlib import Path
+current_file = Path(os.path.abspath(__file__))
+
+if 'KAGGLE_KERNEL_RUN_TYPE' in os.environ:
+    project_root = "/kaggle/working"
+else:
+    project_root = str(current_file.parents[3])
+
+sys.path.insert(0, project_root)
 
 # limit CPU load for the server
 os.environ["OMP_NUM_THREADS"] = "2" # export OMP_NUM_THREADS=1

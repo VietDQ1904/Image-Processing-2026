@@ -282,6 +282,7 @@ def main():
         adj_t = data.adj_t
         N = adj_t.size(0)
         # Convert to COO if CSR
+        adj_t = adj_t.to_torch_sparse_csr_tensor()
         if adj_t.layout == torch.sparse_csr:
             adj_t = adj_t.to_sparse_coo()
         # Add self-loops (equivalent to set_diag)
@@ -302,9 +303,9 @@ def main():
     data = data.to(device)
 
     # evaluator = Evaluator(name='ogbn-node_vessap_roi3')
-    logger = Logger(args.runs, args)
+    log_file = f"{args.dataset}_lr{args.lr}_runs{args.runs}.log"
+    logger = Logger(args.runs, args, log_path=log_file)
 
-    
 
     # calculate weights for loss function and fetch unique labels
     weights, unique_labels = calculate_weight_vector(data.y, return_unique_labels=True)
