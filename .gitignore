@@ -72,7 +72,7 @@ Documentation.zip
 
 *log*/
 #*results*
-./source/baseline_models/dataset
+./source/baseline_models/link_prediction/dataset
 
 
 kernel-metadata.json
