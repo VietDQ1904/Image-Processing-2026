@@ -2,7 +2,7 @@ import sys
 import os
 
 from pathlib import Path
-sys.path.insert(0, str(Path(os.path.abspath(__file__)).parents[3]))
+sys.path.append(str(Path(os.path.abspath(__file__)).parents[3]))
 
 os.environ["OMP_NUM_THREADS"] = "2" # export OMP_NUM_THREADS=1
 os.environ["OPENBLAS_NUM_THREADS"] = "2" # export OPENBLAS_NUM_THREADS=1
