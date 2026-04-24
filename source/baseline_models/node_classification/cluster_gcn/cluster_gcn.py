@@ -13,7 +13,10 @@ os.environ["NUMEXPR_NUM_THREADS"] = "2"  # export NUMEXPR_NUM_THREADS=1
 
 import argparse
 import sys
-sys.path.append('../../../')
+from pathlib import Path
+sys.path.insert(0, str(Path(os.path.abspath(__file__)).parents[3]))
+
+
 import torch
 from tqdm import tqdm
 import torch.nn.functional as F
@@ -260,7 +263,8 @@ def main():
                    'roc_auc_ovo_weighted': {'function': skm.roc_auc_score,
                                             'kwargs': {'multi_class': 'ovo', 'average': 'weighted'}}}
 
-    dataset = PygNodePropPredDataset(name=args.dataset)
+    dataset = PygNodePropPredDataset(name=args.dataset,
+                                     root=str(Path(os.path.abspath(__file__)).parents[1])+'/dataset')
     split_idx = dataset.get_idx_split()
     data = dataset[0]
 
@@ -289,7 +293,8 @@ def main():
                  args.num_layers, args.dropout).to(device)
 
     evaluator = Evaluator(name=args.dataset)
-    log_file = f"{args.dataset}_lr{args.lr}_runs{args.runs}.log"
+
+    log_file = f"{args.dataset}_lr{args.lr}_ch{args.hidden_channels}_layers{args.num_layers}.log"
     logger = Logger(args.runs, args, log_path=log_file)
 
     ####################################################################################################################
@@ -385,15 +390,17 @@ def main():
     
         for epoch in range(1, 1 + args.epochs):
             loss, train_acc = train(model, loader, optimizer, device, weights)
+            
 
             # tensorboard: log train loss
             writer.add_scalar("Loss/train", loss, epoch)
 
             if epoch % args.log_steps == 0:
-                print(f'Run: {run + 1:02d}, '
-                      f'Epoch: {epoch:02d}, '
-                      f'Loss: {loss:.4f}, '
-                      f'Approx Train Acc: {train_acc:.4f}')
+                logger._log(f'Run: {run + 1:02d}, Approx Train Acc: {train_acc:.4f}, Epoch: {epoch:02d}, Loss: {loss:.4f}')
+                # print(f'Run: {run + 1:02d}, '
+                #       f'Epoch: {epoch:02d}, '
+                #       f'Loss: {loss:.4f}, '
+                #       f'Approx Train Acc: {train_acc:.4f}')
 
             if epoch > 9 and epoch % args.eval_steps == 0:
 

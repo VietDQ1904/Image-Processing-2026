@@ -1,0 +1,1 @@
+python mf.py --dataset ogbl-BALBc_no1_spatial_edge_attr --batch_size 262144 --hidden_channels 32 --runs 1 --lr 0.1 --epochs 20

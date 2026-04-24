@@ -1,0 +1,2 @@
+
+python mf.py --dataset ogbl-BALBc_no1_spatial_edge_attr --load_state_dict --test_only

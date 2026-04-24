@@ -245,7 +245,7 @@ def main():
     model = MLP(data.x.size(-1), args.hidden_channels, dataset.num_classes, args.num_layers,
                 args.dropout).to(device)
 
-    log_file = f"{args.dataset}_lr{args.lr}_runs{args.runs}.log"
+    log_file = f"{args.dataset}_lr{args.lr}_ch{args.hidden_channels}_layers{args.num_layers}.log"
     logger = Logger(args.runs, args, log_path=log_file)
 
     # calculate weights for loss function and fetch unique labels
@@ -344,9 +344,7 @@ def main():
             # tensorboard: log train loss
             writer.add_scalar("Loss/train", loss, epoch)
             if epoch % args.log_steps == 0:
-                print(f'Run: {run + 1:02d}, '
-                      f'Epoch: {epoch:02d}, '
-                      f'Loss: {loss:.4f}')
+                logger._log(f'Run: {run + 1:02d}, Epoch: {epoch:02d}, Loss: {loss:.4f}')
 
             if epoch > 9 and epoch % args.eval_steps == 0:
 
@@ -391,6 +389,13 @@ def main():
                     n_eval_no_best += 1
                     print(f"Epochs without updating best valid {key} score: {n_eval_no_best * args.eval_steps}")
 
+                logger._log(f'Run: {run + 1:02d}, '
+                      f'Epoch: {epoch:02d}, '
+                      f'Loss: {loss:.4f}, '
+                      f'Train: {100 * train_acc:.2f}%, '
+                      f'Valid: {100 * valid_acc:.2f}%, '
+                      f'Test: {100 * test_acc:.2f}%')
+                
                 print(f'Run: {run + 1:02d}, '
                       f'Epoch: {epoch:02d}, '
                       f'Loss: {loss:.4f}, '

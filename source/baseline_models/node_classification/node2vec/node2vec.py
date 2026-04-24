@@ -9,7 +9,8 @@ os.environ["VECLIB_MAXIMUM_THREADS"] = "2"  # export VECLIB_MAXIMUM_THREADS=1
 os.environ["NUMEXPR_NUM_THREADS"] = "2"  # export NUMEXPR_NUM_THREADS=1
 
 import sys
-sys.path.append('../../../')
+from pathlib import Path
+sys.path.append(str(Path(os.path.abspath(__file__)).parents[3]))
 
 import argparse
 
@@ -17,7 +18,7 @@ import torch
 from torch_geometric.nn import Node2Vec
 
 from ogb.nodeproppred import PygNodePropPredDataset
-
+from logger import Logger
 from torch.utils.tensorboard import SummaryWriter
 
 
@@ -29,10 +30,10 @@ def main():
     parser = argparse.ArgumentParser(description='ogbn-italo (Node2Vec)')
     parser.add_argument('--device', type=int, default=0)
     parser.add_argument('--embedding_dim', type=int, default=128)
-    parser.add_argument('--walk_length', type=int, default=40)
-    parser.add_argument('--context_size', type=int, default=15)
-    parser.add_argument('--walks_per_node', type=int, default=10)
-    parser.add_argument('--batch_size', type=int, default=256)
+    parser.add_argument('--walk_length', type=int, default=10)
+    parser.add_argument('--context_size', type=int, default=10)
+    parser.add_argument('--walks_per_node', type=int, default=5)
+    parser.add_argument('--batch_size', type=int, default=1024)
     parser.add_argument('--lr', type=float, default=0.01)
     parser.add_argument('--epochs', type=int, default=5)
     parser.add_argument('--log_steps', type=int, default=1)
@@ -48,7 +49,8 @@ def main():
     device = f'cuda:{args.device}' if torch.cuda.is_available() else 'cpu'
     device = torch.device(device)
 
-    dataset = PygNodePropPredDataset(name=args.dataset)
+    dataset = PygNodePropPredDataset(name=args.dataset,
+                                     root=str(Path(os.path.abspath(__file__)).parents[1])+'/dataset')
     data = dataset[0]
     if not os.path.exists(args.target_dir):
         # if not generate it
@@ -59,7 +61,7 @@ def main():
                      sparse=True).to(device)
 
     loader = model.loader(batch_size=args.batch_size, shuffle=True,
-                          num_workers=4)
+                          num_workers=0)
     optimizer = torch.optim.SparseAdam(list(model.parameters()), lr=args.lr)
 
     model.train()
@@ -103,6 +105,8 @@ def main():
 
     # instantiate tensorboard writer
     writer = SummaryWriter(log_dir)
+    log_file = f"{args.dataset}_lr{args.lr}.log"
+    logger = Logger(args, log_path=log_file)
 
     for epoch in range(1, args.epochs + 1):
         for i, (pos_rw, neg_rw) in enumerate(loader):
@@ -113,7 +117,7 @@ def main():
             optimizer.step()
 
             if (i + 1) % args.log_steps == 0:
-                print(f'Epoch: {epoch:02d}, Step: {i+1:03d}/{len(loader)}, '
+                logger._log(f'Epoch: {epoch:02d}, Step: {i+1:03d}/{len(loader)}, '
                       f'Loss: {loss:.4f}')
 
             if (i + 1) % 10000 == 0:  # Save model every 100 steps.

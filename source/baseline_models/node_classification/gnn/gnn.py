@@ -303,7 +303,7 @@ def main():
     data = data.to(device)
 
     # evaluator = Evaluator(name='ogbn-node_vessap_roi3')
-    log_file = f"{args.dataset}_lr{args.lr}_runs{args.runs}.log"
+    log_file = f"{args.dataset}_lr{args.lr}_ch{args.hidden_channels}_layers{args.num_layers}.log"
     logger = Logger(args.runs, args, log_path=log_file)
 
 
@@ -408,9 +408,7 @@ def main():
             writer.add_scalar("Loss/train", loss, epoch)
 
             if epoch % args.log_steps == 0:
-                print(f'Run: {run + 1:02d}, '
-                      f'Epoch: {epoch:02d}, '
-                      f'Loss: {loss:.4f}')
+                logger._log(f'Run: {run + 1:02d}, Epoch: {epoch:02d}, Loss: {loss:.4f}')
 
             if epoch > 9 and epoch % args.eval_steps == 0:
 
@@ -452,12 +450,19 @@ def main():
                     # increase conter of epochs without performance improvemetn by one
                     n_eval_no_best += 1
                     print(f"Epochs without updating best valid {key} score: {n_eval_no_best * args.eval_steps}")
-
+                
+                logger._log(f'Run: {run + 1:02d}, '
+                      f'Epoch: {epoch:02d}, '
+                      f'Loss: {loss:.4f}, '
+                      f'Train: {100 * train_acc:.2f}%, '
+                      f'Valid: {100 * valid_acc:.2f}%, '
+                      f'Test: {100 * test_acc:.2f}%')
                 print(f'Run: {run + 1:02d}, '
                       f'Epoch: {epoch:02d}, '
                       f'Train: {100 * train_acc:.2f}%, '
                       f'Valid: {100 * valid_acc:.2f}% '
                       f'Test: {100 * test_acc:.2f}%')
+                
                 if epoch > 70 and n_eval_no_best * args.eval_steps > args.n_stop_train:
                     break
 

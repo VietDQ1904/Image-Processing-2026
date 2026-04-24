@@ -1,0 +1,31 @@
+
+python mf.py --dataset ogbl-BALBc_no1_spatial_edge_attr --batch_size 262144 --hidden_channels 32 --runs 1 --lr 0.1 --epochs 20
+Run: 01, Epoch: 01, Loss: 1.4941, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 02, Loss: 1.3877, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 03, Loss: 1.3866, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 04, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 05, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 06, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 07, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 08, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 09, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 10, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 11, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 12, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 13, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 14, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 15, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 16, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 17, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 18, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 19, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 20, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Highest Train: 50.00
+Highest Valid: 50.00
+  Final Train: 50.00
+   Final Test: 50.00
+All runs:
+Highest Train: 50.00 ± nan
+Highest Valid: 50.00 ± nan
+  Final Train: 50.00 ± nan
+   Final Test: 50.00 ± nan

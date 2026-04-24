@@ -1,0 +1,15 @@
+Run: 01, Approx Train Acc: 0.3035, Epoch: 01, Loss: 2.1957
+Run: 01, Approx Train Acc: 0.0062, Epoch: 02, Loss: 5.0772
+Run: 01, Approx Train Acc: 0.0048, Epoch: 03, Loss: 2.5937
+Run: 01, Approx Train Acc: 0.0054, Epoch: 04, Loss: 1.0324
+Run: 01, Approx Train Acc: 0.0202, Epoch: 05, Loss: 0.6039
+Run: 01, Approx Train Acc: 0.0465, Epoch: 06, Loss: 0.5536
+Run: 01, Approx Train Acc: 0.0254, Epoch: 07, Loss: 0.5492
+Run: 01, Approx Train Acc: 0.0142, Epoch: 08, Loss: 0.5490
+Run: 01, Approx Train Acc: 0.0120, Epoch: 09, Loss: 0.5482
+Run: 01, Approx Train Acc: 0.0116, Epoch: 10, Loss: 0.5490
+Run: 01, Approx Train Acc: 0.0115, Epoch: 11, Loss: 0.5477
+Run: 01, Approx Train Acc: 0.0126, Epoch: 12, Loss: 0.5491
+Run: 01, Approx Train Acc: 0.4817, Epoch: 13, Loss: 0.5476
+Run: 01, Approx Train Acc: 0.4812, Epoch: 14, Loss: 0.5478
+Run: 01, Approx Train Acc: 0.4799, Epoch: 15, Loss: 0.5485

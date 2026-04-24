@@ -19,7 +19,7 @@ import torch
 from tqdm import tqdm
 import torch.nn.functional as F
 
-from torch_geometric.data import GraphSAINTRandomWalkSampler, NeighborSampler
+from torch_geometric.loader import GraphSAINTRandomWalkSampler, NeighborLoader
 from torch_geometric.nn import SAGEConv
 from torch_geometric.utils import subgraph
 
@@ -64,26 +64,38 @@ class SAGE(torch.nn.Module):
         return torch.log_softmax(x, dim=-1)
 
     def inference(self, x_all, subgraph_loader, device):
-        pbar = tqdm(total=x_all.size(0) * len(self.convs))
+        self.eval()
+
+        pbar = tqdm(total=len(subgraph_loader) * len(self.convs))
         pbar.set_description('Evaluating')
 
         for i, conv in enumerate(self.convs):
-            xs = []
-            for batch_size, n_id, adj in subgraph_loader:
-                edge_index, _, size = adj.to(device)
+            out = torch.zeros(
+                x_all.size(0),
+                self.convs[i].out_channels,
+                dtype=torch.float32
+            )
+
+            for batch in subgraph_loader:
+                n_id = batch.n_id  # CPU index
+
                 x = x_all[n_id].to(device)
-                x_target = x[:size[1]]
-                x = conv((x, x_target), edge_index)
+
+                batch = batch.to(device)
+                edge_index = batch.edge_index
+
+                x = conv(x, edge_index)
+
                 if i != len(self.convs) - 1:
                     x = F.relu(x)
-                xs.append(x.cpu())
 
-                pbar.update(batch_size)
+                out[n_id[:batch.batch_size]] = x[:batch.batch_size].cpu()
 
-            x_all = torch.cat(xs, dim=0)
+                pbar.update(1)
+
+            x_all = out
 
         pbar.close()
-
         return x_all
 
 
@@ -303,9 +315,14 @@ def main():
     model = SAGE(data.x.size(-1), args.hidden_channels, dataset.num_classes,
                  args.num_layers, args.dropout).to(device)
 
-    subgraph_loader = NeighborSampler(data.edge_index, sizes=[-1],
-                                      batch_size=4096, shuffle=False,
-                                      num_workers=1)
+    subgraph_loader = NeighborLoader(
+        data,
+        input_nodes=None, 
+        num_neighbors=[5, 5, 5],
+        batch_size=args.batch_size,
+        shuffle=False,
+        num_workers=0  
+    )
 
     logger = Logger(args.runs, args)
 

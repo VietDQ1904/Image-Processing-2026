@@ -59,7 +59,7 @@ def download_url(url, folder, log=True):
     chunk_size = 1024*1024
     num_iter = int(size/chunk_size) + 2
 
-    downloaded_size = 0
+    downloaded_size = 1
 
     try:
         with open(path, 'wb') as f:

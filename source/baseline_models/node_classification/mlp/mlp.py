@@ -276,7 +276,7 @@ def main():
     # stitch resulting directory for tensorboard logging data
     base_log_dir = os.path.join(log_dir, f'{ex_prefix}{curr_dir_idx:0>2}')
 
-    log_file = f"{args.dataset}_lr{args.lr}_runs{args.runs}.log"
+    log_file = f"{args.dataset}_lr{args.lr}_ch{args.hidden_channels}_layers{args.num_layers}.log"
     logger = Logger(args.runs, args, log_path=log_file)
 
     # define logging sub_directory name suffix for summary writer (index of current parameter_combination
@@ -330,6 +330,7 @@ def main():
                         list(metric_res_dict['test'].values())[0]]
 
             train_acc, valid_acc, test_acc = result
+
             print(
             f'Train: {100 * train_acc:.2f}%, '
             f'Valid: {100 * valid_acc:.2f}% '
@@ -346,9 +347,8 @@ def main():
             # logger.add_result(run, result)
 
             if epoch % args.log_steps == 0:
-                print(f'Run: {run + 1:02d}, '
-                      f'Epoch: {epoch:02d}, '
-                      f'Loss: {loss:.4f}')
+                logger._log(f'Run: {run + 1:02d}, Epoch: {epoch:02d}, Loss: {loss:.4f}')
+                
 
             if epoch > 9 and epoch % args.eval_steps == 0:
 
@@ -391,6 +391,12 @@ def main():
                     print(f"Epochs without updating best valid {key} score: {n_eval_no_best * args.eval_steps}")
 
                 train_acc, valid_acc, test_acc = result
+                logger._log(f'Run: {run + 1:02d}, '
+                      f'Epoch: {epoch:02d}, '
+                      f'Loss: {loss:.4f}, '
+                      f'Train: {100 * train_acc:.2f}%, '
+                      f'Valid: {100 * valid_acc:.2f}%, '
+                      f'Test: {100 * test_acc:.2f}%')
                 print(f'Run: {run + 1:02d}, '
                       f'Epoch: {epoch:02d}, '
                       f'Loss: {loss:.4f}, '

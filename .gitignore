@@ -73,6 +73,6 @@ Documentation.zip
 *log*/
 #*results*
 source/baseline_models/link_prediction/dataset/*
-
+source/baseline_models/node_classification/dataset/*
 
 kernel-metadata.json

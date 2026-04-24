@@ -7,6 +7,7 @@ import torch
 from torch_geometric.nn import Node2Vec
 from ogb.linkproppred import PygLinkPropPredDataset
 from torch.utils.tensorboard import SummaryWriter
+import multiprocessing as mp
 
 # limit load for the server
 os.environ["OMP_NUM_THREADS"] = "2" # export OMP_NUM_THREADS=1
@@ -52,7 +53,7 @@ def main():
                      sparse=True).to(device)
 
     loader = model.loader(batch_size=args.batch_size, shuffle=True,
-                          num_workers=4)
+                          num_workers=0)
     optimizer = torch.optim.SparseAdam(list(model.parameters()), lr=args.lr)
 
     writer = SummaryWriter(os.path.join(args.log_dir,f'{args.curr_param_idx}_of_{args.n_par_combs}'))
@@ -82,4 +83,5 @@ def main():
     writer.close()
 
 if __name__ == "__main__":
+    mp.freeze_support()
     main()

@@ -1,0 +1,31 @@
+
+python mlp.py --dataset ogbl-BALBc_no1_spatial_edge_attr --batch_size 262144 --hidden_channels 32 --runs 1 --lr 0.1 --epochs 20
+Run: 01, Epoch: 01, Loss: 1.4217, Train: 89.65%, Valid: 47.97%, Test: 47.97%
+Run: 01, Epoch: 02, Loss: 0.8306, Train: 90.25%, Valid: 48.31%, Test: 48.32%
+Run: 01, Epoch: 03, Loss: 0.7802, Train: 90.67%, Valid: 48.58%, Test: 48.58%
+Run: 01, Epoch: 04, Loss: 0.7603, Train: 90.67%, Valid: 48.66%, Test: 48.65%
+Run: 01, Epoch: 05, Loss: 0.7455, Train: 90.81%, Valid: 48.91%, Test: 48.90%
+Run: 01, Epoch: 06, Loss: 0.7363, Train: 90.84%, Valid: 49.07%, Test: 49.06%
+Run: 01, Epoch: 07, Loss: 0.7310, Train: 90.83%, Valid: 49.06%, Test: 49.05%
+Run: 01, Epoch: 08, Loss: 0.7282, Train: 90.86%, Valid: 49.15%, Test: 49.14%
+Run: 01, Epoch: 09, Loss: 0.7266, Train: 90.86%, Valid: 49.13%, Test: 49.11%
+Run: 01, Epoch: 10, Loss: 0.7254, Train: 90.87%, Valid: 49.24%, Test: 49.23%
+Run: 01, Epoch: 11, Loss: 0.7239, Train: 90.88%, Valid: 49.23%, Test: 49.22%
+Run: 01, Epoch: 12, Loss: 0.7234, Train: 90.87%, Valid: 49.24%, Test: 49.23%
+Run: 01, Epoch: 13, Loss: 0.7227, Train: 90.87%, Valid: 49.29%, Test: 49.29%
+Run: 01, Epoch: 14, Loss: 0.7228, Train: 90.88%, Valid: 49.22%, Test: 49.22%
+Run: 01, Epoch: 15, Loss: 0.7226, Train: 90.88%, Valid: 49.29%, Test: 49.29%
+Run: 01, Epoch: 16, Loss: 0.7223, Train: 90.88%, Valid: 49.31%, Test: 49.30%
+Run: 01, Epoch: 17, Loss: 0.7221, Train: 90.89%, Valid: 49.28%, Test: 49.27%
+Run: 01, Epoch: 18, Loss: 0.7217, Train: 90.89%, Valid: 49.24%, Test: 49.23%
+Run: 01, Epoch: 19, Loss: 0.7213, Train: 90.90%, Valid: 49.29%, Test: 49.28%
+Run: 01, Epoch: 20, Loss: 0.7209, Train: 90.90%, Valid: 49.30%, Test: 49.29%
+Highest Train: 90.90
+Highest Valid: 49.31
+  Final Train: 90.90
+   Final Test: 49.29
+All runs:
+Highest Train: 90.90 ± nan
+Highest Valid: 49.31 ± nan
+  Final Train: 90.88 ± nan
+   Final Test: 49.30 ± nan

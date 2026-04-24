@@ -1,0 +1,2 @@
+
+python seal_link_pred.py --dataset null

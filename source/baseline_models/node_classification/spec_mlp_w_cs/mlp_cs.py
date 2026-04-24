@@ -16,7 +16,8 @@ from torch.nn import ModuleList, Linear, BatchNorm1d
 
 import sys
 
-sys.path.append('../../../')
+from pathlib import Path
+sys.path.append(str(Path(os.path.abspath(__file__)).parents[3]))
 
 from ogb.nodeproppred import PygNodePropPredDataset, Evaluator
 from torch_geometric.nn import models
@@ -256,8 +257,8 @@ def main():
                                             'kwargs': {'multi_class': 'ovo', 'average': 'weighted'}}}
 
     dataset = PygNodePropPredDataset(name=args.dataset,
-                                     root='./dataset/',
-                                     transform=T.ToSparseTensor())
+                                     transform=T.ToSparseTensor(),
+                                     root=str(Path(os.path.abspath(__file__)).parents[1])+'/dataset')
     print(dataset, flush=True)
     # evaluator = Evaluator(name=f'ogbn-{args.dataset}')
     split_idx = dataset.get_idx_split()
@@ -296,7 +297,7 @@ def main():
     test_idx = split_idx['test'].to(device)
     x_train, y_train = x[train_idx], y[train_idx]
 
-    log_file = f"{args.dataset}_lr{args.lr}_runs{args.runs}.log"
+    log_file = f"{args.dataset}_lr{args.lr}_ch{args.hidden_channels}_layers{args.num_layers}.log"
     logger = Logger(args.runs, args, log_path=log_file)
 
     ####################################################################################################################
@@ -399,6 +400,7 @@ def main():
 
         for epoch in range(1, args.epochs + 1):  ##
             loss = train(model, optimizer, x_train, criterion, y_train)
+            logger._log(f'Run: {run + 1:02d}, Epoch: {epoch:02d}, Loss: {loss:.4f}')
 
             # tensorboard: log train loss
             writer.add_scalar("Loss/train", loss, epoch)
@@ -451,6 +453,9 @@ def main():
                     best_val_acc = val_acc
                     y_soft = out.softmax(dim=-1)
 
+                logger._log(f'Run: {run + 1:02d}, '
+                    f'Epoch: {epoch:03d}, Loss: {loss:.4f}, '
+                    f'Train: {train_acc:.4f}, Val: {val_acc:.4f}, Test: {test_acc:.4f}')
                 print(
                     f'Run: {run + 1:02d}, '
                     f'Epoch: {epoch:03d}, Loss: {loss:.4f}, '
