@@ -276,7 +276,7 @@ def main():
     # stitch resulting directory for tensorboard logging data
     base_log_dir = os.path.join(log_dir, f'{ex_prefix}{curr_dir_idx:0>2}')
 
-    log_file = f"{args.dataset}_lr{args.lr}_ch{args.hidden_channels}_layers{args.num_layers}.log"
+    log_file = Path(__file__).resolve().parent / f"{args.dataset}_lr{args.lr}_ch{args.hidden_channels}_layers{args.num_layers}.log"
     logger = Logger(args.runs, args, log_path=log_file)
 
     # define logging sub_directory name suffix for summary writer (index of current parameter_combination

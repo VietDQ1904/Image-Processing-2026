@@ -303,7 +303,7 @@ def main():
     data = data.to(device)
 
     # evaluator = Evaluator(name='ogbn-node_vessap_roi3')
-    log_file = f"{args.dataset}_lr{args.lr}_ch{args.hidden_channels}_layers{args.num_layers}.log"
+    log_file = Path(__file__).resolve().parent / f"{args.dataset}_lr{args.lr}_ch{args.hidden_channels}_layers{args.num_layers}.log"
     logger = Logger(args.runs, args, log_path=log_file)
 
 

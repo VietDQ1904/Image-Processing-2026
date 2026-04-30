@@ -105,7 +105,7 @@ def main():
 
     # instantiate tensorboard writer
     writer = SummaryWriter(log_dir)
-    log_file = f"{args.dataset}_lr{args.lr}.log"
+    log_file = Path(__file__).resolve().parent / f"{args.dataset}_lr{args.lr}.log"
     logger = Logger(args, log_path=log_file)
 
     for epoch in range(1, args.epochs + 1):

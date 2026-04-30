@@ -74,7 +74,6 @@ def spectral(data, post_fix):
     generate spectral embeddings, save the results in ./embeddings/spectral{post_fix}.pt
     '''
     from julia.api import Julia
-    jl = Julia(compiled_modules=False)
     from julia import Main
     Main.include("./norm_spec.jl")
 
@@ -297,7 +296,10 @@ def main():
     test_idx = split_idx['test'].to(device)
     x_train, y_train = x[train_idx], y[train_idx]
 
-    log_file = f"{args.dataset}_lr{args.lr}_ch{args.hidden_channels}_layers{args.num_layers}.log"
+    log_file = Path(__file__).resolve().parent / f"{args.dataset}_lr{args.lr}_ch{args.hidden_channels}_layers{args.num_layers}.log"
+    if args.use_embed:
+        log_file = Path(__file__).resolve().parent / f"{args.dataset}_lr{args.lr}_ch{args.hidden_channels}_layers{args.num_layers}_use_embed.log"
+
     logger = Logger(args.runs, args, log_path=log_file)
 
     ####################################################################################################################
