@@ -1,0 +1,61 @@
+
+python mlp.py --dataset ogbl-BALBc_no1_spatial_edge_attr --batch_size 262144 --hidden_channels 16 --runs 1 --lr 0.05 --epochs 50 --device 0 --save_appendix _mlp_tuned50_cpu_20260430
+Run: 01, Epoch: 01, Loss: 1.3808, Train: 58.02%, Valid: 58.04%, Test: 58.04%
+Run: 01, Epoch: 02, Loss: 1.3646, Train: 58.14%, Valid: 58.07%, Test: 58.04%
+Run: 01, Epoch: 03, Loss: 1.3592, Train: 58.10%, Valid: 58.02%, Test: 58.07%
+Run: 01, Epoch: 04, Loss: 1.3562, Train: 58.10%, Valid: 58.02%, Test: 58.01%
+Run: 01, Epoch: 05, Loss: 1.3556, Train: 58.10%, Valid: 58.07%, Test: 58.04%
+Run: 01, Epoch: 06, Loss: 1.3553, Train: 58.08%, Valid: 58.02%, Test: 58.09%
+Run: 01, Epoch: 07, Loss: 1.3551, Train: 58.12%, Valid: 58.08%, Test: 58.03%
+Run: 01, Epoch: 08, Loss: 1.3550, Train: 58.12%, Valid: 58.01%, Test: 58.06%
+Run: 01, Epoch: 09, Loss: 1.3551, Train: 58.10%, Valid: 58.10%, Test: 58.02%
+Run: 01, Epoch: 10, Loss: 1.3550, Train: 58.08%, Valid: 58.07%, Test: 58.07%
+Run: 01, Epoch: 11, Loss: 1.3550, Train: 58.11%, Valid: 58.04%, Test: 58.05%
+Run: 01, Epoch: 12, Loss: 1.3550, Train: 58.09%, Valid: 58.01%, Test: 58.02%
+Run: 01, Epoch: 13, Loss: 1.3549, Train: 58.13%, Valid: 58.09%, Test: 58.05%
+Run: 01, Epoch: 14, Loss: 1.3549, Train: 58.08%, Valid: 58.10%, Test: 58.08%
+Run: 01, Epoch: 15, Loss: 1.3550, Train: 58.11%, Valid: 58.02%, Test: 58.03%
+Run: 01, Epoch: 16, Loss: 1.3550, Train: 58.09%, Valid: 58.08%, Test: 58.02%
+Run: 01, Epoch: 17, Loss: 1.3549, Train: 58.14%, Valid: 58.08%, Test: 58.03%
+Run: 01, Epoch: 18, Loss: 1.3548, Train: 58.11%, Valid: 58.08%, Test: 58.04%
+Run: 01, Epoch: 19, Loss: 1.3549, Train: 58.13%, Valid: 58.00%, Test: 58.05%
+Run: 01, Epoch: 20, Loss: 1.3548, Train: 58.10%, Valid: 58.00%, Test: 58.04%
+Run: 01, Epoch: 21, Loss: 1.3546, Train: 58.11%, Valid: 58.08%, Test: 58.05%
+Run: 01, Epoch: 22, Loss: 1.3545, Train: 58.12%, Valid: 58.06%, Test: 58.05%
+Run: 01, Epoch: 23, Loss: 1.3544, Train: 58.08%, Valid: 58.03%, Test: 58.04%
+Run: 01, Epoch: 24, Loss: 1.3543, Train: 58.08%, Valid: 58.06%, Test: 58.03%
+Run: 01, Epoch: 25, Loss: 1.3543, Train: 58.12%, Valid: 58.09%, Test: 58.02%
+Run: 01, Epoch: 26, Loss: 1.3543, Train: 58.10%, Valid: 58.04%, Test: 58.04%
+Run: 01, Epoch: 27, Loss: 1.3543, Train: 58.12%, Valid: 58.04%, Test: 58.06%
+Run: 01, Epoch: 28, Loss: 1.3543, Train: 58.11%, Valid: 58.05%, Test: 58.07%
+Run: 01, Epoch: 29, Loss: 1.3543, Train: 58.14%, Valid: 58.04%, Test: 58.04%
+Run: 01, Epoch: 30, Loss: 1.3542, Train: 58.09%, Valid: 58.01%, Test: 58.03%
+Run: 01, Epoch: 31, Loss: 1.3542, Train: 58.12%, Valid: 58.05%, Test: 58.07%
+Run: 01, Epoch: 32, Loss: 1.3543, Train: 58.09%, Valid: 58.03%, Test: 58.06%
+Run: 01, Epoch: 33, Loss: 1.3543, Train: 58.12%, Valid: 58.06%, Test: 58.04%
+Run: 01, Epoch: 34, Loss: 1.3543, Train: 58.12%, Valid: 58.10%, Test: 58.03%
+Run: 01, Epoch: 35, Loss: 1.3543, Train: 58.13%, Valid: 58.03%, Test: 58.05%
+Run: 01, Epoch: 36, Loss: 1.3543, Train: 58.12%, Valid: 58.00%, Test: 58.00%
+Run: 01, Epoch: 37, Loss: 1.3542, Train: 58.13%, Valid: 58.02%, Test: 58.07%
+Run: 01, Epoch: 38, Loss: 1.3542, Train: 58.12%, Valid: 58.01%, Test: 58.08%
+Run: 01, Epoch: 39, Loss: 1.3542, Train: 58.13%, Valid: 58.06%, Test: 58.09%
+Run: 01, Epoch: 40, Loss: 1.3542, Train: 58.10%, Valid: 58.03%, Test: 58.05%
+Run: 01, Epoch: 41, Loss: 1.3542, Train: 58.09%, Valid: 58.05%, Test: 58.04%
+Run: 01, Epoch: 42, Loss: 1.3542, Train: 58.12%, Valid: 58.11%, Test: 58.04%
+Run: 01, Epoch: 43, Loss: 1.3540, Train: 58.11%, Valid: 58.07%, Test: 58.01%
+Run: 01, Epoch: 44, Loss: 1.3541, Train: 58.13%, Valid: 58.07%, Test: 58.04%
+Run: 01, Epoch: 45, Loss: 1.3543, Train: 58.13%, Valid: 58.06%, Test: 58.02%
+Run: 01, Epoch: 46, Loss: 1.3546, Train: 58.13%, Valid: 58.02%, Test: 58.03%
+Run: 01, Epoch: 47, Loss: 1.3541, Train: 58.13%, Valid: 58.09%, Test: 58.08%
+Run: 01, Epoch: 48, Loss: 1.3541, Train: 58.13%, Valid: 58.07%, Test: 58.01%
+Run: 01, Epoch: 49, Loss: 1.3540, Train: 58.07%, Valid: 58.05%, Test: 58.06%
+Run: 01, Epoch: 50, Loss: 1.3542, Train: 58.12%, Valid: 58.11%, Test: 58.07%
+Highest Train: 58.14
+Highest Valid: 58.11
+  Final Train: 58.14
+   Final Test: 58.03
+All runs:
+Highest Train: 58.14 ± nan
+Highest Valid: 58.11 ± nan
+  Final Train: 58.12 ± nan
+   Final Test: 58.04 ± nan

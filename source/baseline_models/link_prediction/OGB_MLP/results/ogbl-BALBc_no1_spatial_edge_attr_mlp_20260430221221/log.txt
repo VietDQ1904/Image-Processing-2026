@@ -1,0 +1,12 @@
+
+python mlp.py --dataset ogbl-BALBc_no1_spatial_edge_attr --batch_size 262144 --hidden_channels 16 --runs 1 --lr 0.05 --epochs 1 --device 0
+Run: 01, Epoch: 01, Loss: 1.2754, Train: 75.80%, Valid: 52.02%, Test: 51.93%
+Highest Train: 75.80
+Highest Valid: 52.02
+  Final Train: 75.80
+   Final Test: 51.93
+All runs:
+Highest Train: 75.80 ± nan
+Highest Valid: 52.02 ± nan
+  Final Train: 75.80 ± nan
+   Final Test: 51.93 ± nan
