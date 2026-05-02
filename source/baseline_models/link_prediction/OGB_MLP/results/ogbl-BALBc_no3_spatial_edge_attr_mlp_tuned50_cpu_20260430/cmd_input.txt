@@ -1,0 +1,1 @@
+python mlp.py --dataset ogbl-BALBc_no3_spatial_edge_attr --batch_size 262144 --hidden_channels 16 --runs 1 --lr 0.05 --epochs 50 --device 0 --save_appendix _mlp_tuned50_cpu_20260430
