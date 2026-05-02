@@ -28,6 +28,9 @@ from ogb.nodeproppred import PygNodePropPredDataset, Evaluator
 
 from logger import Logger
 
+import matplotlib
+matplotlib.use('Agg')
+
 from torch.utils.tensorboard import SummaryWriter
 import matplotlib.pyplot as plt
 import numpy as np
@@ -294,7 +297,7 @@ def main():
 
     evaluator = Evaluator(name=args.dataset)
 
-    log_file = f"{args.dataset}_lr{args.lr}_ch{args.hidden_channels}_layers{args.num_layers}.log"
+    log_file = Path(__file__).resolve().parent / f"{args.dataset}_lr{args.lr}_ch{args.hidden_channels}_layers{args.num_layers}.log"
     logger = Logger(args.runs, args, log_path=log_file)
 
     ####################################################################################################################
@@ -442,12 +445,12 @@ def main():
                     # increase conter of epochs without performance improvemetn by one
                     n_eval_no_best += 1
                     print(f"Epochs without updating best valid {key} score: {n_eval_no_best * args.eval_steps}")
-
-                print(f'Run: {run + 1:02d}, '
+                logger._log(f'Run: {run + 1:02d}, '
                       f'Epoch: {epoch:02d}, '
                       f'Train: {100 * train_acc:.2f}%, '
                       f'Valid: {100 * valid_acc:.2f}% '
                       f'Test: {100 * test_acc:.2f}%')
+            
                 if epoch > 70 and n_eval_no_best * args.eval_steps > args.n_stop_train:
                     break
 

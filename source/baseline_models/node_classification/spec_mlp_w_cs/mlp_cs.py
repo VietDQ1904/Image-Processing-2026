@@ -70,14 +70,21 @@ class MLP(torch.nn.Module):
 
 
 def spectral(data, post_fix):
-    '''
-    generate spectral embeddings, save the results in ./embeddings/spectral{post_fix}.pt
-    '''
+
     from julia.api import Julia
+    jl = Julia(
+        runtime=r"D:\Installs\Julia\Julia-1.6.2\bin\julia.exe",
+        compiled_modules=False
+    )
+
+    import julia
     from julia import Main
+    
+    Main.eval("println(Base.active_project())")
     Main.include("./norm_spec.jl")
 
     print('Setting up spectral embedding', flush=True)
+
     adj = data.adj_t
     adj = adj.to_scipy(layout='csr')
     result = torch.tensor(Main.main(adj, 128)).float()
@@ -86,7 +93,6 @@ def spectral(data, post_fix):
     torch.save(result, f'./embeddings/spectral{post_fix}.pt')
 
     return result
-
 
 def process_adj(data, device):
     adj_t = data.adj_t.to(device)
