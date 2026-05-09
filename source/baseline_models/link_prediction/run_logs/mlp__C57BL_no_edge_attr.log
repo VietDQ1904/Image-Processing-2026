@@ -1,0 +1,623 @@
+Task   : mlp__C57BL_no_edge_attr
+Model  : MLP
+Dataset: ogbl-C57BL_6_no1_spatial_no_edge_attr
+Script : C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\mlp.py
+Command: C:\Users\UNITY\AppData\Local\Programs\Python\Python313\python.exe C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\mlp.py --dataset ogbl-C57BL_6_no1_spatial_no_edge_attr --splitting_strategy spatial --eval_metric auc --epochs 20 --runs 1 --batch_size 262144 --eval_steps 5 --hidden_channels 128 --lr 0.0002
+Started: 2026-05-09T23:14:01.205207
+========================================================================
+
+[MLP] Threads: intra=20  inter=4  CUDA=False
+C:\Users\UNITY\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\__init__.py:109: RequestsDependencyWarning: urllib3 (2.6.3) or chardet (6.0.0.post1)/charset_normalizer (3.4.4) doesn't match a supported version!
+  warnings.warn(
+C:\Users\UNITY\AppData\Local\Programs\Python\Python313\Lib\site-packages\outdated\__init__.py:36: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+WARNING:root:The OGB package is out of date. Your version is 1.3.1, while the latest version is 1.3.6.
+Running on: ogbl-C57BL_6_no1_spatial_no_edge_attr
+Utilizing Evaluation Metric: auc
+Loading dataset...
+Downloading https://syncandshare.lrz.de/dl/fiJYCz3CL8ZhJf1RQ72fpFgf/C57BL_6_no1_spatial_no_edge_attr.zip
+
+  0%|          | 0/178 [00:00<?, ?it/s]
+Downloaded 0.00 GB:   0%|          | 0/178 [00:03<?, ?it/s]
+Downloaded 0.00 GB:   1%|          | 1/178 [00:03<11:19,  3.84s/it]
+Downloaded 0.00 GB:   1%|          | 1/178 [00:05<11:19,  3.84s/it]
+Downloaded 0.00 GB:   1%|1         | 2/178 [00:05<07:21,  2.51s/it]
+Downloaded 0.00 GB:   1%|1         | 2/178 [00:06<07:21,  2.51s/it]
+Downloaded 0.00 GB:   2%|1         | 3/178 [00:06<05:28,  1.88s/it]
+Downloaded 0.00 GB:   2%|1         | 3/178 [00:07<05:28,  1.88s/it]
+Downloaded 0.00 GB:   2%|2         | 4/178 [00:07<04:57,  1.71s/it]
+Downloaded 0.00 GB:   2%|2         | 4/178 [00:09<04:57,  1.71s/it]
+Downloaded 0.00 GB:   3%|2         | 5/178 [00:09<04:29,  1.56s/it]
+Downloaded 0.01 GB:   3%|2         | 5/178 [00:10<04:29,  1.56s/it]
+Downloaded 0.01 GB:   3%|3         | 6/178 [00:10<04:04,  1.42s/it]
+Downloaded 0.01 GB:   3%|3         | 6/178 [00:11<04:04,  1.42s/it]
+Downloaded 0.01 GB:   4%|3         | 7/178 [00:11<03:40,  1.29s/it]
+Downloaded 0.01 GB:   4%|3         | 7/178 [00:12<03:40,  1.29s/it]
+Downloaded 0.01 GB:   4%|4         | 8/178 [00:12<03:21,  1.19s/it]
+Downloaded 0.01 GB:   4%|4         | 8/178 [00:13<03:21,  1.19s/it]
+Downloaded 0.01 GB:   5%|5         | 9/178 [00:13<03:04,  1.09s/it]
+Downloaded 0.01 GB:   5%|5         | 9/178 [00:14<03:04,  1.09s/it]
+Downloaded 0.01 GB:   6%|5         | 10/178 [00:14<02:50,  1.02s/it]
+Downloaded 0.01 GB:   6%|5         | 10/178 [00:14<02:50,  1.02s/it]
+Downloaded 0.01 GB:   6%|6         | 11/178 [00:14<02:38,  1.05it/s]
+Downloaded 0.01 GB:   6%|6         | 11/178 [00:15<02:38,  1.05it/s]
+Downloaded 0.01 GB:   7%|6         | 12/178 [00:15<02:27,  1.12it/s]
+Downloaded 0.01 GB:   7%|6         | 12/178 [00:16<02:27,  1.12it/s]
+Downloaded 0.01 GB:   7%|7         | 13/178 [00:16<02:18,  1.19it/s]
+Downloaded 0.01 GB:   7%|7         | 13/178 [00:17<02:18,  1.19it/s]
+Downloaded 0.01 GB:   8%|7         | 14/178 [00:17<02:09,  1.26it/s]
+Downloaded 0.01 GB:   8%|7         | 14/178 [00:17<02:09,  1.26it/s]
+Downloaded 0.01 GB:   8%|8         | 15/178 [00:17<02:02,  1.33it/s]
+Downloaded 0.02 GB:   8%|8         | 15/178 [00:18<02:02,  1.33it/s]
+Downloaded 0.02 GB:   9%|8         | 16/178 [00:18<01:55,  1.40it/s]
+Downloaded 0.02 GB:   9%|8         | 16/178 [00:18<01:55,  1.40it/s]
+Downloaded 0.02 GB:  10%|9         | 17/178 [00:18<01:49,  1.48it/s]
+Downloaded 0.02 GB:  10%|9         | 17/178 [00:19<01:49,  1.48it/s]
+Downloaded 0.02 GB:  10%|#         | 18/178 [00:19<01:43,  1.54it/s]
+Downloaded 0.02 GB:  10%|#         | 18/178 [00:20<01:43,  1.54it/s]
+Downloaded 0.02 GB:  11%|#         | 19/178 [00:20<01:38,  1.61it/s]
+Downloaded 0.02 GB:  11%|#         | 19/178 [00:20<01:38,  1.61it/s]
+Downloaded 0.02 GB:  11%|#1        | 20/178 [00:20<01:34,  1.68it/s]
+Downloaded 0.02 GB:  11%|#1        | 20/178 [00:21<01:34,  1.68it/s]
+Downloaded 0.02 GB:  12%|#1        | 21/178 [00:21<01:30,  1.74it/s]
+Downloaded 0.02 GB:  12%|#1        | 21/178 [00:21<01:30,  1.74it/s]
+Downloaded 0.02 GB:  12%|#2        | 22/178 [00:21<01:26,  1.80it/s]
+Downloaded 0.02 GB:  12%|#2        | 22/178 [00:22<01:26,  1.80it/s]
+Downloaded 0.02 GB:  13%|#2        | 23/178 [00:22<01:23,  1.87it/s]
+Downloaded 0.02 GB:  13%|#2        | 23/178 [00:22<01:23,  1.87it/s]
+Downloaded 0.02 GB:  13%|#3        | 24/178 [00:22<01:19,  1.93it/s]
+Downloaded 0.02 GB:  13%|#3        | 24/178 [00:23<01:19,  1.93it/s]
+Downloaded 0.02 GB:  14%|#4        | 25/178 [00:23<01:17,  1.98it/s]
+Downloaded 0.03 GB:  14%|#4        | 25/178 [00:23<01:17,  1.98it/s]
+Downloaded 0.03 GB:  15%|#4        | 26/178 [00:23<01:14,  2.04it/s]
+Downloaded 0.03 GB:  15%|#4        | 26/178 [00:24<01:14,  2.04it/s]
+Downloaded 0.03 GB:  15%|#5        | 27/178 [00:24<01:11,  2.10it/s]
+Downloaded 0.03 GB:  15%|#5        | 27/178 [00:24<01:11,  2.10it/s]
+Downloaded 0.03 GB:  16%|#5        | 28/178 [00:24<01:09,  2.15it/s]
+Downloaded 0.03 GB:  16%|#5        | 28/178 [00:24<01:09,  2.15it/s]
+Downloaded 0.03 GB:  16%|#6        | 29/178 [00:24<01:07,  2.22it/s]
+Downloaded 0.03 GB:  16%|#6        | 29/178 [00:25<01:07,  2.22it/s]
+Downloaded 0.03 GB:  17%|#6        | 30/178 [00:25<01:05,  2.27it/s]
+Downloaded 0.03 GB:  17%|#6        | 30/178 [00:25<01:05,  2.27it/s]
+Downloaded 0.03 GB:  17%|#7        | 31/178 [00:25<01:02,  2.33it/s]
+Downloaded 0.03 GB:  17%|#7        | 31/178 [00:26<01:02,  2.33it/s]
+Downloaded 0.03 GB:  18%|#7        | 32/178 [00:26<01:01,  2.38it/s]
+Downloaded 0.03 GB:  18%|#7        | 32/178 [00:26<01:01,  2.38it/s]
+Downloaded 0.03 GB:  19%|#8        | 33/178 [00:26<00:59,  2.44it/s]
+Downloaded 0.03 GB:  19%|#8        | 33/178 [00:26<00:59,  2.44it/s]
+Downloaded 0.03 GB:  19%|#9        | 34/178 [00:26<00:57,  2.50it/s]
+Downloaded 0.03 GB:  19%|#9        | 34/178 [00:27<00:57,  2.50it/s]
+Downloaded 0.03 GB:  20%|#9        | 35/178 [00:27<00:56,  2.55it/s]
+Downloaded 0.04 GB:  20%|#9        | 35/178 [00:27<00:56,  2.55it/s]
+Downloaded 0.04 GB:  20%|##        | 36/178 [00:27<00:54,  2.60it/s]
+Downloaded 0.04 GB:  20%|##        | 36/178 [00:27<00:54,  2.60it/s]
+Downloaded 0.04 GB:  21%|##        | 37/178 [00:27<00:53,  2.66it/s]
+Downloaded 0.04 GB:  21%|##        | 37/178 [00:28<00:53,  2.66it/s]
+Downloaded 0.04 GB:  21%|##1       | 38/178 [00:28<00:51,  2.71it/s]
+Downloaded 0.04 GB:  21%|##1       | 38/178 [00:28<00:51,  2.71it/s]
+Downloaded 0.04 GB:  22%|##1       | 39/178 [00:28<00:50,  2.76it/s]
+Downloaded 0.04 GB:  22%|##1       | 39/178 [00:29<00:50,  2.76it/s]
+Downloaded 0.04 GB:  22%|##2       | 40/178 [00:29<00:49,  2.81it/s]
+Downloaded 0.04 GB:  22%|##2       | 40/178 [00:29<00:49,  2.81it/s]
+Downloaded 0.04 GB:  23%|##3       | 41/178 [00:29<00:47,  2.86it/s]
+Downloaded 0.04 GB:  23%|##3       | 41/178 [00:29<00:47,  2.86it/s]
+Downloaded 0.04 GB:  24%|##3       | 42/178 [00:29<00:46,  2.90it/s]
+Downloaded 0.04 GB:  24%|##3       | 42/178 [00:30<00:46,  2.90it/s]
+Downloaded 0.04 GB:  24%|##4       | 43/178 [00:30<00:45,  2.95it/s]
+Downloaded 0.04 GB:  24%|##4       | 43/178 [00:30<00:45,  2.95it/s]
+Downloaded 0.04 GB:  25%|##4       | 44/178 [00:30<00:44,  3.00it/s]
+Downloaded 0.04 GB:  25%|##4       | 44/178 [00:30<00:44,  3.00it/s]
+Downloaded 0.04 GB:  25%|##5       | 45/178 [00:30<00:43,  3.06it/s]
+Downloaded 0.04 GB:  25%|##5       | 45/178 [00:30<00:43,  3.06it/s]
+Downloaded 0.04 GB:  26%|##5       | 46/178 [00:30<00:42,  3.10it/s]
+Downloaded 0.05 GB:  26%|##5       | 46/178 [00:31<00:42,  3.10it/s]
+Downloaded 0.05 GB:  26%|##6       | 47/178 [00:31<00:41,  3.16it/s]
+Downloaded 0.05 GB:  26%|##6       | 47/178 [00:31<00:41,  3.16it/s]
+Downloaded 0.05 GB:  27%|##6       | 48/178 [00:31<00:40,  3.20it/s]
+Downloaded 0.05 GB:  27%|##6       | 48/178 [00:31<00:40,  3.20it/s]
+Downloaded 0.05 GB:  28%|##7       | 49/178 [00:31<00:39,  3.26it/s]
+Downloaded 0.05 GB:  28%|##7       | 49/178 [00:32<00:39,  3.26it/s]
+Downloaded 0.05 GB:  28%|##8       | 50/178 [00:32<00:38,  3.30it/s]
+Downloaded 0.05 GB:  28%|##8       | 50/178 [00:32<00:38,  3.30it/s]
+Downloaded 0.05 GB:  29%|##8       | 51/178 [00:32<00:37,  3.35it/s]
+Downloaded 0.05 GB:  29%|##8       | 51/178 [00:32<00:37,  3.35it/s]
+Downloaded 0.05 GB:  29%|##9       | 52/178 [00:32<00:37,  3.39it/s]
+Downloaded 0.05 GB:  29%|##9       | 52/178 [00:33<00:37,  3.39it/s]
+Downloaded 0.05 GB:  30%|##9       | 53/178 [00:33<00:36,  3.45it/s]
+Downloaded 0.05 GB:  30%|##9       | 53/178 [00:33<00:36,  3.45it/s]
+Downloaded 0.05 GB:  30%|###       | 54/178 [00:33<00:35,  3.49it/s]
+Downloaded 0.05 GB:  30%|###       | 54/178 [00:33<00:35,  3.49it/s]
+Downloaded 0.05 GB:  31%|###       | 55/178 [00:33<00:34,  3.55it/s]
+Downloaded 0.05 GB:  31%|###       | 55/178 [00:33<00:34,  3.55it/s]
+Downloaded 0.05 GB:  31%|###1      | 56/178 [00:33<00:34,  3.58it/s]
+Downloaded 0.06 GB:  31%|###1      | 56/178 [00:34<00:34,  3.58it/s]
+Downloaded 0.06 GB:  32%|###2      | 57/178 [00:34<00:33,  3.62it/s]
+Downloaded 0.06 GB:  32%|###2      | 57/178 [00:34<00:33,  3.62it/s]
+Downloaded 0.06 GB:  33%|###2      | 58/178 [00:34<00:32,  3.68it/s]
+Downloaded 0.06 GB:  33%|###2      | 58/178 [00:34<00:32,  3.68it/s]
+Downloaded 0.06 GB:  33%|###3      | 59/178 [00:34<00:32,  3.72it/s]
+Downloaded 0.06 GB:  33%|###3      | 59/178 [00:34<00:32,  3.72it/s]
+Downloaded 0.06 GB:  34%|###3      | 60/178 [00:34<00:31,  3.76it/s]
+Downloaded 0.06 GB:  34%|###3      | 60/178 [00:35<00:31,  3.76it/s]
+Downloaded 0.06 GB:  34%|###4      | 61/178 [00:35<00:30,  3.81it/s]
+Downloaded 0.06 GB:  34%|###4      | 61/178 [00:35<00:30,  3.81it/s]
+Downloaded 0.06 GB:  35%|###4      | 62/178 [00:35<00:30,  3.84it/s]
+Downloaded 0.06 GB:  35%|###4      | 62/178 [00:35<00:30,  3.84it/s]
+Downloaded 0.06 GB:  35%|###5      | 63/178 [00:35<00:29,  3.89it/s]
+Downloaded 0.06 GB:  35%|###5      | 63/178 [00:35<00:29,  3.89it/s]
+Downloaded 0.06 GB:  36%|###5      | 64/178 [00:35<00:28,  3.94it/s]
+Downloaded 0.06 GB:  36%|###5      | 64/178 [00:36<00:28,  3.94it/s]
+Downloaded 0.06 GB:  37%|###6      | 65/178 [00:36<00:28,  3.97it/s]
+Downloaded 0.06 GB:  37%|###6      | 65/178 [00:36<00:28,  3.97it/s]
+Downloaded 0.06 GB:  37%|###7      | 66/178 [00:36<00:27,  4.02it/s]
+Downloaded 0.07 GB:  37%|###7      | 66/178 [00:36<00:27,  4.02it/s]
+Downloaded 0.07 GB:  38%|###7      | 67/178 [00:36<00:27,  4.06it/s]
+Downloaded 0.07 GB:  38%|###7      | 67/178 [00:36<00:27,  4.06it/s]
+Downloaded 0.07 GB:  38%|###8      | 68/178 [00:36<00:26,  4.11it/s]
+Downloaded 0.07 GB:  38%|###8      | 68/178 [00:37<00:26,  4.11it/s]
+Downloaded 0.07 GB:  39%|###8      | 69/178 [00:37<00:26,  4.14it/s]
+Downloaded 0.07 GB:  39%|###8      | 69/178 [00:37<00:26,  4.14it/s]
+Downloaded 0.07 GB:  39%|###9      | 70/178 [00:37<00:25,  4.19it/s]
+Downloaded 0.07 GB:  39%|###9      | 70/178 [00:37<00:25,  4.19it/s]
+Downloaded 0.07 GB:  40%|###9      | 71/178 [00:37<00:25,  4.24it/s]
+Downloaded 0.07 GB:  40%|###9      | 71/178 [00:37<00:25,  4.24it/s]
+Downloaded 0.07 GB:  40%|####      | 72/178 [00:37<00:24,  4.28it/s]
+Downloaded 0.07 GB:  40%|####      | 72/178 [00:38<00:24,  4.28it/s]
+Downloaded 0.07 GB:  41%|####1     | 73/178 [00:38<00:24,  4.33it/s]
+Downloaded 0.07 GB:  41%|####1     | 73/178 [00:38<00:24,  4.33it/s]
+Downloaded 0.07 GB:  42%|####1     | 74/178 [00:38<00:23,  4.38it/s]
+Downloaded 0.07 GB:  42%|####1     | 74/178 [00:38<00:23,  4.38it/s]
+Downloaded 0.07 GB:  42%|####2     | 75/178 [00:38<00:23,  4.42it/s]
+Downloaded 0.07 GB:  42%|####2     | 75/178 [00:38<00:23,  4.42it/s]
+Downloaded 0.07 GB:  43%|####2     | 76/178 [00:38<00:22,  4.44it/s]
+Downloaded 0.08 GB:  43%|####2     | 76/178 [00:38<00:22,  4.44it/s]
+Downloaded 0.08 GB:  43%|####3     | 77/178 [00:38<00:22,  4.50it/s]
+Downloaded 0.08 GB:  43%|####3     | 77/178 [00:39<00:22,  4.50it/s]
+Downloaded 0.08 GB:  44%|####3     | 78/178 [00:39<00:22,  4.54it/s]
+Downloaded 0.08 GB:  44%|####3     | 78/178 [00:39<00:22,  4.54it/s]
+Downloaded 0.08 GB:  44%|####4     | 79/178 [00:39<00:21,  4.57it/s]
+Downloaded 0.08 GB:  44%|####4     | 79/178 [00:39<00:21,  4.57it/s]
+Downloaded 0.08 GB:  45%|####4     | 80/178 [00:39<00:21,  4.62it/s]
+Downloaded 0.08 GB:  45%|####4     | 80/178 [00:39<00:21,  4.62it/s]
+Downloaded 0.08 GB:  46%|####5     | 81/178 [00:39<00:20,  4.65it/s]
+Downloaded 0.08 GB:  46%|####5     | 81/178 [00:39<00:20,  4.65it/s]
+Downloaded 0.08 GB:  46%|####6     | 82/178 [00:39<00:20,  4.72it/s]
+Downloaded 0.08 GB:  46%|####6     | 82/178 [00:40<00:20,  4.72it/s]
+Downloaded 0.08 GB:  47%|####6     | 83/178 [00:40<00:20,  4.74it/s]
+Downloaded 0.08 GB:  47%|####6     | 83/178 [00:40<00:20,  4.74it/s]
+Downloaded 0.08 GB:  47%|####7     | 84/178 [00:40<00:19,  4.78it/s]
+Downloaded 0.08 GB:  47%|####7     | 84/178 [00:40<00:19,  4.78it/s]
+Downloaded 0.08 GB:  48%|####7     | 85/178 [00:40<00:19,  4.82it/s]
+Downloaded 0.08 GB:  48%|####7     | 85/178 [00:40<00:19,  4.82it/s]
+Downloaded 0.08 GB:  48%|####8     | 86/178 [00:40<00:18,  4.88it/s]
+Downloaded 0.08 GB:  48%|####8     | 86/178 [00:40<00:18,  4.88it/s]
+Downloaded 0.08 GB:  49%|####8     | 87/178 [00:40<00:18,  4.90it/s]
+Downloaded 0.09 GB:  49%|####8     | 87/178 [00:41<00:18,  4.90it/s]
+Downloaded 0.09 GB:  49%|####9     | 88/178 [00:41<00:18,  4.94it/s]
+Downloaded 0.09 GB:  49%|####9     | 88/178 [00:41<00:18,  4.94it/s]
+Downloaded 0.09 GB:  50%|#####     | 89/178 [00:41<00:17,  4.98it/s]
+Downloaded 0.09 GB:  50%|#####     | 89/178 [00:41<00:17,  4.98it/s]
+Downloaded 0.09 GB:  51%|#####     | 90/178 [00:41<00:17,  5.03it/s]
+Downloaded 0.09 GB:  51%|#####     | 90/178 [00:41<00:17,  5.03it/s]
+Downloaded 0.09 GB:  51%|#####1    | 91/178 [00:41<00:17,  5.07it/s]
+Downloaded 0.09 GB:  51%|#####1    | 91/178 [00:41<00:17,  5.07it/s]
+Downloaded 0.09 GB:  52%|#####1    | 92/178 [00:41<00:16,  5.09it/s]
+Downloaded 0.09 GB:  52%|#####1    | 92/178 [00:42<00:16,  5.09it/s]
+Downloaded 0.09 GB:  52%|#####2    | 93/178 [00:42<00:16,  5.14it/s]
+Downloaded 0.09 GB:  52%|#####2    | 93/178 [00:42<00:16,  5.14it/s]
+Downloaded 0.09 GB:  53%|#####2    | 94/178 [00:42<00:16,  5.18it/s]
+Downloaded 0.09 GB:  53%|#####2    | 94/178 [00:42<00:16,  5.18it/s]
+Downloaded 0.09 GB:  53%|#####3    | 95/178 [00:42<00:15,  5.22it/s]
+Downloaded 0.09 GB:  53%|#####3    | 95/178 [00:42<00:15,  5.22it/s]
+Downloaded 0.09 GB:  54%|#####3    | 96/178 [00:42<00:15,  5.26it/s]
+Downloaded 0.09 GB:  54%|#####3    | 96/178 [00:42<00:15,  5.26it/s]
+Downloaded 0.09 GB:  54%|#####4    | 97/178 [00:42<00:15,  5.28it/s]
+Downloaded 0.10 GB:  54%|#####4    | 97/178 [00:43<00:15,  5.28it/s]
+Downloaded 0.10 GB:  55%|#####5    | 98/178 [00:43<00:15,  5.32it/s]
+Downloaded 0.10 GB:  55%|#####5    | 98/178 [00:43<00:15,  5.32it/s]
+Downloaded 0.10 GB:  56%|#####5    | 99/178 [00:43<00:14,  5.38it/s]
+Downloaded 0.10 GB:  56%|#####5    | 99/178 [00:43<00:14,  5.38it/s]
+Downloaded 0.10 GB:  56%|#####6    | 100/178 [00:43<00:14,  5.42it/s]
+Downloaded 0.10 GB:  56%|#####6    | 100/178 [00:43<00:14,  5.42it/s]
+Downloaded 0.10 GB:  57%|#####6    | 101/178 [00:43<00:14,  5.46it/s]
+Downloaded 0.10 GB:  57%|#####6    | 101/178 [00:43<00:14,  5.46it/s]
+Downloaded 0.10 GB:  57%|#####7    | 102/178 [00:43<00:13,  5.50it/s]
+Downloaded 0.10 GB:  57%|#####7    | 102/178 [00:43<00:13,  5.50it/s]
+Downloaded 0.10 GB:  58%|#####7    | 103/178 [00:43<00:13,  5.53it/s]
+Downloaded 0.10 GB:  58%|#####7    | 103/178 [00:44<00:13,  5.53it/s]
+Downloaded 0.10 GB:  58%|#####8    | 104/178 [00:44<00:13,  5.56it/s]
+Downloaded 0.10 GB:  58%|#####8    | 104/178 [00:44<00:13,  5.56it/s]
+Downloaded 0.10 GB:  59%|#####8    | 105/178 [00:44<00:13,  5.60it/s]
+Downloaded 0.10 GB:  59%|#####8    | 105/178 [00:44<00:13,  5.60it/s]
+Downloaded 0.10 GB:  60%|#####9    | 106/178 [00:44<00:12,  5.63it/s]
+Downloaded 0.10 GB:  60%|#####9    | 106/178 [00:44<00:12,  5.63it/s]
+Downloaded 0.10 GB:  60%|######    | 107/178 [00:44<00:12,  5.69it/s]
+Downloaded 0.11 GB:  60%|######    | 107/178 [00:44<00:12,  5.69it/s]
+Downloaded 0.11 GB:  61%|######    | 108/178 [00:44<00:12,  5.72it/s]
+Downloaded 0.11 GB:  61%|######    | 108/178 [00:45<00:12,  5.72it/s]
+Downloaded 0.11 GB:  61%|######1   | 109/178 [00:45<00:11,  5.76it/s]
+Downloaded 0.11 GB:  61%|######1   | 109/178 [00:45<00:11,  5.76it/s]
+Downloaded 0.11 GB:  62%|######1   | 110/178 [00:45<00:11,  5.81it/s]
+Downloaded 0.11 GB:  62%|######1   | 110/178 [00:45<00:11,  5.81it/s]
+Downloaded 0.11 GB:  62%|######2   | 111/178 [00:45<00:11,  5.85it/s]
+Downloaded 0.11 GB:  62%|######2   | 111/178 [00:45<00:11,  5.85it/s]
+Downloaded 0.11 GB:  63%|######2   | 112/178 [00:45<00:11,  5.87it/s]
+Downloaded 0.11 GB:  63%|######2   | 112/178 [00:45<00:11,  5.87it/s]
+Downloaded 0.11 GB:  63%|######3   | 113/178 [00:45<00:11,  5.91it/s]
+Downloaded 0.11 GB:  63%|######3   | 113/178 [00:45<00:11,  5.91it/s]
+Downloaded 0.11 GB:  64%|######4   | 114/178 [00:45<00:10,  5.95it/s]
+Downloaded 0.11 GB:  64%|######4   | 114/178 [00:46<00:10,  5.95it/s]
+Downloaded 0.11 GB:  65%|######4   | 115/178 [00:46<00:10,  6.00it/s]
+Downloaded 0.11 GB:  65%|######4   | 115/178 [00:46<00:10,  6.00it/s]
+Downloaded 0.11 GB:  65%|######5   | 116/178 [00:46<00:10,  6.03it/s]
+Downloaded 0.11 GB:  65%|######5   | 116/178 [00:46<00:10,  6.03it/s]
+Downloaded 0.11 GB:  66%|######5   | 117/178 [00:46<00:10,  6.06it/s]
+Downloaded 0.12 GB:  66%|######5   | 117/178 [00:46<00:10,  6.06it/s]
+Downloaded 0.12 GB:  66%|######6   | 118/178 [00:46<00:09,  6.09it/s]
+Downloaded 0.12 GB:  66%|######6   | 118/178 [00:46<00:09,  6.09it/s]
+Downloaded 0.12 GB:  67%|######6   | 119/178 [00:46<00:09,  6.13it/s]
+Downloaded 0.12 GB:  67%|######6   | 119/178 [00:46<00:09,  6.13it/s]
+Downloaded 0.12 GB:  67%|######7   | 120/178 [00:46<00:09,  6.16it/s]
+Downloaded 0.12 GB:  67%|######7   | 120/178 [00:46<00:09,  6.16it/s]
+Downloaded 0.12 GB:  68%|######7   | 121/178 [00:46<00:09,  6.21it/s]
+Downloaded 0.12 GB:  68%|######7   | 121/178 [00:47<00:09,  6.21it/s]
+Downloaded 0.12 GB:  69%|######8   | 122/178 [00:47<00:08,  6.26it/s]
+Downloaded 0.12 GB:  69%|######8   | 122/178 [00:47<00:08,  6.26it/s]
+Downloaded 0.12 GB:  69%|######9   | 123/178 [00:47<00:08,  6.28it/s]
+Downloaded 0.12 GB:  69%|######9   | 123/178 [00:47<00:08,  6.28it/s]
+Downloaded 0.12 GB:  70%|######9   | 124/178 [00:47<00:08,  6.30it/s]
+Downloaded 0.12 GB:  70%|######9   | 124/178 [00:47<00:08,  6.30it/s]
+Downloaded 0.12 GB:  70%|#######   | 125/178 [00:47<00:08,  6.32it/s]
+Downloaded 0.12 GB:  70%|#######   | 125/178 [00:47<00:08,  6.32it/s]
+Downloaded 0.12 GB:  71%|#######   | 126/178 [00:47<00:08,  6.37it/s]
+Downloaded 0.12 GB:  71%|#######   | 126/178 [00:47<00:08,  6.37it/s]
+Downloaded 0.12 GB:  71%|#######1  | 127/178 [00:47<00:07,  6.40it/s]
+Downloaded 0.13 GB:  71%|#######1  | 127/178 [00:48<00:07,  6.40it/s]
+Downloaded 0.13 GB:  72%|#######1  | 128/178 [00:48<00:07,  6.44it/s]
+Downloaded 0.13 GB:  72%|#######1  | 128/178 [00:48<00:07,  6.44it/s]
+Downloaded 0.13 GB:  72%|#######2  | 129/178 [00:48<00:07,  6.48it/s]
+Downloaded 0.13 GB:  72%|#######2  | 129/178 [00:48<00:07,  6.48it/s]
+Downloaded 0.13 GB:  73%|#######3  | 130/178 [00:48<00:07,  6.51it/s]
+Downloaded 0.13 GB:  73%|#######3  | 130/178 [00:48<00:07,  6.51it/s]
+Downloaded 0.13 GB:  74%|#######3  | 131/178 [00:48<00:07,  6.56it/s]
+Downloaded 0.13 GB:  74%|#######3  | 131/178 [00:48<00:07,  6.56it/s]
+Downloaded 0.13 GB:  74%|#######4  | 132/178 [00:48<00:07,  6.57it/s]
+Downloaded 0.13 GB:  74%|#######4  | 132/178 [00:48<00:07,  6.57it/s]
+Downloaded 0.13 GB:  75%|#######4  | 133/178 [00:48<00:06,  6.62it/s]
+Downloaded 0.13 GB:  75%|#######4  | 133/178 [00:48<00:06,  6.62it/s]
+Downloaded 0.13 GB:  75%|#######5  | 134/178 [00:48<00:06,  6.66it/s]
+Downloaded 0.13 GB:  75%|#######5  | 134/178 [00:49<00:06,  6.66it/s]
+Downloaded 0.13 GB:  76%|#######5  | 135/178 [00:49<00:06,  6.70it/s]
+Downloaded 0.13 GB:  76%|#######5  | 135/178 [00:49<00:06,  6.70it/s]
+Downloaded 0.13 GB:  76%|#######6  | 136/178 [00:49<00:06,  6.74it/s]
+Downloaded 0.13 GB:  76%|#######6  | 136/178 [00:49<00:06,  6.74it/s]
+Downloaded 0.13 GB:  77%|#######6  | 137/178 [00:49<00:06,  6.77it/s]
+Downloaded 0.13 GB:  77%|#######6  | 137/178 [00:49<00:06,  6.77it/s]
+Downloaded 0.13 GB:  78%|#######7  | 138/178 [00:49<00:05,  6.81it/s]
+Downloaded 0.14 GB:  78%|#######7  | 138/178 [00:49<00:05,  6.81it/s]
+Downloaded 0.14 GB:  78%|#######8  | 139/178 [00:49<00:05,  6.85it/s]
+Downloaded 0.14 GB:  78%|#######8  | 139/178 [00:49<00:05,  6.85it/s]
+Downloaded 0.14 GB:  79%|#######8  | 140/178 [00:49<00:05,  6.85it/s]
+Downloaded 0.14 GB:  79%|#######8  | 140/178 [00:49<00:05,  6.85it/s]
+Downloaded 0.14 GB:  79%|#######9  | 141/178 [00:49<00:05,  6.92it/s]
+Downloaded 0.14 GB:  79%|#######9  | 141/178 [00:50<00:05,  6.92it/s]
+Downloaded 0.14 GB:  80%|#######9  | 142/178 [00:50<00:05,  6.95it/s]
+Downloaded 0.14 GB:  80%|#######9  | 142/178 [00:50<00:05,  6.95it/s]
+Downloaded 0.14 GB:  80%|########  | 143/178 [00:50<00:05,  6.98it/s]
+Downloaded 0.14 GB:  80%|########  | 143/178 [00:50<00:05,  6.98it/s]
+Downloaded 0.14 GB:  81%|########  | 144/178 [00:50<00:04,  7.02it/s]
+Downloaded 0.14 GB:  81%|########  | 144/178 [00:50<00:04,  7.02it/s]
+Downloaded 0.14 GB:  81%|########1 | 145/178 [00:50<00:04,  7.03it/s]
+Downloaded 0.14 GB:  81%|########1 | 145/178 [00:50<00:04,  7.03it/s]
+Downloaded 0.14 GB:  82%|########2 | 146/178 [00:50<00:04,  7.08it/s]
+Downloaded 0.14 GB:  82%|########2 | 146/178 [00:50<00:04,  7.08it/s]
+Downloaded 0.14 GB:  83%|########2 | 147/178 [00:50<00:04,  7.11it/s]
+Downloaded 0.14 GB:  83%|########2 | 147/178 [00:50<00:04,  7.11it/s]
+Downloaded 0.14 GB:  83%|########3 | 148/178 [00:50<00:04,  7.13it/s]
+Downloaded 0.15 GB:  83%|########3 | 148/178 [00:51<00:04,  7.13it/s]
+Downloaded 0.15 GB:  84%|########3 | 149/178 [00:51<00:04,  7.19it/s]
+Downloaded 0.15 GB:  84%|########3 | 149/178 [00:51<00:04,  7.19it/s]
+Downloaded 0.15 GB:  84%|########4 | 150/178 [00:51<00:03,  7.25it/s]
+Downloaded 0.15 GB:  84%|########4 | 150/178 [00:51<00:03,  7.25it/s]
+Downloaded 0.15 GB:  85%|########4 | 151/178 [00:51<00:03,  7.25it/s]
+Downloaded 0.15 GB:  85%|########4 | 151/178 [00:51<00:03,  7.25it/s]
+Downloaded 0.15 GB:  85%|########5 | 152/178 [00:51<00:03,  7.31it/s]
+Downloaded 0.15 GB:  85%|########5 | 152/178 [00:51<00:03,  7.31it/s]
+Downloaded 0.15 GB:  86%|########5 | 153/178 [00:51<00:03,  7.34it/s]
+Downloaded 0.15 GB:  86%|########5 | 153/178 [00:51<00:03,  7.34it/s]
+Downloaded 0.15 GB:  87%|########6 | 154/178 [00:51<00:03,  7.34it/s]
+Downloaded 0.15 GB:  87%|########6 | 154/178 [00:51<00:03,  7.34it/s]
+Downloaded 0.15 GB:  87%|########7 | 155/178 [00:51<00:03,  7.40it/s]
+Downloaded 0.15 GB:  87%|########7 | 155/178 [00:52<00:03,  7.40it/s]
+Downloaded 0.15 GB:  88%|########7 | 156/178 [00:52<00:02,  7.44it/s]
+Downloaded 0.15 GB:  88%|########7 | 156/178 [00:52<00:02,  7.44it/s]
+Downloaded 0.15 GB:  88%|########8 | 157/178 [00:52<00:02,  7.45it/s]
+Downloaded 0.15 GB:  88%|########8 | 157/178 [00:52<00:02,  7.45it/s]
+Downloaded 0.15 GB:  89%|########8 | 158/178 [00:52<00:02,  7.48it/s]
+Downloaded 0.16 GB:  89%|########8 | 158/178 [00:52<00:02,  7.48it/s]
+Downloaded 0.16 GB:  89%|########9 | 159/178 [00:52<00:02,  7.51it/s]
+Downloaded 0.16 GB:  89%|########9 | 159/178 [00:52<00:02,  7.51it/s]
+Downloaded 0.16 GB:  90%|########9 | 160/178 [00:52<00:02,  7.54it/s]
+Downloaded 0.16 GB:  90%|########9 | 160/178 [00:52<00:02,  7.54it/s]
+Downloaded 0.16 GB:  90%|######### | 161/178 [00:52<00:02,  7.60it/s]
+Downloaded 0.16 GB:  90%|######### | 161/178 [00:52<00:02,  7.60it/s]
+Downloaded 0.16 GB:  91%|#########1| 162/178 [00:52<00:02,  7.62it/s]
+Downloaded 0.16 GB:  91%|#########1| 162/178 [00:52<00:02,  7.62it/s]
+Downloaded 0.16 GB:  92%|#########1| 163/178 [00:52<00:01,  7.65it/s]
+Downloaded 0.16 GB:  92%|#########1| 163/178 [00:53<00:01,  7.65it/s]
+Downloaded 0.16 GB:  92%|#########2| 164/178 [00:53<00:01,  7.69it/s]
+Downloaded 0.16 GB:  92%|#########2| 164/178 [00:53<00:01,  7.69it/s]
+Downloaded 0.16 GB:  93%|#########2| 165/178 [00:53<00:01,  7.74it/s]
+Downloaded 0.16 GB:  93%|#########2| 165/178 [00:53<00:01,  7.74it/s]
+Downloaded 0.16 GB:  93%|#########3| 166/178 [00:53<00:01,  7.75it/s]
+Downloaded 0.16 GB:  93%|#########3| 166/178 [00:53<00:01,  7.75it/s]
+Downloaded 0.16 GB:  94%|#########3| 167/178 [00:53<00:01,  7.78it/s]
+Downloaded 0.16 GB:  94%|#########3| 167/178 [00:53<00:01,  7.78it/s]
+Downloaded 0.16 GB:  94%|#########4| 168/178 [00:53<00:01,  7.77it/s]
+Downloaded 0.17 GB:  94%|#########4| 168/178 [00:53<00:01,  7.77it/s]
+Downloaded 0.17 GB:  95%|#########4| 169/178 [00:53<00:01,  7.83it/s]
+Downloaded 0.17 GB:  95%|#########4| 169/178 [00:53<00:01,  7.83it/s]
+Downloaded 0.17 GB:  96%|#########5| 170/178 [00:53<00:01,  7.87it/s]
+Downloaded 0.17 GB:  96%|#########5| 170/178 [00:53<00:01,  7.87it/s]
+Downloaded 0.17 GB:  96%|#########6| 171/178 [00:53<00:00,  7.90it/s]
+Downloaded 0.17 GB:  96%|#########6| 171/178 [00:54<00:00,  7.90it/s]
+Downloaded 0.17 GB:  97%|#########6| 172/178 [00:54<00:00,  7.95it/s]
+Downloaded 0.17 GB:  97%|#########6| 172/178 [00:54<00:00,  7.95it/s]
+Downloaded 0.17 GB:  97%|#########7| 173/178 [00:54<00:00,  7.97it/s]
+Downloaded 0.17 GB:  97%|#########7| 173/178 [00:54<00:00,  7.97it/s]
+Downloaded 0.17 GB:  98%|#########7| 174/178 [00:54<00:00,  8.01it/s]
+Downloaded 0.17 GB:  98%|#########7| 174/178 [00:54<00:00,  8.01it/s]
+Downloaded 0.17 GB:  98%|#########8| 175/178 [00:54<00:00,  8.06it/s]
+Downloaded 0.17 GB:  98%|#########8| 175/178 [00:54<00:00,  8.06it/s]
+Downloaded 0.17 GB:  99%|#########8| 176/178 [00:54<00:00,  8.07it/s]
+Downloaded 0.17 GB:  99%|#########8| 176/178 [00:54<00:00,  8.07it/s]
+Downloaded 0.17 GB:  99%|#########8| 176/178 [00:54<00:00,  8.07it/s]
+Downloaded 0.17 GB: 100%|##########| 178/178 [00:54<00:00,  3.25it/s]
+Processing...
+Extracting C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction/dataset\C57BL_6_no1_spatial_no_edge_attr.zip
+Loading necessary files...
+This might take a while.
+Processing graphs...
+
+  0%|          | 0/1 [00:00<?, ?it/s]
+100%|##########| 1/1 [00:00<00:00, 29537.35it/s]
+Converting graphs into PyG objects...
+
+  0%|          | 0/1 [00:00<?, ?it/s]
+100%|##########| 1/1 [00:00<00:00, 9362.29it/s]
+Done!
+Saving...
+Results will be saved in results/ogbl-C57BL_6_no1_spatial_no_edge_attr_mlp_20260509231503
+Command line input: python C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\mlp.py --dataset ogbl-C57BL_6_no1_spatial_no_edge_attr --splitting_strategy spatial --eval_metric auc --epochs 20 --runs 1 --batch_size 262144 --eval_steps 5 --hidden_channels 128 --lr 0.0002
+ is saved.
+Loading edge split (may take a moment for large split files)...
+  Edge split loaded: train=4,491,743  val=561,467  test=561,467
+  Nodes: 3,820,133  Node-feat dim: 5
+  [MLP][WARN] Node2Vec embedding not found: C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction/OGB_Node2Vec/node2vec_ogbl-C57BL_6_no1_spatial_no_edge_attr.pt
+  [MLP][WARN] Running MLP with raw node features only (5 features).
+  [MLP] torch.compile: skipped (fast MLP does not benefit enough).
+  [MLP] AMP fp16 Training: OFF (CPU mode)
+
+[MLP Epoch 1/20] Run 1/1 - training...
+C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\mlp.py:97: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=scaler is not None):
+  [MLP] Batch 3/18  loss=1.3884
+  [MLP] Batch 6/18  loss=1.3833
+  [MLP] Batch 9/18  loss=1.3848
+  [MLP] Batch 12/18  loss=1.3832
+  [MLP] Batch 15/18  loss=1.3812
+  [MLP] Batch 18/18  loss=1.3796
+[MLP Epoch 1/20] loss=1.3849  (30.6s)
+
+[MLP Epoch 2/20] Run 1/1 - training...
+  [MLP] Batch 3/18  loss=1.3797
+  [MLP] Batch 6/18  loss=1.3785
+  [MLP] Batch 9/18  loss=1.3779
+  [MLP] Batch 12/18  loss=1.3770
+  [MLP] Batch 15/18  loss=1.3763
+  [MLP] Batch 18/18  loss=1.3754
+[MLP Epoch 2/20] loss=1.3778  (30.2s)
+
+[MLP Epoch 3/20] Run 1/1 - training...
+  [MLP] Batch 3/18  loss=1.3743
+  [MLP] Batch 6/18  loss=1.3739
+  [MLP] Batch 9/18  loss=1.3730
+  [MLP] Batch 12/18  loss=1.3716
+  [MLP] Batch 15/18  loss=1.3713
+  [MLP] Batch 18/18  loss=1.3708
+[MLP Epoch 3/20] loss=1.3726  (30.3s)
+
+[MLP Epoch 4/20] Run 1/1 - training...
+  [MLP] Batch 3/18  loss=1.3688
+  [MLP] Batch 6/18  loss=1.3677
+  [MLP] Batch 9/18  loss=1.3663
+  [MLP] Batch 12/18  loss=1.3654
+  [MLP] Batch 15/18  loss=1.3645
+  [MLP] Batch 18/18  loss=1.3624
+[MLP Epoch 4/20] loss=1.3666  (30.2s)
+
+[MLP Epoch 5/20] Run 1/1 - training...
+  [MLP] Batch 3/18  loss=1.3621
+  [MLP] Batch 6/18  loss=1.3611
+  [MLP] Batch 9/18  loss=1.3599
+  [MLP] Batch 12/18  loss=1.3583
+  [MLP] Batch 15/18  loss=1.3577
+  [MLP] Batch 18/18  loss=1.3588
+[MLP Epoch 5/20] loss=1.3598  (30.2s)
+  [MLP] Evaluating... (train sample: 25000+25000 | val: 561467+561467 | test: 561467+561467)
+AUC
+Run: 01, Epoch: 05, Loss: 1.3598, Train: 61.00%, Valid: 60.98%, Test: 60.89%
+
+[MLP Epoch 6/20] Run 1/1 - training...
+C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\mlp.py:97: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=scaler is not None):
+  [MLP] Batch 3/18  loss=1.3545
+  [MLP] Batch 6/18  loss=1.3533
+  [MLP] Batch 9/18  loss=1.3527
+  [MLP] Batch 12/18  loss=1.3520
+  [MLP] Batch 15/18  loss=1.3507
+  [MLP] Batch 18/18  loss=1.3517
+[MLP Epoch 6/20] loss=1.3528  (30.4s)
+
+[MLP Epoch 7/20] Run 1/1 - training...
+  [MLP] Batch 3/18  loss=1.3479
+  [MLP] Batch 6/18  loss=1.3480
+  [MLP] Batch 9/18  loss=1.3465
+  [MLP] Batch 12/18  loss=1.3456
+  [MLP] Batch 15/18  loss=1.3446
+  [MLP] Batch 18/18  loss=1.3440
+[MLP Epoch 7/20] loss=1.3466  (30.2s)
+
+[MLP Epoch 8/20] Run 1/1 - training...
+  [MLP] Batch 3/18  loss=1.3443
+  [MLP] Batch 6/18  loss=1.3432
+  [MLP] Batch 9/18  loss=1.3412
+  [MLP] Batch 12/18  loss=1.3425
+  [MLP] Batch 15/18  loss=1.3419
+  [MLP] Batch 18/18  loss=1.3425
+[MLP Epoch 8/20] loss=1.3425  (30.3s)
+
+[MLP Epoch 9/20] Run 1/1 - training...
+  [MLP] Batch 3/18  loss=1.3413
+  [MLP] Batch 6/18  loss=1.3407
+  [MLP] Batch 9/18  loss=1.3405
+  [MLP] Batch 12/18  loss=1.3402
+  [MLP] Batch 15/18  loss=1.3405
+  [MLP] Batch 18/18  loss=1.3393
+[MLP Epoch 9/20] loss=1.3406  (30.2s)
+
+[MLP Epoch 10/20] Run 1/1 - training...
+  [MLP] Batch 3/18  loss=1.3394
+  [MLP] Batch 6/18  loss=1.3401
+  [MLP] Batch 9/18  loss=1.3397
+  [MLP] Batch 12/18  loss=1.3390
+  [MLP] Batch 15/18  loss=1.3383
+  [MLP] Batch 18/18  loss=1.3373
+[MLP Epoch 10/20] loss=1.3392  (30.3s)
+  [MLP] Evaluating... (train sample: 25000+25000 | val: 561467+561467 | test: 561467+561467)
+AUC
+Run: 01, Epoch: 10, Loss: 1.3392, Train: 61.18%, Valid: 60.96%, Test: 60.89%
+
+[MLP Epoch 11/20] Run 1/1 - training...
+C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\mlp.py:97: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=scaler is not None):
+  [MLP] Batch 3/18  loss=1.3381
+  [MLP] Batch 6/18  loss=1.3375
+  [MLP] Batch 9/18  loss=1.3382
+  [MLP] Batch 12/18  loss=1.3373
+  [MLP] Batch 15/18  loss=1.3384
+  [MLP] Batch 18/18  loss=1.3355
+[MLP Epoch 11/20] loss=1.3381  (30.3s)
+
+[MLP Epoch 12/20] Run 1/1 - training...
+  [MLP] Batch 3/18  loss=1.3373
+  [MLP] Batch 6/18  loss=1.3380
+  [MLP] Batch 9/18  loss=1.3365
+  [MLP] Batch 12/18  loss=1.3370
+  [MLP] Batch 15/18  loss=1.3362
+  [MLP] Batch 18/18  loss=1.3376
+[MLP Epoch 12/20] loss=1.3370  (30.2s)
+
+[MLP Epoch 13/20] Run 1/1 - training...
+  [MLP] Batch 3/18  loss=1.3362
+  [MLP] Batch 6/18  loss=1.3361
+  [MLP] Batch 9/18  loss=1.3359
+  [MLP] Batch 12/18  loss=1.3362
+  [MLP] Batch 15/18  loss=1.3358
+  [MLP] Batch 18/18  loss=1.3376
+[MLP Epoch 13/20] loss=1.3362  (30.3s)
+
+[MLP Epoch 14/20] Run 1/1 - training...
+  [MLP] Batch 3/18  loss=1.3358
+  [MLP] Batch 6/18  loss=1.3353
+  [MLP] Batch 9/18  loss=1.3358
+  [MLP] Batch 12/18  loss=1.3346
+  [MLP] Batch 15/18  loss=1.3358
+  [MLP] Batch 18/18  loss=1.3359
+[MLP Epoch 14/20] loss=1.3355  (30.2s)
+
+[MLP Epoch 15/20] Run 1/1 - training...
+  [MLP] Batch 3/18  loss=1.3348
+  [MLP] Batch 6/18  loss=1.3353
+  [MLP] Batch 9/18  loss=1.3353
+  [MLP] Batch 12/18  loss=1.3346
+  [MLP] Batch 15/18  loss=1.3348
+  [MLP] Batch 18/18  loss=1.3320
+[MLP Epoch 15/20] loss=1.3348  (30.3s)
+  [MLP] Evaluating... (train sample: 25000+25000 | val: 561467+561467 | test: 561467+561467)
+AUC
+Run: 01, Epoch: 15, Loss: 1.3348, Train: 61.31%, Valid: 60.98%, Test: 60.91%
+
+[MLP Epoch 16/20] Run 1/1 - training...
+C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\mlp.py:97: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=scaler is not None):
+  [MLP] Batch 3/18  loss=1.3340
+  [MLP] Batch 6/18  loss=1.3343
+  [MLP] Batch 9/18  loss=1.3353
+  [MLP] Batch 12/18  loss=1.3344
+  [MLP] Batch 15/18  loss=1.3345
+  [MLP] Batch 18/18  loss=1.3318
+[MLP Epoch 16/20] loss=1.3344  (30.2s)
+
+[MLP Epoch 17/20] Run 1/1 - training...
+  [MLP] Batch 3/18  loss=1.3344
+  [MLP] Batch 6/18  loss=1.3336
+  [MLP] Batch 9/18  loss=1.3345
+  [MLP] Batch 12/18  loss=1.3339
+  [MLP] Batch 15/18  loss=1.3333
+  [MLP] Batch 18/18  loss=1.3350
+[MLP Epoch 17/20] loss=1.3339  (30.3s)
+
+[MLP Epoch 18/20] Run 1/1 - training...
+  [MLP] Batch 3/18  loss=1.3333
+  [MLP] Batch 6/18  loss=1.3340
+  [MLP] Batch 9/18  loss=1.3343
+  [MLP] Batch 12/18  loss=1.3328
+  [MLP] Batch 15/18  loss=1.3344
+  [MLP] Batch 18/18  loss=1.3352
+[MLP Epoch 18/20] loss=1.3336  (30.2s)
+
+[MLP Epoch 19/20] Run 1/1 - training...
+  [MLP] Batch 3/18  loss=1.3328
+  [MLP] Batch 6/18  loss=1.3331
+  [MLP] Batch 9/18  loss=1.3330
+  [MLP] Batch 12/18  loss=1.3327
+  [MLP] Batch 15/18  loss=1.3337
+  [MLP] Batch 18/18  loss=1.3353
+[MLP Epoch 19/20] loss=1.3334  (30.2s)
+
+[MLP Epoch 20/20] Run 1/1 - training...
+  [MLP] Batch 3/18  loss=1.3331
+  [MLP] Batch 6/18  loss=1.3324
+  [MLP] Batch 9/18  loss=1.3333
+  [MLP] Batch 12/18  loss=1.3328
+  [MLP] Batch 15/18  loss=1.3339
+  [MLP] Batch 18/18  loss=1.3345
+[MLP Epoch 20/20] loss=1.3331  (30.2s)
+  [MLP] Evaluating... (train sample: 25000+25000 | val: 561467+561467 | test: 561467+561467)
+AUC
+Run: 01, Epoch: 20, Loss: 1.3331, Train: 60.44%, Valid: 60.97%, Test: 60.88%
+C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\logger.py:45: UserWarning: std(): degrees of freedom is <= 0. Correction should be strictly less than the reduction factor (input numel divided by output numel). (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\aten\src\ATen\native\ReduceOps.cpp:1858.)
+  print(f'Highest Train: {r.mean():.2f} � {r.std():.2f}', file=f)
+C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\logger.py:47: UserWarning: std(): degrees of freedom is <= 0. Correction should be strictly less than the reduction factor (input numel divided by output numel). (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\aten\src\ATen\native\ReduceOps.cpp:1858.)
+  print(f'Highest Valid: {r.mean():.2f} � {r.std():.2f}', file=f)
+C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\logger.py:49: UserWarning: std(): degrees of freedom is <= 0. Correction should be strictly less than the reduction factor (input numel divided by output numel). (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\aten\src\ATen\native\ReduceOps.cpp:1858.)
+  print(f'  Final Train: {r.mean():.2f} � {r.std():.2f}', file=f)
+C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\logger.py:51: UserWarning: std(): degrees of freedom is <= 0. Correction should be strictly less than the reduction factor (input numel divided by output numel). (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\aten\src\ATen\native\ReduceOps.cpp:1858.)
+  print(f'   Final Test: {r.mean():.2f} � {r.std():.2f}', file=f)
+Highest Train: 61.31
+Highest Valid: 60.98
+  Final Train: 61.31
+   Final Test: 60.91
+All runs:
+Highest Train: 61.31 � nan
+Highest Valid: 60.98 � nan
+  Final Train: 61.31 � nan
+   Final Test: 60.91 � nan
+
+========================================================================
+Finished   : 2026-05-09T23:25:14.843401
+Elapsed (s): 673.6
+Return code: 0
+Best loss  : 1.331800
+Test AUC   : 60.910000

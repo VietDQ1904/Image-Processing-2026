@@ -1,0 +1,37 @@
+Task   : gnn__no_edge_attr
+Command: C:\Users\UNITY\AppData\Local\Programs\Python\Python313\python.exe C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_GNN\gnn.py --dataset ogbl-BALBc_no1_spatial_no_edge_attr --splitting_strategy spatial --eval_metric auc
+Started: 2026-05-07T03:15:02.140897
+======================================================================
+
+Error in usercustomize; set PYTHONVERBOSE for traceback:
+ModuleNotFoundError: No module named 'run_gnn_compat'
+C:\Users\UNITY\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\__init__.py:109: RequestsDependencyWarning: urllib3 (2.6.3) or chardet (6.0.0.post1)/charset_normalizer (3.4.4) doesn't match a supported version!
+  warnings.warn(
+C:\Users\UNITY\AppData\Local\Programs\Python\Python313\Lib\site-packages\outdated\__init__.py:36: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+Running on: ogbl-BALBc_no1_spatial_no_edge_attr
+Utilizing evaluation metric: auc
+Traceback (most recent call last):
+  File "C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_GNN\gnn.py", line 596, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_GNN\gnn.py", line 389, in main
+    dataset = PygLinkPropPredDataset(name=args.dataset,
+                                 transform=T.ToSparseTensor(),
+                                 root=str(Path(os.path.abspath(__file__)).parents[1])+'/dataset')
+  File "C:\Users\UNITY\AppData\Local\Programs\Python\Python313\Lib\site-packages\ogb\linkproppred\dataset_pyg.py", line 39, in __init__
+    raise ValueError(error_mssg)
+ValueError: Invalid dataset name ogbl-BALBc_no1_spatial_no_edge_attr.
+Available datasets are as follows:
+ogbl-ppa
+ogbl-collab
+ogbl-citation2
+ogbl-wikikg2
+ogbl-ddi
+ogbl-biokg
+ogbl-vessel
+
+======================================================================
+Finished   : 2026-05-07T03:15:05.748690
+Elapsed (s): 3.6
+Return code: 1

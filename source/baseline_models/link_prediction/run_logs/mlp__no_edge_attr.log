@@ -1,0 +1,250 @@
+Task   : mlp__no_edge_attr
+Model  : MLP
+Dataset: ogbl-BALBc_no1_spatial_no_edge_attr
+Script : C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\mlp.py
+Command: C:\Users\UNITY\AppData\Local\Programs\Python\Python313\python.exe C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\mlp.py --dataset ogbl-BALBc_no1_spatial_no_edge_attr --splitting_strategy spatial --eval_metric auc --epochs 20 --runs 1 --batch_size 262144 --eval_steps 5 --hidden_channels 128 --lr 0.0002
+Started: 2026-05-09T20:02:02.520847
+========================================================================
+
+[MLP] Threads: intra=20  inter=4  CUDA=False
+C:\Users\UNITY\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\__init__.py:109: RequestsDependencyWarning: urllib3 (2.6.3) or chardet (6.0.0.post1)/charset_normalizer (3.4.4) doesn't match a supported version!
+  warnings.warn(
+C:\Users\UNITY\AppData\Local\Programs\Python\Python313\Lib\site-packages\outdated\__init__.py:36: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+WARNING:root:The OGB package is out of date. Your version is 1.3.1, while the latest version is 1.3.6.
+Running on: ogbl-BALBc_no1_spatial_no_edge_attr
+Utilizing Evaluation Metric: auc
+Loading dataset...
+Results will be saved in results/ogbl-BALBc_no1_spatial_no_edge_attr_mlp_20260509200206
+Command line input: python C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\mlp.py --dataset ogbl-BALBc_no1_spatial_no_edge_attr --splitting_strategy spatial --eval_metric auc --epochs 20 --runs 1 --batch_size 262144 --eval_steps 5 --hidden_channels 128 --lr 0.0002
+ is saved.
+Loading edge split (may take a moment for large split files)...
+  Edge split loaded: train=4,276,719  val=534,589  test=534,589
+  Nodes: 3,538,495  Node-feat dim: 5
+  [MLP] Loaded node2vec embedding: C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction/OGB_Node2Vec/node2vec_ogbl-BALBc_no1_spatial_no_edge_attr.pt
+  [MLP] torch.compile: skipped (fast MLP does not benefit enough).
+  [MLP] AMP fp16 Training: OFF (CPU mode)
+
+[MLP Epoch 1/20] Run 1/1 - training...
+C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\mlp.py:97: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=scaler is not None):
+  [MLP] Batch 3/17  loss=1.3860
+  [MLP] Batch 6/17  loss=1.3849
+  [MLP] Batch 9/17  loss=1.3835
+  [MLP] Batch 12/17  loss=1.3825
+  [MLP] Batch 15/17  loss=1.3813
+  [MLP] Batch 17/17  loss=1.3804
+[MLP Epoch 1/20] loss=1.3838  (29.8s)
+
+[MLP Epoch 2/20] Run 1/1 - training...
+  [MLP] Batch 3/17  loss=1.3790
+  [MLP] Batch 6/17  loss=1.3777
+  [MLP] Batch 9/17  loss=1.3761
+  [MLP] Batch 12/17  loss=1.3749
+  [MLP] Batch 15/17  loss=1.3734
+  [MLP] Batch 17/17  loss=1.3729
+[MLP Epoch 2/20] loss=1.3765  (29.7s)
+
+[MLP Epoch 3/20] Run 1/1 - training...
+  [MLP] Batch 3/17  loss=1.3709
+  [MLP] Batch 6/17  loss=1.3702
+  [MLP] Batch 9/17  loss=1.3686
+  [MLP] Batch 12/17  loss=1.3685
+  [MLP] Batch 15/17  loss=1.3676
+  [MLP] Batch 17/17  loss=1.3659
+[MLP Epoch 3/20] loss=1.3695  (29.5s)
+
+[MLP Epoch 4/20] Run 1/1 - training...
+  [MLP] Batch 3/17  loss=1.3658
+  [MLP] Batch 6/17  loss=1.3655
+  [MLP] Batch 9/17  loss=1.3650
+  [MLP] Batch 12/17  loss=1.3651
+  [MLP] Batch 15/17  loss=1.3641
+  [MLP] Batch 17/17  loss=1.3640
+[MLP Epoch 4/20] loss=1.3655  (29.4s)
+
+[MLP Epoch 5/20] Run 1/1 - training...
+  [MLP] Batch 3/17  loss=1.3632
+  [MLP] Batch 6/17  loss=1.3637
+  [MLP] Batch 9/17  loss=1.3623
+  [MLP] Batch 12/17  loss=1.3623
+  [MLP] Batch 15/17  loss=1.3622
+  [MLP] Batch 17/17  loss=1.3612
+[MLP Epoch 5/20] loss=1.3626  (29.5s)
+  [MLP] Evaluating... (train sample: 25000+25000 | val: 534589+534589 | test: 534589+534589)
+AUC
+Run: 01, Epoch: 05, Loss: 1.3626, Train: 58.24%, Valid: 57.96%, Test: 57.96%
+
+[MLP Epoch 6/20] Run 1/1 - training...
+C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\mlp.py:97: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=scaler is not None):
+  [MLP] Batch 3/17  loss=1.3611
+  [MLP] Batch 6/17  loss=1.3607
+  [MLP] Batch 9/17  loss=1.3614
+  [MLP] Batch 12/17  loss=1.3610
+  [MLP] Batch 15/17  loss=1.3605
+  [MLP] Batch 17/17  loss=1.3601
+[MLP Epoch 6/20] loss=1.3610  (29.5s)
+
+[MLP Epoch 7/20] Run 1/1 - training...
+  [MLP] Batch 3/17  loss=1.3600
+  [MLP] Batch 6/17  loss=1.3605
+  [MLP] Batch 9/17  loss=1.3600
+  [MLP] Batch 12/17  loss=1.3599
+  [MLP] Batch 15/17  loss=1.3599
+  [MLP] Batch 17/17  loss=1.3594
+[MLP Epoch 7/20] loss=1.3602  (29.5s)
+
+[MLP Epoch 8/20] Run 1/1 - training...
+  [MLP] Batch 3/17  loss=1.3604
+  [MLP] Batch 6/17  loss=1.3597
+  [MLP] Batch 9/17  loss=1.3593
+  [MLP] Batch 12/17  loss=1.3588
+  [MLP] Batch 15/17  loss=1.3589
+  [MLP] Batch 17/17  loss=1.3589
+[MLP Epoch 8/20] loss=1.3596  (29.4s)
+
+[MLP Epoch 9/20] Run 1/1 - training...
+  [MLP] Batch 3/17  loss=1.3586
+  [MLP] Batch 6/17  loss=1.3591
+  [MLP] Batch 9/17  loss=1.3594
+  [MLP] Batch 12/17  loss=1.3585
+  [MLP] Batch 15/17  loss=1.3596
+  [MLP] Batch 17/17  loss=1.3596
+[MLP Epoch 9/20] loss=1.3592  (29.5s)
+
+[MLP Epoch 10/20] Run 1/1 - training...
+  [MLP] Batch 3/17  loss=1.3588
+  [MLP] Batch 6/17  loss=1.3586
+  [MLP] Batch 9/17  loss=1.3585
+  [MLP] Batch 12/17  loss=1.3584
+  [MLP] Batch 15/17  loss=1.3588
+  [MLP] Batch 17/17  loss=1.3576
+[MLP Epoch 10/20] loss=1.3588  (29.5s)
+  [MLP] Evaluating... (train sample: 25000+25000 | val: 534589+534589 | test: 534589+534589)
+AUC
+Run: 01, Epoch: 10, Loss: 1.3588, Train: 57.64%, Valid: 58.05%, Test: 58.04%
+
+[MLP Epoch 11/20] Run 1/1 - training...
+C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\mlp.py:97: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=scaler is not None):
+  [MLP] Batch 3/17  loss=1.3580
+  [MLP] Batch 6/17  loss=1.3584
+  [MLP] Batch 9/17  loss=1.3587
+  [MLP] Batch 12/17  loss=1.3582
+  [MLP] Batch 15/17  loss=1.3580
+  [MLP] Batch 17/17  loss=1.3574
+[MLP Epoch 11/20] loss=1.3583  (29.5s)
+
+[MLP Epoch 12/20] Run 1/1 - training...
+  [MLP] Batch 3/17  loss=1.3581
+  [MLP] Batch 6/17  loss=1.3583
+  [MLP] Batch 9/17  loss=1.3581
+  [MLP] Batch 12/17  loss=1.3586
+  [MLP] Batch 15/17  loss=1.3577
+  [MLP] Batch 17/17  loss=1.3571
+[MLP Epoch 12/20] loss=1.3581  (29.4s)
+
+[MLP Epoch 13/20] Run 1/1 - training...
+  [MLP] Batch 3/17  loss=1.3577
+  [MLP] Batch 6/17  loss=1.3582
+  [MLP] Batch 9/17  loss=1.3578
+  [MLP] Batch 12/17  loss=1.3581
+  [MLP] Batch 15/17  loss=1.3576
+  [MLP] Batch 17/17  loss=1.3591
+[MLP Epoch 13/20] loss=1.3578  (29.4s)
+
+[MLP Epoch 14/20] Run 1/1 - training...
+  [MLP] Batch 3/17  loss=1.3579
+  [MLP] Batch 6/17  loss=1.3568
+  [MLP] Batch 9/17  loss=1.3580
+  [MLP] Batch 12/17  loss=1.3571
+  [MLP] Batch 15/17  loss=1.3581
+  [MLP] Batch 17/17  loss=1.3576
+[MLP Epoch 14/20] loss=1.3576  (29.5s)
+
+[MLP Epoch 15/20] Run 1/1 - training...
+  [MLP] Batch 3/17  loss=1.3574
+  [MLP] Batch 6/17  loss=1.3578
+  [MLP] Batch 9/17  loss=1.3568
+  [MLP] Batch 12/17  loss=1.3573
+  [MLP] Batch 15/17  loss=1.3564
+  [MLP] Batch 17/17  loss=1.3570
+[MLP Epoch 15/20] loss=1.3574  (29.5s)
+  [MLP] Evaluating... (train sample: 25000+25000 | val: 534589+534589 | test: 534589+534589)
+AUC
+Run: 01, Epoch: 15, Loss: 1.3574, Train: 58.44%, Valid: 58.08%, Test: 58.05%
+
+[MLP Epoch 16/20] Run 1/1 - training...
+C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\mlp.py:97: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=scaler is not None):
+  [MLP] Batch 3/17  loss=1.3566
+  [MLP] Batch 6/17  loss=1.3570
+  [MLP] Batch 9/17  loss=1.3571
+  [MLP] Batch 12/17  loss=1.3574
+  [MLP] Batch 15/17  loss=1.3568
+  [MLP] Batch 17/17  loss=1.3571
+[MLP Epoch 16/20] loss=1.3571  (29.5s)
+
+[MLP Epoch 17/20] Run 1/1 - training...
+  [MLP] Batch 3/17  loss=1.3571
+  [MLP] Batch 6/17  loss=1.3572
+  [MLP] Batch 9/17  loss=1.3566
+  [MLP] Batch 12/17  loss=1.3572
+  [MLP] Batch 15/17  loss=1.3573
+  [MLP] Batch 17/17  loss=1.3575
+[MLP Epoch 17/20] loss=1.3570  (29.5s)
+
+[MLP Epoch 18/20] Run 1/1 - training...
+  [MLP] Batch 3/17  loss=1.3572
+  [MLP] Batch 6/17  loss=1.3577
+  [MLP] Batch 9/17  loss=1.3562
+  [MLP] Batch 12/17  loss=1.3561
+  [MLP] Batch 15/17  loss=1.3559
+  [MLP] Batch 17/17  loss=1.3569
+[MLP Epoch 18/20] loss=1.3569  (29.5s)
+
+[MLP Epoch 19/20] Run 1/1 - training...
+  [MLP] Batch 3/17  loss=1.3569
+  [MLP] Batch 6/17  loss=1.3575
+  [MLP] Batch 9/17  loss=1.3566
+  [MLP] Batch 12/17  loss=1.3568
+  [MLP] Batch 15/17  loss=1.3569
+  [MLP] Batch 17/17  loss=1.3550
+[MLP Epoch 19/20] loss=1.3567  (29.5s)
+
+[MLP Epoch 20/20] Run 1/1 - training...
+  [MLP] Batch 3/17  loss=1.3565
+  [MLP] Batch 6/17  loss=1.3560
+  [MLP] Batch 9/17  loss=1.3566
+  [MLP] Batch 12/17  loss=1.3567
+  [MLP] Batch 15/17  loss=1.3565
+  [MLP] Batch 17/17  loss=1.3562
+[MLP Epoch 20/20] loss=1.3565  (29.4s)
+  [MLP] Evaluating... (train sample: 25000+25000 | val: 534589+534589 | test: 534589+534589)
+AUC
+Run: 01, Epoch: 20, Loss: 1.3565, Train: 58.28%, Valid: 58.09%, Test: 58.06%
+C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\logger.py:45: UserWarning: std(): degrees of freedom is <= 0. Correction should be strictly less than the reduction factor (input numel divided by output numel). (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\aten\src\ATen\native\ReduceOps.cpp:1858.)
+  print(f'Highest Train: {r.mean():.2f} � {r.std():.2f}', file=f)
+C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\logger.py:47: UserWarning: std(): degrees of freedom is <= 0. Correction should be strictly less than the reduction factor (input numel divided by output numel). (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\aten\src\ATen\native\ReduceOps.cpp:1858.)
+  print(f'Highest Valid: {r.mean():.2f} � {r.std():.2f}', file=f)
+C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\logger.py:49: UserWarning: std(): degrees of freedom is <= 0. Correction should be strictly less than the reduction factor (input numel divided by output numel). (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\aten\src\ATen\native\ReduceOps.cpp:1858.)
+  print(f'  Final Train: {r.mean():.2f} � {r.std():.2f}', file=f)
+C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\logger.py:51: UserWarning: std(): degrees of freedom is <= 0. Correction should be strictly less than the reduction factor (input numel divided by output numel). (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\aten\src\ATen\native\ReduceOps.cpp:1858.)
+  print(f'   Final Test: {r.mean():.2f} � {r.std():.2f}', file=f)
+Highest Train: 58.44
+Highest Valid: 58.09
+  Final Train: 58.44
+   Final Test: 58.05
+All runs:
+Highest Train: 58.44 � nan
+Highest Valid: 58.09 � nan
+  Final Train: 58.28 � nan
+   Final Test: 58.06 � nan
+
+========================================================================
+Finished   : 2026-05-09T20:12:04.371482
+Elapsed (s): 601.9
+Return code: 0
+Best loss  : 1.355000
+Test AUC   : 58.060000

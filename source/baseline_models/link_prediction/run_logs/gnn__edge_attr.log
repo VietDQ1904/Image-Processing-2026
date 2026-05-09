@@ -1,0 +1,27 @@
+Task   : gnn__edge_attr
+Command: C:\Users\UNITY\AppData\Local\Programs\Python\Python313\python.exe C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_GNN\gnn.py --dataset ogbl-BALBc_no1_spatial_edge_attr --splitting_strategy spatial --eval_metric auc
+Started: 2026-05-07T13:54:12.117190
+======================================================================
+
+C:\Users\UNITY\AppData\Local\Programs\Python\Python313\Lib\site-packages\requests\__init__.py:109: RequestsDependencyWarning: urllib3 (2.6.3) or chardet (6.0.0.post1)/charset_normalizer (3.4.4) doesn't match a supported version!
+  warnings.warn(
+C:\Users\UNITY\AppData\Local\Programs\Python\Python313\Lib\site-packages\outdated\__init__.py:36: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import parse_version
+WARNING:root:The OGB package is out of date. Your version is 1.3.1, while the latest version is 1.3.6.
+Running on: ogbl-BALBc_no1_spatial_edge_attr
+Utilizing evaluation metric: auc
+Loading dataset and converting to sparse tensor (may take a while)...
+C:\Users\UNITY\AppData\Local\Programs\Python\Python313\Lib\site-packages\torch_geometric\utils\sparse.py:276: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\aten\src\ATen\Context.cpp:767.)
+  adj = torch.sparse_csr_tensor(
+C:\Users\UNITY\AppData\Local\Programs\Python\Python313\Lib\site-packages\torch_geometric\utils\sparse.py:276: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\aten\src\ATen\SparseCsrTensorImpl.cpp:51.)
+  adj = torch.sparse_csr_tensor(
+Dataset loaded.
+Normalizing node features...
+Moving data to device...
+Loading edge splits...
+Setup complete. Starting training...
+forrtl: error (200): program aborting due to window-CLOSE event
+Image              PC                Routine            Line        Source             
+KERNELBASE.dll     00007FFB0A7AC203  Unknown               Unknown  Unknown
+KERNEL32.DLL       00007FFB0BAD7374  Unknown               Unknown  Unknown
+ntdll.dll          00007FFB0CC9CC91  Unknown               Unknown  Unknown
