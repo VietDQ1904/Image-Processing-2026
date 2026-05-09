@@ -3,11 +3,12 @@
 # LICENSE file in the root directory of this source tree.
 
 import argparse
+import json
 import time
 import sys
 from pathlib import Path
 import os
-sys.path.append(str(Path(os.path.abspath(__file__)).parents[3]))
+sys.path.insert(0, str(Path(os.path.abspath(__file__)).parents[3]))
 import os.path as osp
 from shutil import copy
 import copy as cp
@@ -18,14 +19,41 @@ from posixpath import split
 import numpy as np
 from sklearn.metrics import roc_auc_score
 import scipy.sparse as ssp
+
+# Su dung toan bo CPU (BEFORE torch import). setdefault = runner co the override.
+_n_threads = str(os.cpu_count() or 4)
+os.environ.setdefault("OMP_NUM_THREADS",        _n_threads)
+os.environ.setdefault("OPENBLAS_NUM_THREADS",   _n_threads)
+os.environ.setdefault("MKL_NUM_THREADS",        _n_threads)
+os.environ.setdefault("VECLIB_MAXIMUM_THREADS", _n_threads)
+os.environ.setdefault("NUMEXPR_NUM_THREADS",    _n_threads)
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+os.environ["KMP_INIT_AT_FORK"]     = "FALSE"
+os.environ["KMP_BLOCKTIME"]        = "0"
+
 import torch
+
+# Patch torch.load for PyTorch >= 2.0 (weights_only=True default breaks loading)
+_orig_load = torch.load
+def _safe_load(*a, **kw):
+    kw['weights_only'] = False
+    return _orig_load(*a, **kw)
+torch.load = _safe_load
+
 from torch.nn import BCEWithLogitsLoss
 from torch.utils.data import DataLoader
 
-from torch_sparse import coalesce
+try:
+    from torch_sparse import coalesce
+except ImportError:
+    # torch_sparse not installed – fall back to torch_geometric.utils
+    from torch_geometric.utils import coalesce as _pyg_coalesce
+    def coalesce(edge_index, edge_attr, m, n, op="add"):
+        return _pyg_coalesce(edge_index, edge_attr, num_nodes=m, reduce=op)
 import torch_geometric.transforms as T
 from torch_geometric.datasets import Planetoid
-from torch_geometric.data import Data, Dataset, InMemoryDataset, DataLoader
+from torch_geometric.data import Data, Dataset, InMemoryDataset
+from torch_geometric.loader import DataLoader
 from torch_geometric.utils import to_networkx, to_undirected
 
 from ogb.linkproppred import PygLinkPropPredDataset, Evaluator
@@ -196,18 +224,31 @@ def train():
 
     total_loss = 0
     pbar = tqdm(train_loader, ncols=70)
-    for data in pbar:
-        data = data.to(device)
-        optimizer.zero_grad()
+    optimizer.zero_grad(set_to_none=True)  # set_to_none avoids memset, slightly faster
+    for step, data in enumerate(pbar):
+        # non_blocking=True: async H->D transfer overlaps with CPU work (needs pin_memory=True)
+        data = data.to(device, non_blocking=True)
         x = data.x if args.use_feature else None
         edge_weight = data.edge_weight if args.use_edge_weight else None
         node_id = data.node_id if emb else None
         edge_attr = data.edge_attr if args.use_edge_attr else None
-        logits = model(data.z, data.edge_index, data.batch, x, edge_weight, node_id, edge_attr)
-        loss = BCEWithLogitsLoss()(logits.view(-1), data.y.to(torch.float))
-        loss.backward()
-        optimizer.step()
-        total_loss += loss.item() * data.num_graphs
+        with torch.cuda.amp.autocast(enabled=_use_amp):
+            logits = model(data.z, data.edge_index, data.batch, x, edge_weight, node_id, edge_attr)
+            loss = BCEWithLogitsLoss()(logits.view(-1), data.y.to(torch.float))
+            loss = loss / args.grad_accum_steps  # normalize before accumulate
+        if _use_amp:
+            _scaler.scale(loss).backward()
+        else:
+            loss.backward()
+        # Step only every N batches (or on the final batch)
+        if (step + 1) % args.grad_accum_steps == 0 or (step + 1) == len(train_loader):
+            if _use_amp:
+                _scaler.step(optimizer)
+                _scaler.update()
+            else:
+                optimizer.step()
+            optimizer.zero_grad(set_to_none=True)
+        total_loss += loss.item() * args.grad_accum_steps * data.num_graphs
 
     return total_loss / len(train_dataset)
 
@@ -216,9 +257,15 @@ def train():
 def test():
     model.eval()
 
+    # Sample only the first TRAIN_EVAL_BATCHES batches of train_loader for a fast
+    # AUC estimate. Scanning the entire train set would cost as much as one
+    # full training epoch and is the main bottleneck during evaluation.
+    TRAIN_EVAL_BATCHES = 20  # ~20 * batch_size samples; enough for reliable AUC
     y_pred, y_true = [], []
-    for data in tqdm(train_loader, ncols=70):
-        data = data.to(device)
+    for i, data in enumerate(train_loader):
+        if i >= TRAIN_EVAL_BATCHES:
+            break
+        data = data.to(device, non_blocking=True)
         x = data.x if args.use_feature else None
         edge_weight = data.edge_weight if args.use_edge_weight else None
         node_id = data.node_id if emb else None
@@ -232,7 +279,7 @@ def test():
 
     y_pred, y_true = [], []
     for data in tqdm(val_loader, ncols=70):
-        data = data.to(device)
+        data = data.to(device, non_blocking=True)
         x = data.x if args.use_feature else None
         edge_weight = data.edge_weight if args.use_edge_weight else None
         node_id = data.node_id if emb else None
@@ -246,7 +293,7 @@ def test():
 
     y_pred, y_true = [], []
     for data in tqdm(test_loader, ncols=70):
-        data = data.to(device)
+        data = data.to(device, non_blocking=True)
         x = data.x if args.use_feature else None
         edge_weight = data.edge_weight if args.use_edge_weight else None
         node_id = data.node_id if emb else None
@@ -409,6 +456,8 @@ parser.add_argument('--dynamic_val', action='store_true')
 parser.add_argument('--dynamic_test', action='store_true')
 parser.add_argument('--num_workers', type=int, default=16, 
                     help="number of workers for dynamic mode; 0 if not dynamic")
+parser.add_argument('--grad_accum_steps', type=int, default=1,
+                    help="accumulate gradients over N batches (simulates batch_size*N without extra VRAM)")
 parser.add_argument('--train_node_embedding', action='store_true', 
                     help="also train free-parameter node embeddings together with GNN")
 parser.add_argument('--pretrained_node_embedding', type=str, default=None, 
@@ -529,6 +578,13 @@ elif args.eval_metric == 'auc':
     }
     
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+_use_amp = torch.cuda.is_available()
+_scaler  = torch.cuda.amp.GradScaler(enabled=_use_amp)
+if _use_amp:
+    torch.backends.cuda.matmul.allow_tf32 = True   # Tensor Cores cho matmul
+    torch.backends.cudnn.allow_tf32       = True   # Tensor Cores cho conv
+    torch.backends.cudnn.benchmark        = True   # Auto-tune cuDNN kernels
+print(f'[SEAL] Device={device}  AMP fp16: {"ON  -> RTX Tensor Cores active" if _use_amp else "OFF"}', flush=True)
 
 if args.use_heuristic:
     # Test link prediction heuristics.
@@ -596,6 +652,7 @@ if not args.dynamic_train and not args.dynamic_val and not args.dynamic_test:
     args.num_workers = 0
 
 dataset_class = 'SEALDynamicDataset' if args.dynamic_train else 'SEALDataset'
+print(f'[SEAL] Building train dataset ({dataset_class})... this may take a long time.', flush=True)
 train_dataset = eval(dataset_class)(
     path, 
     data, 
@@ -611,6 +668,7 @@ train_dataset = eval(dataset_class)(
     splitting_strategy = args.splitting_strategy,
     use_edge_feature=use_edge_feature,
 ) 
+print(f'[SEAL] Train dataset ready: {len(train_dataset)} samples.', flush=True)
 if False:  # visualize some graphs
     import networkx as nx
     from torch_geometric.utils import to_networkx
@@ -631,6 +689,7 @@ if False:  # visualize some graphs
         f.savefig('tmp_vis.png')
 
 dataset_class = 'SEALDynamicDataset' if args.dynamic_val else 'SEALDataset'
+print(f'[SEAL] Building val dataset ({dataset_class})...', flush=True)
 val_dataset = eval(dataset_class)(
     path, 
     data, 
@@ -646,7 +705,9 @@ val_dataset = eval(dataset_class)(
     splitting_strategy = args.splitting_strategy,
     use_edge_feature=use_edge_feature,
 )
+print(f'[SEAL] Val dataset ready: {len(val_dataset)} samples.', flush=True)
 dataset_class = 'SEALDynamicDataset' if args.dynamic_test else 'SEALDataset'
+print(f'[SEAL] Building test dataset ({dataset_class})...', flush=True)
 test_dataset = eval(dataset_class)(
     path, 
     data, 
@@ -662,15 +723,27 @@ test_dataset = eval(dataset_class)(
     splitting_strategy = args.splitting_strategy,
     use_edge_feature=use_edge_feature,
 )
-
+print(f'[SEAL] Test dataset ready: {len(test_dataset)} samples.', flush=True)
 max_z = 1000  # set a large max_z so that every z has embeddings to look up
 
-train_loader = DataLoader(train_dataset, batch_size=args.batch_size, 
-                          shuffle=True, num_workers=args.num_workers)
-val_loader = DataLoader(val_dataset, batch_size=args.batch_size, 
-                        num_workers=args.num_workers)
-test_loader = DataLoader(test_dataset, batch_size=args.batch_size, 
-                         num_workers=args.num_workers)
+# pin_memory: avoids one CPU copy when transferring tensors to GPU (CUDA page-locked memory)
+# persistent_workers: keeps worker processes alive across epochs (avoids re-spawn overhead)
+# prefetch_factor: each worker prefetches N batches ahead, hides I/O latency
+_pin = torch.cuda.is_available()
+_pw  = args.num_workers > 0   # persistent_workers requires num_workers > 0
+_pf  = 4 if _pw else None     # prefetch_factor requires num_workers > 0
+train_loader = DataLoader(train_dataset, batch_size=args.batch_size,
+                          shuffle=True, num_workers=args.num_workers,
+                          pin_memory=_pin, persistent_workers=_pw,
+                          prefetch_factor=_pf)
+val_loader   = DataLoader(val_dataset, batch_size=args.batch_size,
+                          num_workers=args.num_workers,
+                          pin_memory=_pin, persistent_workers=_pw,
+                          prefetch_factor=_pf)
+test_loader  = DataLoader(test_dataset, batch_size=args.batch_size,
+                          num_workers=args.num_workers,
+                          pin_memory=_pin, persistent_workers=_pw,
+                          prefetch_factor=_pf)
 
 if args.train_node_embedding:
     emb = torch.nn.Embedding(data.num_nodes, args.hidden_channels).to(device)
@@ -793,10 +866,13 @@ for run in range(args.runs):
     # Training starts
     best_val = 0.0
     for epoch in range(start_epoch, start_epoch + args.epochs):
+        print(f'\n[SEAL Epoch {epoch}/{start_epoch + args.epochs - 1}] Run {run+1}/{args.runs} - training...', flush=True)
         loss = train()
+        print(f'[SEAL Epoch {epoch}] loss={loss:.4f}', flush=True)
         writer.add_scalar('loss', loss, epoch)
 
         if epoch % args.eval_steps == 0:
+            print(f'[SEAL Epoch {epoch}] Evaluating...', flush=True)
             results = test()
             for key, result in results.items():
                 loggers[key].add_result(run, result)
@@ -821,11 +897,27 @@ for run in range(args.runs):
                     to_print = (f'Run: {run + 1:02d}, Epoch: {epoch:02d}, ' +
                                 f'Loss: {loss:.4f}, Train: {100 * train_res:.2f}%, ' +f'Valid: {100 * valid_res:.2f}%, ' +
                                 f'Test: {100 * test_res:.2f}%')
-                    print(key)
-                    print(to_print)
+                    print(key, flush=True)
+                    print(to_print, flush=True)
                     with open(log_file, 'a') as f:
                         print(key, file=f)
                         print(to_print, file=f)
+
+                # --- Crash-safe: flush results to JSON immediately after each eval ---
+                _live_path = os.path.join(args.res_dir, 'results_live.json')
+                try:
+                    with open(_live_path, 'r', encoding='utf-8') as _f:
+                        _live = json.load(_f)
+                except (FileNotFoundError, ValueError):
+                    _live = {}
+                _run_key = f'run{run + 1}'
+                _live.setdefault(_run_key, {})[f'epoch{epoch:03d}'] = {
+                    'loss': round(loss, 6),
+                    **{k: [round(float(x), 6) for x in v] for k, v in results.items()}
+                }
+                with open(_live_path, 'w', encoding='utf-8') as _f:
+                    json.dump(_live, _f, indent=2)
+                # ------------------------------------------------------------------
 
     for key in loggers.keys():
         print(key)

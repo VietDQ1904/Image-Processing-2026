@@ -1,0 +1,1 @@
+python C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\SEAL_OGB\seal_link_pred.py --dataset ogbl-BALBc_no1_spatial_edge_attr --splitting_strategy spatial --use_edge_attr --epochs 20 --runs 1 --batch_size 512 --eval_steps 5 --train_percent 5 --val_percent 5 --test_percent 5 --max_nodes_per_hop 50 --num_workers 4

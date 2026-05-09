@@ -148,10 +148,13 @@ class DGCNN(torch.nn.Module):
                 k = 30
             else:
                 if dynamic_train:
-                    sampled_train = train_dataset[:1000]
+                    n = min(1000, train_dataset.len())
                 else:
-                    sampled_train = train_dataset
-                num_nodes = sorted([g.num_nodes for g in sampled_train])
+                    n = train_dataset.len()
+                # Use get() directly to bypass PyG 2.7 __iter__/__getitem__
+                # index chain which has a compatibility issue with InMemoryDataset
+                num_nodes = sorted([train_dataset.get(i).num_nodes
+                                    for i in range(n)])
                 k = num_nodes[int(math.ceil(k * len(num_nodes))) - 1]
                 k = max(10, k)
         self.k = int(k)

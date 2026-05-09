@@ -1,0 +1,19 @@
+
+python C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\SEAL_OGB\seal_link_pred.py --dataset ogbl-BALBc_no1_spatial_edge_attr --splitting_strategy spatial --use_edge_attr --epochs 20 --runs 1 --batch_size 1024 --eval_steps 10 --train_percent 5 --val_percent 5 --test_percent 5 --max_nodes_per_hop 50 --sortpool_k 0.5 --num_workers 8
+Total number of parameters is 43714
+SortPooling k is set to 10
+AUC
+Run: 01, Epoch: 10, Loss: 0.5188, Train: 80.30%, Valid: 80.65%, Test: 80.79%
+AUC
+Run: 01, Epoch: 20, Loss: 0.5173, Train: 80.32%, Valid: 80.78%, Test: 80.90%
+AUC
+Highest Train: 80.32
+Highest Valid: 80.78
+  Final Train: 80.32
+   Final Test: 80.90
+AUC
+All runs:
+Highest Train: 80.32 ± nan
+Highest Valid: 80.78 ± nan
+  Final Train: 80.32 ± nan
+   Final Test: 80.90 ± nan

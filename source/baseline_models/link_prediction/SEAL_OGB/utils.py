@@ -4,15 +4,19 @@
 
 import sys
 import math
+import time
 from tqdm import tqdm
 import random
 import numpy as np
 import scipy.sparse as ssp
 from scipy.sparse.csgraph import shortest_path
 import torch
-from torch_sparse import spspmm
+try:
+    from torch_sparse import spspmm
+except ImportError:
+    spspmm = None  # torch_sparse not installed; spspmm is unused in this codebase
 import torch_geometric
-from torch_geometric.data import DataLoader
+from torch_geometric.loader import DataLoader
 from torch_geometric.data import Data
 from torch_geometric.utils import (negative_sampling, add_self_loops,
                                    train_test_split_edges)
@@ -199,12 +203,22 @@ def extract_enclosing_subgraphs(link_index, A, x, edge_attr,y, num_hops, node_la
                                 directed=False, A_csc=None,map=None,use_edge_feature=False):
     # Extract enclosing subgraphs from A for all links in link_index.
     data_list = []
-    for src, dst in tqdm(link_index.t().tolist()):
+    links = link_index.t().tolist()
+    n = len(links)
+    _t0 = time.time()
+    _report = max(1, n // 20)  # print every 5%
+    print(f'[extract] {n} links to process...', flush=True)
+    for i, (src, dst) in enumerate(links):
         tmp = k_hop_subgraph(src, dst, num_hops, A, ratio_per_hop, 
                              max_nodes_per_hop, node_features=x, y=y, 
                              directed=directed, A_csc=A_csc,edge_features=edge_attr, map=map)
         data = construct_pyg_graph(*tmp, node_label,use_edge_feature=use_edge_feature)
         data_list.append(data)
+        if (i + 1) % _report == 0 or i == n - 1:
+            elapsed = time.time() - _t0
+            rate = (i + 1) / elapsed if elapsed > 0 else 0
+            eta = (n - i - 1) / rate if rate > 0 else 0
+            print(f'[extract] {i+1}/{n} ({100*(i+1)//n}%) | {rate:.1f} it/s | ETA {eta:.0f}s', flush=True)
 
     return data_list
 

@@ -1,0 +1,2 @@
+
+python C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\SEAL_OGB\seal_link_pred.py --dataset ogbl-BALBc_no1_spatial_no_edge_attr --splitting_strategy spatial --epochs 50 --runs 3 --batch_size 512 --eval_steps 5 --dynamic_train --dynamic_val --dynamic_test --num_workers 0

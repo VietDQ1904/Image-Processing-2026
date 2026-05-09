@@ -1,0 +1,1 @@
+python C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\SEAL_OGB\seal_link_pred.py --dataset ogbl-BALBc_no1 --num_hops 1 --runs 1 --epochs 20 --num_workers 4 --train_percent 5.0 --use_feature
