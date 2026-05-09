@@ -1,0 +1,5 @@
+
+python C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_GNN\gnn.py --dataset ogbl-BALBc_no1_spatial_edge_attr --splitting_strategy spatial --eval_metric auc
+Run: 01, Epoch: 01, Loss: 1.3878, Train: 48.66%, Valid: 50.58%, Test: 50.71%
+Run: 01, Epoch: 02, Loss: 1.3874, Train: 49.17%, Valid: 50.30%, Test: 50.31%
+Run: 01, Epoch: 03, Loss: 1.3870, Train: 49.72%, Valid: 49.99%, Test: 49.93%

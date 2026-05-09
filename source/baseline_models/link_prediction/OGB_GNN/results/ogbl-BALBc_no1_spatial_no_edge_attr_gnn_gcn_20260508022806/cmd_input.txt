@@ -1,0 +1,1 @@
+python C:\Users\Administrator\Downloads\Image-Processing-2026\Image-Processing-2026\source\baseline_models\link_prediction\OGB_GNN\gnn.py --dataset ogbl-BALBc_no1_spatial_no_edge_attr --splitting_strategy spatial --eval_metric auc --hidden_channels 64 --num_layers 1 --runs 3 --epochs 50

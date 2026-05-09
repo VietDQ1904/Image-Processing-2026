@@ -4,17 +4,44 @@ import os
 from pathlib import Path
 sys.path.append(str(Path(os.path.abspath(__file__)).parents[3]))
 
-os.environ["OMP_NUM_THREADS"] = "2" # export OMP_NUM_THREADS=1
-os.environ["OPENBLAS_NUM_THREADS"] = "2" # export OPENBLAS_NUM_THREADS=1
-os.environ["MKL_NUM_THREADS"] = "2" # export MKL_NUM_THREADS=1
-os.environ["VECLIB_MAXIMUM_THREADS"] = "2" # export VECLIB_MAXIMUM_THREADS=1
-os.environ["NUMEXPR_NUM_THREADS"] = "2" # export NUMEXPR_NUM_THREADS=1
-
+# Su dung toan bo CPU cho toc do toi da (MUST be before torch import)
+_n_threads = str(os.cpu_count() or 4)
+os.environ.setdefault("OMP_NUM_THREADS",        _n_threads)
+os.environ.setdefault("OPENBLAS_NUM_THREADS",   _n_threads)
+os.environ.setdefault("MKL_NUM_THREADS",        _n_threads)
+os.environ.setdefault("VECLIB_MAXIMUM_THREADS", _n_threads)
+os.environ.setdefault("NUMEXPR_NUM_THREADS",    _n_threads)
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+os.environ["KMP_INIT_AT_FORK"]     = "FALSE"
+os.environ["KMP_BLOCKTIME"]        = "0"    # OMP threads khong spin-wait -> giam latency
 
 import argparse
 import time
 from shutil import copy
 import torch
+
+# Ep dung het luong CPU ngay sau import (truoc bat ky tensor op nao)
+_nt = int(os.environ.get("OMP_NUM_THREADS", 1))
+torch.set_num_threads(_nt)
+torch.set_num_interop_threads(max(1, min(4, _nt // 4)))  # inter-op: 2-4 la du
+try:
+    torch.backends.mkldnn.enabled = True   # Intel oneDNN acceleration
+except Exception:
+    pass
+_use_cuda = torch.cuda.is_available()
+if _use_cuda:
+    torch.backends.cuda.matmul.allow_tf32 = True   # Tensor Cores cho matmul
+    torch.backends.cudnn.allow_tf32       = True   # Tensor Cores cho conv
+    torch.backends.cudnn.benchmark        = True   # Auto-tune cuDNN kernels
+print(f'[MF] Threads: intra={torch.get_num_threads()}  inter={torch.get_num_interop_threads()}  CUDA={_use_cuda}', flush=True)
+
+# Patch torch.load for PyTorch >= 2.0 (weights_only=True default breaks loading)
+_orig_load = torch.load
+def _safe_load(*a, **kw):
+    kw['weights_only'] = False
+    return _orig_load(*a, **kw)
+torch.load = _safe_load
+
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
 
@@ -93,48 +120,57 @@ class LinkPredictor(torch.nn.Module):
         return torch.sigmoid(x)
 
 
-def train(x, predictor, split_edge, optimizer, batch_size,splitting_strategy):
+def train(x, predictor, split_edge, optimizer, batch_size, splitting_strategy, scaler=None):
     predictor.train()
 
     pos_train_edge = split_edge['train']['edge'].to(x.device)
 
     if splitting_strategy == 'spatial':
+        neg_train_edge = split_edge['train']['edge_neg'].to(x.device)
 
-        neg_train_edge = split_edge['train']['edge_neg'].to(x.device) # modified
-
+    batches = list(DataLoader(range(pos_train_edge.size(0)), batch_size,
+                              shuffle=True, num_workers=0))
+    n_batches = len(batches)
     total_loss = total_examples = 0
-    for perm in DataLoader(range(pos_train_edge.size(0)), batch_size,
-                           shuffle=True):
+
+    for i, perm in enumerate(batches):
         optimizer.zero_grad()
 
-        edge = pos_train_edge[perm].t()
-        pos_out = predictor(x[edge[0]], x[edge[1]])
-        pos_loss = -torch.log(pos_out + 1e-15).mean()
+        with torch.cuda.amp.autocast(enabled=scaler is not None):
+            edge = pos_train_edge[perm].t()
+            pos_out = predictor(x[edge[0]], x[edge[1]])
+            pos_loss = -torch.log(pos_out + 1e-15).mean()
 
-        if splitting_strategy == 'random':
+            if splitting_strategy == 'random':
+                edge = torch.randint(0, x.size(0), edge.size(), dtype=torch.long,
+                                     device=x.device)
+                neg_out = predictor(x[edge[0]], x[edge[1]])
+                neg_loss = -torch.log(1 - neg_out + 1e-15).mean()
 
-            # Just do some trivial random sampling.
-            edge = torch.randint(0, x.size(0), edge.size(), dtype=torch.long,
-                                device=x.device)
-            neg_out = predictor(x[edge[0]], x[edge[1]])
-            neg_loss = -torch.log(1 - neg_out + 1e-15).mean()
+            elif splitting_strategy == 'spatial':
+                edge = neg_train_edge[perm].t()
+                neg_out = predictor(x[edge[0]], x[edge[1]])
+                neg_loss = -torch.log(1 - neg_out + 1e-15).mean()
 
-        elif splitting_strategy == 'spatial':
-            edge = neg_train_edge[perm].t()
-            neg_out = predictor(x[edge[0]], x[edge[1]])
-            neg_loss = -torch.log(1 - neg_out + 1e-15).mean()
+            else:
+                raise ValueError("Splitting Strategy not defined!")
 
+            loss = pos_loss + neg_loss
+
+        if scaler is not None:
+            scaler.scale(loss).backward()
+            scaler.step(optimizer)
+            scaler.update()
         else:
-            raise ValueError("Splitting Strategy not defined!")
-
-
-        loss = pos_loss + neg_loss
-        loss.backward()
-        optimizer.step()
+            loss.backward()
+            optimizer.step()
 
         num_examples = pos_out.size(0)
         total_loss += loss.item() * num_examples
         total_examples += num_examples
+
+        if (i + 1) % max(1, n_batches // 5) == 0 or (i + 1) == n_batches:
+            print(f'  [MF] Batch {i+1}/{n_batches}  loss={loss.item():.4f}', flush=True)
 
     return total_loss / total_examples
 
@@ -150,38 +186,39 @@ def test(x, predictor, split_edge, evaluator, batch_size,eval_metric):
     pos_test_edge = split_edge['test']['edge'].to(x.device)
     neg_test_edge = split_edge['test']['edge_neg'].to(x.device)
 
+    print('  [MF] Evaluating...', flush=True)
     pos_train_preds = []
-    for perm in DataLoader(range(pos_train_edge.size(0)), batch_size):
+    for perm in DataLoader(range(pos_train_edge.size(0)), batch_size, num_workers=0):
         edge = pos_train_edge[perm].t()
         pos_train_preds += [predictor(x[edge[0]], x[edge[1]]).squeeze().cpu()]
     pos_train_pred = torch.cat(pos_train_preds, dim=0)
 
     neg_train_preds = []
-    for perm in DataLoader(range(neg_train_edge.size(0)), batch_size):
+    for perm in DataLoader(range(neg_train_edge.size(0)), batch_size, num_workers=0):
         edge = neg_train_edge[perm].t()
         neg_train_preds += [predictor(x[edge[0]], x[edge[1]]).squeeze().cpu()]
     neg_train_pred = torch.cat(neg_train_preds, dim=0)
 
     pos_valid_preds = []
-    for perm in DataLoader(range(pos_valid_edge.size(0)), batch_size):
+    for perm in DataLoader(range(pos_valid_edge.size(0)), batch_size, num_workers=0):
         edge = pos_valid_edge[perm].t()
         pos_valid_preds += [predictor(x[edge[0]], x[edge[1]]).squeeze().cpu()]
     pos_valid_pred = torch.cat(pos_valid_preds, dim=0)
 
     neg_valid_preds = []
-    for perm in DataLoader(range(neg_valid_edge.size(0)), batch_size):
+    for perm in DataLoader(range(neg_valid_edge.size(0)), batch_size, num_workers=0):
         edge = neg_valid_edge[perm].t()
         neg_valid_preds += [predictor(x[edge[0]], x[edge[1]]).squeeze().cpu()]
     neg_valid_pred = torch.cat(neg_valid_preds, dim=0)
 
     pos_test_preds = []
-    for perm in DataLoader(range(pos_test_edge.size(0)), batch_size):
+    for perm in DataLoader(range(pos_test_edge.size(0)), batch_size, num_workers=0):
         edge = pos_test_edge[perm].t()
         pos_test_preds += [predictor(x[edge[0]], x[edge[1]]).squeeze().cpu()]
     pos_test_pred = torch.cat(pos_test_preds, dim=0)
 
     neg_test_preds = []
-    for perm in DataLoader(range(neg_test_edge.size(0)), batch_size):
+    for perm in DataLoader(range(neg_test_edge.size(0)), batch_size, num_workers=0):
         edge = neg_test_edge[perm].t()
         neg_test_preds += [predictor(x[edge[0]], x[edge[1]]).squeeze().cpu()]
     neg_test_pred = torch.cat(neg_test_preds, dim=0)
@@ -285,8 +322,19 @@ def main():
     predictor = LinkPredictor(args.hidden_channels, args.hidden_channels, 1,
                               args.num_layers, args.dropout).to(device)
 
+    # torch.compile: fuse ops, giam overhead kernel launch (PyTorch 2.0+)
+    _compile_backend = 'cudagraphs' if torch.cuda.is_available() else 'aot_eager'
+    try:
+        predictor = torch.compile(predictor, backend=_compile_backend, fullgraph=False)
+        print(f'  [MF] torch.compile enabled ({_compile_backend}).', flush=True)
+    except Exception as _ce:
+        print(f'  [MF] torch.compile skipped: {_ce}', flush=True)
+
     evaluator = Evaluator(name=args.dataset)
     logger = Logger(args.runs, args)
+
+    _scaler = torch.cuda.amp.GradScaler() if torch.cuda.is_available() else None
+    print(f'  [MF] AMP fp16 Training: {"ON  -> RTX Tensor Cores active" if _scaler else "OFF (CPU mode)"}', flush=True)
 
     for run in range(args.runs):
         # instantiate tensorboard writer
@@ -335,12 +383,15 @@ def main():
         best_val = 0.0
         best_epoch = 0
         for epoch in range(1, 1 + args.epochs):
+            t_epoch = time.time()
+            print(f'\n[MF Epoch {epoch}/{args.epochs}] Run {run+1}/{args.runs} - training...', flush=True)
             loss = train(emb.weight, predictor, split_edge, optimizer,
-                         args.batch_size,args.splitting_strategy)
+                         args.batch_size, args.splitting_strategy, _scaler)
+            print(f'[MF Epoch {epoch}/{args.epochs}] loss={loss:.4f}  ({time.time()-t_epoch:.1f}s)', flush=True)
             writer.add_scalar('loss', loss, epoch)
             if epoch % args.eval_steps == 0:
                 results = test(emb.weight, predictor, split_edge, evaluator,
-                               args.batch_size,args.eval_metric)
+                               args.batch_size, args.eval_metric)
 
                 for key, result in results.items():
                     train_res, valid_res, test_res = result
@@ -365,7 +416,7 @@ def main():
                                                {'train': train_res,
                                                 'valid': valid_res,
                                                 'test': test_res}, epoch)
-                            print(key)
+                            print(key, flush=True)
                             log_text = (f'Run: {run + 1:02d}, ' +
                                 f'Epoch: {epoch:02d}, ' +
                                 f'Loss: {loss:.4f}, ' +
@@ -373,7 +424,7 @@ def main():
                                 f'Valid: {100 * valid_res:.2f}%, ' +
                                 f'Test: {100 * test_res:.2f}%')
 
-                            print(log_text)
+                            print(log_text, flush=True)
                             with open(log_file, 'a') as f:
                                 print(log_text, file=f)
                             

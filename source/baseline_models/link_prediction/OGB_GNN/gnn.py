@@ -26,19 +26,36 @@ if 'KAGGLE_KERNEL_RUN_TYPE' in os.environ:
 else:
     project_root = str(current_file.parents[3])
 
-sys.path.insert(0, project_root)
+#sys.path.insert(0, project_root)
 
-# limit CPU load for the server
-os.environ["OMP_NUM_THREADS"] = "2" # export OMP_NUM_THREADS=1
-os.environ["OPENBLAS_NUM_THREADS"] = "2" # export OPENBLAS_NUM_THREADS=1
-os.environ["MKL_NUM_THREADS"] = "2" # export MKL_NUM_THREADS=1
-os.environ["VECLIB_MAXIMUM_THREADS"] = "2" # export VECLIB_MAXIMUM_THREADS=1
-os.environ["NUMEXPR_NUM_THREADS"] = "2" # export NUMEXPR_NUM_THREADS=1
+# Respect OMP thread count from runner (runner sets MAX_OMP_THREADS).
+# Only set defaults if runner has not already configured them.
+_n_threads = str(max(1, (os.cpu_count() or 2) // 2))
+os.environ.setdefault("OMP_NUM_THREADS",        _n_threads)
+os.environ.setdefault("OPENBLAS_NUM_THREADS",   _n_threads)
+os.environ.setdefault("MKL_NUM_THREADS",        _n_threads)
+os.environ.setdefault("VECLIB_MAXIMUM_THREADS", _n_threads)
+os.environ.setdefault("NUMEXPR_NUM_THREADS",    _n_threads)
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+os.environ["KMP_INIT_AT_FORK"]     = "FALSE"
 
 import argparse
 from shutil import copy
 import time
 import torch
+
+# Use all threads allowed by env (set by runner or default above)
+torch.set_num_threads(int(os.environ.get("OMP_NUM_THREADS", 1)))
+print(f'[GNN] Using {torch.get_num_threads()} CPU threads for torch operations.', flush=True)
+
+# --- BẮT ĐẦU ĐOẠN CODE VÁ LỖI PYTORCH 2.6 ---
+_original_load = torch.load
+def _legacy_load(*args, **kwargs):
+    kwargs['weights_only'] = False
+    return _original_load(*args, **kwargs)
+torch.load = _legacy_load
+# --- KẾT THÚC ĐOẠN CODE VÁ LỖI ---
+
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
 import pdb
@@ -87,12 +104,12 @@ class GCN(torch.nn.Module):
 
         self.convs = torch.nn.ModuleList()
         self.convs.append(
-            GCNConv(in_channels, hidden_channels, normalize=False))
+            GCNConv(in_channels, hidden_channels, normalize=True))
         for _ in range(num_layers - 2):
             self.convs.append(
-                GCNConv(hidden_channels, hidden_channels, normalize=False,improved=True))
+                GCNConv(hidden_channels, hidden_channels, normalize=True,improved=True))
         self.convs.append(
-            GCNConv(hidden_channels, out_channels, normalize=False,improved=True))
+            GCNConv(hidden_channels, out_channels, normalize=True,improved=True))
 
         self.dropout = dropout
 
@@ -162,38 +179,45 @@ class LinkPredictor(torch.nn.Module):
         return torch.sigmoid(x)
 
 
-def train(model, predictor, data, split_edge, optimizer, batch_size,splitting_strategy):
+def train(model, predictor, data, split_edge, optimizer, batch_size, splitting_strategy):
     model.train()
     predictor.train()
 
     pos_train_edge = split_edge['train']['edge'].to(data.x.device)
 
-    if splitting_strategy == 'spatial': # use presampled negative links
+    if splitting_strategy == 'spatial':
+        neg_train_edge = split_edge['train']['edge_neg'].to(data.x.device)
 
-        neg_train_edge = split_edge['train']['edge_neg'].to(data.x.device) 
+    # ---------------------------------------------------------------
+    # Compute full-graph node embeddings ONCE per epoch.
+    # Previously this was called inside the batch loop (very slow on
+    # large graphs). Now we compute h once, accumulate losses over all
+    # batches, then do a single backward pass.
+    # ---------------------------------------------------------------
+    print('  [train] Computing node embeddings (GCN forward)...', flush=True)
+    t0 = time.time()
+    optimizer.zero_grad()
+    h = model(data.x, data.adj_t)
+    print(f'  [train] Embeddings done in {time.time()-t0:.1f}s. Running edge batches...', flush=True)
 
+    batches = list(DataLoader(range(pos_train_edge.size(0)), batch_size,
+                              shuffle=True, num_workers=0))
+    n_batches = len(batches)
     total_loss = total_examples = 0
-    for perm in DataLoader(range(pos_train_edge.size(0)), batch_size,
-                           shuffle=True):
+    accumulated_loss = None
 
-        optimizer.zero_grad()
-
-        h = model(data.x, data.adj_t)
-
+    for i, perm in enumerate(batches):
         edge = pos_train_edge[perm].t()
         pos_out = predictor(h[edge[0]], h[edge[1]])
         pos_loss = -torch.log(pos_out + 1e-15).mean()
 
         if splitting_strategy == 'random':
-
-            # Just do some trivial random sampling.
             edge = torch.randint(0, data.num_nodes, edge.size(), dtype=torch.long,
-                                device=h.device)
-
+                                 device=h.device)
             neg_out = predictor(h[edge[0]], h[edge[1]])
             neg_loss = -torch.log(1 - neg_out + 1e-15).mean()
 
-        elif splitting_strategy == 'spatial': # use presampled negative links
+        elif splitting_strategy == 'spatial':
             edge = neg_train_edge[perm].t()
             neg_out = predictor(h[edge[0]], h[edge[1]])
             neg_loss = -torch.log(1 - neg_out + 1e-15).mean()
@@ -202,16 +226,22 @@ def train(model, predictor, data, split_edge, optimizer, batch_size,splitting_st
             raise ValueError("Splitting Strategy not defined!")
 
         loss = pos_loss + neg_loss
-        loss.backward()
-
-        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
-        torch.nn.utils.clip_grad_norm_(predictor.parameters(), 1.0)
-
-        optimizer.step()
+        accumulated_loss = loss if accumulated_loss is None else accumulated_loss + loss
 
         num_examples = pos_out.size(0)
         total_loss += loss.item() * num_examples
         total_examples += num_examples
+
+        if (i + 1) % max(1, n_batches // 5) == 0 or (i + 1) == n_batches:
+            print(f'  [train] Batch {i+1}/{n_batches}  loss={loss.item():.4f}', flush=True)
+
+    # Single backward through full computation graph
+    print('  [train] Backprop...', flush=True)
+    accumulated_loss.backward()
+    torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+    torch.nn.utils.clip_grad_norm_(predictor.parameters(), 1.0)
+    optimizer.step()
+    print(f'  [train] Epoch done. avg_loss={total_loss/total_examples:.4f}', flush=True)
 
     return total_loss / total_examples
 
@@ -265,37 +295,37 @@ def test(model, predictor, data, split_edge, evaluator, batch_size,eval_metric):
     neg_test_edge = split_edge['test']['edge_neg'].to(h.device)
 
     pos_train_preds = []
-    for perm in DataLoader(range(pos_train_edge.size(0)), batch_size):
+    for perm in DataLoader(range(pos_train_edge.size(0)), batch_size, num_workers=0):
         edge = pos_train_edge[perm].t()
         pos_train_preds += [predictor(h[edge[0]], h[edge[1]]).squeeze().cpu()]
     pos_train_pred = torch.cat(pos_train_preds, dim=0)
 
     neg_train_preds = []
-    for perm in DataLoader(range(neg_train_edge.size(0)), batch_size):
+    for perm in DataLoader(range(neg_train_edge.size(0)), batch_size, num_workers=0):
         edge = neg_train_edge[perm].t()
         neg_train_preds += [predictor(h[edge[0]], h[edge[1]]).squeeze().cpu()]
     neg_train_pred = torch.cat(neg_train_preds, dim=0)
 
     pos_valid_preds = []
-    for perm in DataLoader(range(pos_valid_edge.size(0)), batch_size):
+    for perm in DataLoader(range(pos_valid_edge.size(0)), batch_size, num_workers=0):
         edge = pos_valid_edge[perm].t()
         pos_valid_preds += [predictor(h[edge[0]], h[edge[1]]).squeeze().cpu()]
     pos_valid_pred = torch.cat(pos_valid_preds, dim=0)
 
     neg_valid_preds = []
-    for perm in DataLoader(range(neg_valid_edge.size(0)), batch_size):
+    for perm in DataLoader(range(neg_valid_edge.size(0)), batch_size, num_workers=0):
         edge = neg_valid_edge[perm].t()
         neg_valid_preds += [predictor(h[edge[0]], h[edge[1]]).squeeze().cpu()]
     neg_valid_pred = torch.cat(neg_valid_preds, dim=0)
 
     pos_test_preds = []
-    for perm in DataLoader(range(pos_test_edge.size(0)), batch_size):
+    for perm in DataLoader(range(pos_test_edge.size(0)), batch_size, num_workers=0):
         edge = pos_test_edge[perm].t()
         pos_test_preds += [predictor(h[edge[0]], h[edge[1]]).squeeze().cpu()]
     pos_test_pred = torch.cat(pos_test_preds, dim=0)
 
     neg_test_preds = []
-    for perm in DataLoader(range(neg_test_edge.size(0)), batch_size):
+    for perm in DataLoader(range(neg_test_edge.size(0)), batch_size, num_workers=0):
         edge = neg_test_edge[perm].t()
         neg_test_preds += [predictor(h[edge[0]], h[edge[1]]).squeeze().cpu()]
     neg_test_pred = torch.cat(neg_test_preds, dim=0)
@@ -377,14 +407,20 @@ def main():
         data = T.ToSparseTensor()(data)
 
     else:
+        # Load without ToSparseTensor transform to avoid CSR tensor deadlock on Windows.
+        # Manually convert edge_index -> adj_t after loading.
+        print('Loading dataset...', flush=True)
         dataset = PygLinkPropPredDataset(name=args.dataset,
-                                     transform=T.ToSparseTensor(),
                                      root=str(Path(os.path.abspath(__file__)).parents[1])+'/dataset')
         data = dataset[0]
+        print('Converting to sparse tensor...', flush=True)
+        data = T.ToSparseTensor()(data)
+        print('Dataset loaded.', flush=True)
      
     data.x = data.x.to(torch.float)
 
     # normalize x,y,z coordinates  
+    print('Normalizing node features...', flush=True)
     data.x[:, 0] = torch.nn.functional.normalize(data.x[:, 0], dim=0)
     data.x[:, 1] = torch.nn.functional.normalize(data.x[:, 1], dim=0)
     data.x[:, 2] = torch.nn.functional.normalize(data.x[:, 2], dim=0)
@@ -393,8 +429,11 @@ def main():
         embedding_name = str(Path(os.path.abspath(__file__)).parents[1])+'/OGB_Node2Vec/node2vec_'+ args.dataset +'.pt'
         data.x = torch.cat([data.x, torch.load(embedding_name)], dim=-1)
 
+    print('Moving data to device...', flush=True)
     data = data.to(device)
+    print('Loading edge splits...', flush=True)
     split_edge = dataset.get_edge_split()
+    print('Setup complete. Starting training...', flush=True)
 
     # from Muhan Zhang's OGB SEAL repository
 
@@ -438,12 +477,12 @@ def main():
                     args.dropout).to(device)
 
         # Pre-compute GCN normalization.
-        adj_t = data.adj_t.set_diag()
-        deg = adj_t.sum(dim=1).to(torch.float)
-        deg_inv_sqrt = deg.pow(-0.5)
-        deg_inv_sqrt[deg_inv_sqrt == float('inf')] = 0
-        adj_t = deg_inv_sqrt.view(-1, 1) * adj_t * deg_inv_sqrt.view(1, -1)
-        data.adj_t = adj_t
+#        adj_t = data.adj_t.set_diag()
+#        deg = adj_t.sum(dim=1).to(torch.float)
+#        deg_inv_sqrt = deg.pow(-0.5)
+#        deg_inv_sqrt[deg_inv_sqrt == float('inf')] = 0
+#        adj_t = deg_inv_sqrt.view(-1, 1) * adj_t * deg_inv_sqrt.view(1, -1)
+#        data.adj_t = adj_t
 
     predictor = LinkPredictor(args.hidden_channels, args.hidden_channels, 1,
                               args.num_layers, args.dropout).to(device)
@@ -509,9 +548,12 @@ def main():
         best_val = 0.0
         best_epoch = 0
         for epoch in range(1, 1 + args.epochs):
+            t_epoch = time.time()
+            print(f'\n[Epoch {epoch}/{args.epochs}] Run {run+1}/{args.runs} - bat dau...', flush=True)
             loss = train(model, predictor, data, split_edge, optimizer,
-                         args.batch_size,args.splitting_strategy)
-            
+                         args.batch_size, args.splitting_strategy)
+            print(f'[Epoch {epoch}/{args.epochs}] Train loss={loss:.4f}  ({time.time()-t_epoch:.1f}s)', flush=True)
+
             writer.add_scalar('loss', loss, epoch)
 
             if epoch % args.eval_steps == 0:
