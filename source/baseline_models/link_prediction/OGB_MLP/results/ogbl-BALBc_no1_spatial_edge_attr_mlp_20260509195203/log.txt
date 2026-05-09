@@ -1,0 +1,15 @@
+
+python C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\mlp.py --dataset ogbl-BALBc_no1_spatial_edge_attr --splitting_strategy spatial --eval_metric auc --epochs 20 --runs 1 --batch_size 262144 --eval_steps 5 --hidden_channels 128 --lr 0.0002
+Run: 01, Epoch: 05, Loss: 0.9462, Train: 89.66%, Valid: 47.80%, Test: 47.79%
+Run: 01, Epoch: 10, Loss: 0.7616, Train: 90.74%, Valid: 48.71%, Test: 48.70%
+Run: 01, Epoch: 15, Loss: 0.7365, Train: 91.05%, Valid: 48.81%, Test: 48.81%
+Run: 01, Epoch: 20, Loss: 0.7258, Train: 90.99%, Valid: 48.82%, Test: 48.83%
+Highest Train: 91.05
+Highest Valid: 48.82
+  Final Train: 91.05
+   Final Test: 48.81
+All runs:
+Highest Train: 91.05 ± nan
+Highest Valid: 48.82 ± nan
+  Final Train: 90.99 ± nan
+   Final Test: 48.83 ± nan

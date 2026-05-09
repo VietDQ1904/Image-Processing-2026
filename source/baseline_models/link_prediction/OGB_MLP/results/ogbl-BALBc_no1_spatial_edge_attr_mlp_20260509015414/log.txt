@@ -1,0 +1,2 @@
+
+python C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_MLP\mlp.py --dataset ogbl-BALBc_no1_spatial_edge_attr --splitting_strategy spatial --eval_metric auc --epochs 50 --runs 3 --batch_size 1048576 --eval_steps 5
