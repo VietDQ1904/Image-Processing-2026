@@ -1,0 +1,17 @@
+
+python C:\Users\UNITY\Desktop\ANH\Image-Processing-2026\source\baseline_models\link_prediction\OGB_GNN\gnn.py --dataset ogbl-C57BL_6_no1_spatial_no_edge_attr --splitting_strategy spatial --eval_metric auc --epochs 20 --runs 1 --batch_size 262144 --eval_steps 5 --hidden_channels 128 --lr 0.001
+Run: 01, Epoch: 05, Loss: 1.3675, Train: 60.14%, Valid: 47.97%, Test: 47.92%
+Run: 01, Epoch: 10, Loss: 1.3438, Train: 59.12%, Valid: 48.24%, Test: 48.15%
+Run: 01, Epoch: 15, Loss: 1.3104, Train: 58.99%, Valid: 48.35%, Test: 48.37%
+Run: 01, Epoch: 20, Loss: 1.2615, Train: 56.60%, Valid: 48.92%, Test: 48.90%
+GCN
+Highest Train: 60.14
+Highest Valid: 48.92
+  Final Train: 60.14
+   Final Test: 47.92
+GCN
+All runs:
+Highest Train: 60.14 ± nan
+Highest Valid: 48.92 ± nan
+  Final Train: 56.60 ± nan
+   Final Test: 48.90 ± nan
