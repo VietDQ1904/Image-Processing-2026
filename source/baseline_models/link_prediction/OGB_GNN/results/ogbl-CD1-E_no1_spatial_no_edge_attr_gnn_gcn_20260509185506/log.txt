@@ -1,0 +1,23 @@
+
+python gnn.py --dataset ogbl-CD1-E_no1_spatial_no_edge_attr --batch_size 262144 --hidden_channels 4 --runs 1 --lr 0.1 --epochs 10
+Run: 01, Epoch: 01, Loss: 1.3903, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 02, Loss: 1.3864, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 03, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 04, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 05, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 06, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 07, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 08, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 09, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+Run: 01, Epoch: 10, Loss: 1.3863, Train: 50.00%, Valid: 50.00%, Test: 50.00%
+GCN
+Highest Train: 50.00
+Highest Valid: 50.00
+  Final Train: 50.00
+   Final Test: 50.00
+GCN
+All runs:
+Highest Train: 50.00 ± nan
+Highest Valid: 50.00 ± nan
+  Final Train: 50.00 ± nan
+   Final Test: 50.00 ± nan

@@ -1,0 +1,1 @@
+python gnn.py --dataset ogbl-CD1-E_no1_spatial_no_edge_attr --batch_size 262144 --hidden_channels 4 --runs 1 --lr 0.1 --epochs 10

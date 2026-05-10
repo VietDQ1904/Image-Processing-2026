@@ -1,0 +1,43 @@
+
+python ./OGB_GNN/gnn.py --dataset ogbl-CD1-E_no1_spatial_no_edge_attr --batch_size 262144 --hidden_channels 32 --runs 1 --lr 0.025 --epochs 30
+Run: 01, Epoch: 01, Loss: 1.3590, Train: 55.14%, Valid: 39.26%, Test: 39.41%
+Run: 01, Epoch: 02, Loss: 1.1001, Train: 51.61%, Valid: 47.94%, Test: 47.86%
+Run: 01, Epoch: 03, Loss: 0.8707, Train: 56.49%, Valid: 38.36%, Test: 38.31%
+Run: 01, Epoch: 04, Loss: 0.8217, Train: 58.77%, Valid: 31.28%, Test: 31.29%
+Run: 01, Epoch: 05, Loss: 0.8031, Train: 58.22%, Valid: 31.73%, Test: 31.70%
+Run: 01, Epoch: 06, Loss: 0.7923, Train: 57.83%, Valid: 33.02%, Test: 32.95%
+Run: 01, Epoch: 07, Loss: 0.7836, Train: 58.04%, Valid: 34.33%, Test: 34.33%
+Run: 01, Epoch: 08, Loss: 0.7771, Train: 57.93%, Valid: 36.63%, Test: 36.57%
+Run: 01, Epoch: 09, Loss: 0.7691, Train: 58.03%, Valid: 39.31%, Test: 39.34%
+Run: 01, Epoch: 10, Loss: 0.7656, Train: 58.19%, Valid: 40.55%, Test: 40.52%
+Run: 01, Epoch: 11, Loss: 0.7625, Train: 58.47%, Valid: 38.41%, Test: 38.42%
+Run: 01, Epoch: 12, Loss: 0.7603, Train: 58.77%, Valid: 38.78%, Test: 38.73%
+Run: 01, Epoch: 13, Loss: 0.7585, Train: 59.04%, Valid: 37.96%, Test: 37.93%
+Run: 01, Epoch: 14, Loss: 0.7565, Train: 58.88%, Valid: 39.12%, Test: 39.05%
+Run: 01, Epoch: 15, Loss: 0.7540, Train: 58.94%, Valid: 39.49%, Test: 39.52%
+Run: 01, Epoch: 16, Loss: 0.7515, Train: 58.95%, Valid: 41.71%, Test: 41.65%
+Run: 01, Epoch: 17, Loss: 0.7489, Train: 58.90%, Valid: 43.28%, Test: 43.26%
+Run: 01, Epoch: 18, Loss: 0.7466, Train: 58.55%, Valid: 43.00%, Test: 43.13%
+Run: 01, Epoch: 19, Loss: 0.7448, Train: 58.59%, Valid: 42.73%, Test: 42.87%
+Run: 01, Epoch: 20, Loss: 0.7421, Train: 58.36%, Valid: 42.85%, Test: 42.84%
+Run: 01, Epoch: 21, Loss: 0.7412, Train: 57.35%, Valid: 45.66%, Test: 45.69%
+Run: 01, Epoch: 22, Loss: 0.7396, Train: 57.74%, Valid: 46.80%, Test: 46.85%
+Run: 01, Epoch: 23, Loss: 0.7392, Train: 57.45%, Valid: 47.04%, Test: 47.16%
+Run: 01, Epoch: 24, Loss: 0.7379, Train: 58.11%, Valid: 46.87%, Test: 46.73%
+Run: 01, Epoch: 25, Loss: 0.7382, Train: 58.16%, Valid: 47.27%, Test: 47.35%
+Run: 01, Epoch: 26, Loss: 0.7372, Train: 58.72%, Valid: 47.96%, Test: 47.98%
+Run: 01, Epoch: 27, Loss: 0.7368, Train: 58.76%, Valid: 47.51%, Test: 47.56%
+Run: 01, Epoch: 28, Loss: 0.7362, Train: 59.39%, Valid: 45.78%, Test: 45.70%
+Run: 01, Epoch: 29, Loss: 0.7356, Train: 58.79%, Valid: 48.21%, Test: 48.17%
+Run: 01, Epoch: 30, Loss: 0.7352, Train: 58.74%, Valid: 48.74%, Test: 48.78%
+GCN
+Highest Train: 59.39
+Highest Valid: 48.74
+  Final Train: 59.39
+   Final Test: 45.70
+GCN
+All runs:
+Highest Train: 59.39 ± nan
+Highest Valid: 48.74 ± nan
+  Final Train: 58.74 ± nan
+   Final Test: 48.78 ± nan

@@ -1,0 +1,41 @@
+
+python ./OGB_MF/mf.py --dataset ogbl-CD1-E_no1_spatial_no_edge_attr --batch_size 262144 --hidden_channels 32 --runs 1 --lr 0.025 --epochs 30
+Run: 01, Epoch: 01, Loss: 1.3904, Train: 50.64%, Valid: 49.90%, Test: 49.95%
+Run: 01, Epoch: 02, Loss: 1.3861, Train: 55.01%, Valid: 49.91%, Test: 49.99%
+Run: 01, Epoch: 03, Loss: 1.3792, Train: 67.65%, Valid: 49.70%, Test: 49.87%
+Run: 01, Epoch: 04, Loss: 1.2928, Train: 83.29%, Valid: 49.53%, Test: 49.67%
+Run: 01, Epoch: 05, Loss: 0.9480, Train: 95.16%, Valid: 49.28%, Test: 49.42%
+Run: 01, Epoch: 06, Loss: 0.4846, Train: 99.06%, Valid: 49.21%, Test: 49.33%
+Run: 01, Epoch: 07, Loss: 0.1970, Train: 99.87%, Valid: 49.27%, Test: 49.36%
+Run: 01, Epoch: 08, Loss: 0.0866, Train: 99.99%, Valid: 49.27%, Test: 49.36%
+Run: 01, Epoch: 09, Loss: 0.0443, Train: 100.00%, Valid: 49.27%, Test: 49.33%
+Run: 01, Epoch: 10, Loss: 0.0264, Train: 100.00%, Valid: 49.27%, Test: 49.32%
+Run: 01, Epoch: 11, Loss: 0.0174, Train: 100.00%, Valid: 49.26%, Test: 49.30%
+Run: 01, Epoch: 12, Loss: 0.0125, Train: 100.00%, Valid: 49.26%, Test: 49.30%
+Run: 01, Epoch: 13, Loss: 0.0098, Train: 100.00%, Valid: 49.26%, Test: 49.29%
+Run: 01, Epoch: 14, Loss: 0.0071, Train: 100.00%, Valid: 49.26%, Test: 49.29%
+Run: 01, Epoch: 15, Loss: 0.0052, Train: 100.00%, Valid: 49.27%, Test: 49.30%
+Run: 01, Epoch: 16, Loss: 0.0042, Train: 100.00%, Valid: 49.26%, Test: 49.30%
+Run: 01, Epoch: 17, Loss: 0.0036, Train: 100.00%, Valid: 49.26%, Test: 49.29%
+Run: 01, Epoch: 18, Loss: 0.0033, Train: 100.00%, Valid: 49.26%, Test: 49.30%
+Run: 01, Epoch: 19, Loss: 0.0031, Train: 100.00%, Valid: 49.27%, Test: 49.31%
+Run: 01, Epoch: 20, Loss: 0.0028, Train: 100.00%, Valid: 49.28%, Test: 49.31%
+Run: 01, Epoch: 21, Loss: 0.0025, Train: 100.00%, Valid: 49.29%, Test: 49.31%
+Run: 01, Epoch: 22, Loss: 0.0023, Train: 100.00%, Valid: 49.29%, Test: 49.31%
+Run: 01, Epoch: 23, Loss: 0.0023, Train: 100.00%, Valid: 49.29%, Test: 49.30%
+Run: 01, Epoch: 24, Loss: 0.0022, Train: 100.00%, Valid: 49.29%, Test: 49.31%
+Run: 01, Epoch: 25, Loss: 0.0022, Train: 100.00%, Valid: 49.28%, Test: 49.30%
+Run: 01, Epoch: 26, Loss: 0.0020, Train: 100.00%, Valid: 49.29%, Test: 49.30%
+Run: 01, Epoch: 27, Loss: 0.0019, Train: 100.00%, Valid: 49.29%, Test: 49.30%
+Run: 01, Epoch: 28, Loss: 0.0018, Train: 100.00%, Valid: 49.29%, Test: 49.31%
+Run: 01, Epoch: 29, Loss: 0.0018, Train: 100.00%, Valid: 49.29%, Test: 49.31%
+Run: 01, Epoch: 30, Loss: 0.0017, Train: 100.00%, Valid: 49.30%, Test: 49.32%
+Highest Train: 100.00
+Highest Valid: 49.91
+  Final Train: 100.00
+   Final Test: 49.31
+All runs:
+Highest Train: 100.00 ± nan
+Highest Valid: 49.91 ± nan
+  Final Train: 55.01 ± nan
+   Final Test: 49.99 ± nan
